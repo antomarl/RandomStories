@@ -1,14 +1,3 @@
-let paroleDisponibili = [
-    "gatto","cane","albero","tempesta","piede","asino","bue",
-    "mattone","lupo","cielo","mare","sole","luna","stella","nuvola",
-    "laguna","alce","cervo","volpe","tigre","leone","elefante","giraffa",
-    "casa","scuola","lavoro","strada","città","paese","montagna",
-    "fiume","lago","foresta","deserto","isola","oceano",
-    "amico","nemico","famiglia","cuore","mente","anima",
-    "sogno","realtà","avventura","mistero","magia",
-    "tempo","spazio","universo"  // RICORDA: DEVI FARE IN MODO DI CONTENERE IN QUESTO ARRAY ALMENO 1000/2000 PAROLE PER RENDERE IL GIOCO E LA RANDOMICITÀ PIÙ DIVERTENTE
-] ;
-
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
 
 let numeroParole = 0; // Variabile per tenere traccia del numero di parole generate
