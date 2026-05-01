@@ -6,7 +6,7 @@ let paroleDisponibili = [
     "fiume","lago","foresta","deserto","isola","oceano",
     "amico","nemico","famiglia","cuore","mente","anima",
     "sogno","realtà","avventura","mistero","magia",
-    "tempo","spazio","universo"
+    "tempo","spazio","universo"  // RICORDA: DEVI FARE IN MODO DI CONTENERE IN QUESTO ARRAY ALMENO 1000/2000 PAROLE PER RENDERE IL GIOCO E LA RANDOMICITÀ PIÙ DIVERTENTE
 ] ;
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -17,11 +17,11 @@ const ParoleMassime = 10; //numero massimo di parole da generare
 
 function GeneraParola() {
     if (numeroParole >= ParoleMassime) {
-        alert("Sei giunto alla fine delle parole da generare,ora inizia a scrivere la tua storia!");
+        alert("Sei giunto alla fine delle parole da generare,ora inizia a scrivere la tua storia!"); // se il numero di parole generate ha raggiunto il limite,viene generato un alert per informare l'utente che non può generare più parole e deve iniziare a scrivere la storia
         return;
     }
 
-    let indiceRandom = Math.floor(Math.random() * paroleDisponibili.length);
+    let indiceRandom = Math.floor(Math.random() * paroleDisponibili.length); // 
     let parolaGenerata = paroleDisponibili[indiceRandom];
 
     // Verifica se la parola è già stata generata
@@ -105,10 +105,11 @@ function salvaStoria() {
     //creo il link per scaricare il file
     let link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = "storia.txt"; // questyo è il nome del file che verrà scaricato
-
+    link.download = "storia.txt"; // nome del file che verrà scaricato
+    document.body.appendChild(link); // aggiungo il link al corpo del documento
+    link.click(); // simulo un click sul link per avviare il download
+    document.body.removeChild(link); // rimuovo il link dal corpo del documento
     URL.revokeObjectURL(link.href); //serve a liberare la memoria dopo che la storia è stata scaricata
-    //creo il link per scaricare il file
 }
 
 // ora faccio in modo che quando clicco sul pulsante genera parole, venga chiamata la funzione GeneraParola
@@ -116,9 +117,19 @@ document.getElementById("btnGeneraParola").addEventListener("click", function() 
     GeneraParola();
 });
 
-document.getElementById("btnSalva").addEventListener("click", function() {
+document.getElementById("btnResetParole").addEventListener("click", function() {
+    resetParole();
+});
+
+document.getElementById("btnSalva").addEventListener("click", function(){
     salvaStoria();
 });
 
+document.getElementById("storyInput").addEventListener("input", function() {
+    ValidaStoria(); // ogni volta che l'utente modifica il testo della storia, viene chiamata la funzione ValidaStoria per verificare se la storia e valida o meno,ed in caso di errori mostrare i messaggi di errore in tempo reale,oppure se la storia è ancora valida,mostrare il messaggio di successo e dare la possibilità di salvare la storia
+
+});
+
+document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia
 
 
