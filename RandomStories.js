@@ -33,25 +33,70 @@ function GeneraParola() {
 }    
 
 function contieneParola(storia,parola) {
+    const testo = storia.toLowerCase(); // converte la storia in minuscolo per una ricerca case-insensitive
+    
     const regexEsatta = new RegExp("\\b" + parola.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")+ "\\b", "gi");
     if (regexEsatta.test(storia)) {
         return true; // parola presente : lesgo ! quindi e true
     }
-    // variabili irregolari (che rottura)
+    // dizionaro per tutti quei verdbi irregolari (che rottura)
     const irregolari = {
-        "essere" :["sono",""]
-    }
+        "essere" :["sono","sei","è","siamo","siete","sono","stato","stata","stati","state","eravamo","ero","eri","era","eravamo","eravate","erano","fui","fosti","fu"],
+        "avere" : ["ho","hai","ha","abbiamo","avete","hanno","avuto","avuta","avuti","avute"],
+        "andare" :["vado","vai","va","andiamo","andate","vanno","andato","andata","andati","andate","andai","andò","andasti","vanno","andammo","andaste"],
+        "fare" : ["faccio","fai","fa","facciamo","fate","fanno","fatto","fatta","fatti","fatte","feci","fece","faceste","facemmo","faceste","fecero","facevo","facevi","faceva","facevamo","facevate","facevamo"],
+        "dire" : ["dico","dici","dice","diciamo","dite","dicono","detto","detta","detti","dette","disse","dissero","dicemmo","diceva","dicevo","dicevi","dicevamo","dicevate","dicevano"],
+        "venire" : ["vengo","vieni","viene","veniamo","venite","vengono","venuto","venuta","venuti", "venute","venni","venne", "venivo", "veniva","venivamo","venivate","venivani","venivi"],
+        "udire" : ["udo","udì","udiamo","udite","udirono","udite","udiamo","udirono","udii","udi","udivo","udiva","udivamo","udivate","udivano","udivi"],
+        "stare" : ["sto","stai","sta","stiamo","state","stanno","stato","stata","stati","starà","staremo","starete","staranno","staremo","staremmo","starò","starai","stavo","stava","stavi","stavamo","stavate","stavano"],
+        "dare" : ["do","dai","da","diamo","date","danno","dato","data","dati","daremo","diedi","darò","darai","darà","darete","daranno","diedi","diede","diedero","davo","davi","dava","davamo","davate","davano"],
+        "potere" : ["posso","puoi","può","possiamo","potete","possono","potuto","potevo","potevi","poteva","potevamo","potevate"]
+    };
 
-        for (let v of varianti) {
-            const regexvariante = new RegExp("\\b" + v + "\\b" , "gi");
-            if (regexvariante.test(storia)) {
-                return true;
+    if (irregolari[parola]) {
+        for (const forma of irregolari[parola]) {
+            const regexVariante = new RegExp("\\b" + forma + "\\b", "gi");
+            if (regexVariante.test(testo)) {
+                return true; // se una delle forme irregolari invece è presente nella storia
             }
         }
     }
+    
+    let radice = parola;
+    let isVerbo = false;
 
-    return false; // paorlna no
+    if (parola.endsWith("are"))  {
+        radice = parola.slice(0, -3);
+        isVerbo = true;
+    }
+    else if (parola.endsWith("ere")) {
+        radice = parola.slice(0, -3);
+        isVerbo = true;
+    }
+    else if (parola.endsWith("ire")) {
+        redice = parola.slice(0, -3);
+        isVerbo = true
+    }
 
+    if (isVerbo && radice.length > 2) {
+        const varianti = [
+            radice + "o", radice + "i", radice + "a", radice + "iamo", radice + "ate", radice + "ano",
+            radice + "avo", radice + "ava", radice + "avi", radice + "avamo", radice + "avate", radice + "avano",
+            radice + "erò", radice + "erai", radice + "erà", radice + "eremo", radice + "erete", radice + "eranno",
+            radice + "ato", radice + "ata", radice + "ati", radice + "ate",
+            radice + "ito", radice + "ita", radice + "iti",radice + "ite",
+            radice + "uto", radice + "uta", radice + "uti", radice + "ute",
+            radice + "ando",radice + "endo", radice + "ante" 
+        ];
+
+        for (let v of varianti) {
+            const regexVariante = new RegExp("\\b" + v + "\\b", "gi");
+            if (regexVariante.test(testo)) {
+                return true; // così se una delle varianti del verbo è presente nel testo la storia e valida comunque,speriamo che funziona ti prego
+            }
+        }
+    }
+    return false;
 }
 function resetParole() {
     paroleGenerate = [];
