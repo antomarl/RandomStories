@@ -23,40 +23,24 @@ function GeneraParola() {
         // Se la parola è già stata generata, chiama ricorsivamente la funzione per generare una nuova parola
         GeneraParola();
     }
+    if (!paroleGenerate.includes(parolaGenerata)) {
+        paroleGenerate.push(parolaGEnerata);
+        numeroParole++;
+        document.getElementById("listaParole").innerHTML = paroleGenerate.join(", ");
+        document.getElementById("contatoreParole").textContent = "parole Generate: " + numeroParole + "/" + paroleMassime; 
+        ValidaStoria();
+    }
 }    
 
 function contieneParola(storia,parola) {
-    const regexEsatta = new RegExp("\\b" + parola.replace(/[.*?+{}[\]]/g, "\\$&") + "\\b", "gi");
+    const regexEsatta = new RegExp("\\b" + parola.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")+ "\\b", "gi");
     if (regexEsatta.test(storia)) {
         return true; // parola presente : lesgo ! quindi e true
     }
-
-    //ora sistemo il problema dei verbi, perchè sennp non la conta se è coniugata :(
-    let radice = parola;
-    let isVerbo = false;
-
-    if (parola.endsWith("are")) {
-        radice = parola.slice(0, -3);
-        isVerbo = true;
-    } else if (parola.endsWith("ere")) {
-        radice = parola.slice(0, -3);
-        isVerbo = true;
-    } else if (parola.endsWith("ire")) {
-        radice = parola.slice(0, -3);
-        isVerbo = true;
+    // variabili irregolari (che rottura)
+    const irregolari = {
+        "essere" :["sono",""]
     }
-
-    if (isVerbo && radice.length > 2) {
-        const varianti = [
-            radice + "o", radice + "i", radice + "a",radice + "iamo", radice + "ate", radice + "ano",
-            radice + "ato", radice + "uto", radice + "ito", radice + "ando", radice + "endo", radice + "ata",
-            radice + "ati", radice + "ate", radice + "tto", radice + "tta", radice + "tti", radice + "tte",
-            radice + "endo", radice + "ante", radice + "o", radice + "i", radice + "a", radice + "iamo", radice + "ate", radice + "ano",
-            radice + "avo", radice + "avi", radice + "ava", radice + "avamo", radice + "avate", radice + "avano",
-            radice + "erò", radice + "erai", radice + "erà", radice + "eremo", radice + "erete", radice + "eranno",
-            radice + "ato", radice + "uta", radice + "uto", radice + "ita", radice + "ite",
-            radice + "ando", radice + "endo", radice + "ante"
-        ];
 
         for (let v of varianti) {
             const regexvariante = new RegExp("\\b" + v + "\\b" , "gi");
@@ -76,6 +60,7 @@ function resetParole() {
     document.getElementById("contatoreParole").textContent ="paroleGenerate: 0/" + ParoleMassime; // resetta il contatore delle parole casuali
     document.getElementById("messaggioErrore").innerHTML = ""; // pulisce eventuali errori di messaggi precedenti
     document.getElementById("btnSalva").disabled = true; // disabilita il pulsante per salvare la storia finchè non viene generata una nuova storia valida
+    ValidaStoria(); // chiama la funzione ValidaStoria per aggiornare lo stato della storia dopo il reset delle parole generate
 }
 
 function mostraParole() {
