@@ -25,6 +25,50 @@ function GeneraParola() {
     }
 }    
 
+function contieneParola(storia,parola) {
+    const regexEsatta = new RegExp("\\b" + parola.replace(/[.*?+{}[\]]/g, "\\$&") + "\\b", "gi");
+    if (regexEsatta.test(storia)) {
+        return true; // parola presente : lesgo ! quindi e true
+    }
+
+    //ora sistemo il problema dei verbi, perchè sennp non la conta se è coniugata :(
+    let radice = parola;
+    let isVerbo = false;
+
+    if (parola.endsWith("are")) {
+        radice = parola.slice(0, -3);
+        isVerbo = true;
+    } else if (parola.endsWith("ere")) {
+        radice = parola.slice(0, -3);
+        isVerbo = true;
+    } else if (parola.endsWith("ire")) {
+        radice = parola.slice(0, -3);
+        isVerbo = true;
+    }
+
+    if (isVerbo && radice.length > 2) {
+        const varianti = [
+            radice + "o", radice + "i", radice + "a",radice + "iamo", radice + "ate", radice + "ano",
+            radice + "ato", radice + "uto", radice + "ito", radice + "ando", radice + "endo", radice + "ata",
+            radice + "ati", radice + "ate", radice + "tto", radice + "tta", radice + "tti", radice + "tte",
+            radice + "endo", radice + "ante", radice + "o", radice + "i", radice + "a", radice + "iamo", radice + "ate", radice + "ano",
+            radice + "avo", radice + "avi", radice + "ava", radice + "avamo", radice + "avate", radice + "avano",
+            radice + "erò", radice + "erai", radice + "erà", radice + "eremo", radice + "erete", radice + "eranno",
+            radice + "ato", radice + "uta", radice + "uto", radice + "ita", radice + "ite",
+            radice + "ando", radice + "endo", radice + "ante"
+        ];
+
+        for (let v of varianti) {
+            const regexvariante = new RegExp("\\b" + v + "\\b" , "gi");
+            if (regexvariante.test(storia)) {
+                return true;
+            }
+        }
+    }
+
+    return false; // paorlna no
+
+}
 function resetParole() {
     paroleGenerate = [];
     numeroParole = 0;
@@ -58,7 +102,7 @@ function ValidaStoria() {
     let tuttoValido= true
 
     for (let parola of paroleGenerate) {
-        if (!storia.includes(parola)) {
+        if (!contieneParola(storia, parola)) {
             document.getElementById("messaggioErrore").innerHTML += "La parola '" + parola + "' è mancante nella tua storia.<br>";
             tuttoValido = false; // se anche solo una parola manca, la storia diventa automaticamente non valida
         }   
@@ -119,6 +163,8 @@ document.getElementById("storyInput").addEventListener("input", function() {
 
 });
 
-document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia
+document.getElementById("contatoreParole").textContent = "Parole generate:" + numeroParole + "/" + ParoleMassime;
+ValidaStoria();
 
+document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia
 
