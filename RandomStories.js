@@ -19,26 +19,29 @@ function GeneraParola() {
         numeroParole++; // Incrementa il contatore delle parole generate
        document.getElementById("listaParole").innerHTML = paroleGenerate.join(", "); // Aggiorna la visualizzazione delle parole generate
        document.getElementById("contatoreParole").textContent = "Parole generate :" + numeroParole + "/" + ParoleMassime;
+       ValidaStoria(); // per vedere se la storia è ancora valida dopo aver generato la parola
     } else {
         // Se la parola è già stata generata, chiama ricorsivamente la funzione per generare una nuova parola
         GeneraParola();
     }
-    if (!paroleGenerate.includes(parolaGenerata)) {
-        paroleGenerate.push(parolaGEnerata);
-        numeroParole++;
-        document.getElementById("listaParole").innerHTML = paroleGenerate.join(", ");
-        document.getElementById("contatoreParole").textContent = "parole Generate: " + numeroParole + "/" + paroleMassime; 
-        ValidaStoria();
-    }
-}    
+}
 
-function contieneParola(storia,parola) {
-    const testo = storia.toLowerCase(); // converte la storia in minuscolo per una ricerca case-insensitive
-    
-    const regexEsatta = new RegExp("\\b" + parola.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")+ "\\b", "gi");
-    if (regexEsatta.test(storia)) {
-        return true; // parola presente : lesgo ! quindi e true
+function contieneParola(testo,parola) {
+    // converte la storia in minuscolo per una ricerca case-insensitive
+    testo = testo.toLowerCase();
+
+    const lettera = "\\p{L}"; 
+    const regexEsatta = new RegExp (
+        "(^|[^" + lettera + "])" +
+        parola.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") +
+        "(?=[^" + lettera + "]|$)",
+        "iu"
+    );
+
+    if (regexEsatta.test(testo)) {
+        return true; // se la parola esatta è presente nella storia,la funzione restituisce true e la storia è valida per quella parola
     }
+    
     // dizionaro per tutti quei verdbi irregolari (che rottura)
     const irregolari = {
         "essere" :["sono","sei","è","siamo","siete","sono","stato","stata","stati","state","eravamo","ero","eri","era","eravamo","eravate","erano","fui","fosti","fu"],
@@ -46,7 +49,7 @@ function contieneParola(storia,parola) {
         "andare" :["vado","vai","va","andiamo","andate","vanno","andato","andata","andati","andate","andai","andò","andasti","vanno","andammo","andaste"],
         "fare" : ["faccio","fai","fa","facciamo","fate","fanno","fatto","fatta","fatti","fatte","feci","fece","faceste","facemmo","faceste","fecero","facevo","facevi","faceva","facevamo","facevate","facevamo"],
         "dire" : ["dico","dici","dice","diciamo","dite","dicono","detto","detta","detti","dette","disse","dissero","dicemmo","diceva","dicevo","dicevi","dicevamo","dicevate","dicevano"],
-        "venire" : ["vengo","vieni","viene","veniamo","venite","vengono","venuto","venuta","venuti", "venute","venni","venne", "venivo", "veniva","venivamo","venivate","venivani","venivi"],
+        "venire" : ["vengo","vieni","viene","veniamo","venite","vengono","venuto","venuta","venuti", "venute","venni","venne", "venivo", "veniva","venivamo","venivate","venivano","venivi"],
         "udire" : ["udo","udì","udiamo","udite","udirono","udite","udiamo","udirono","udii","udi","udivo","udiva","udivamo","udivate","udivano","udivi"],
         "stare" : ["sto","stai","sta","stiamo","state","stanno","stato","stata","stati","starà","staremo","starete","staranno","staremo","staremmo","starò","starai","stavo","stava","stavi","stavamo","stavate","stavano"],
         "dare" : ["do","dai","da","diamo","date","danno","dato","data","dati","daremo","diedi","darò","darai","darà","darete","daranno","diedi","diede","diedero","davo","davi","dava","davamo","davate","davano"],
@@ -74,7 +77,7 @@ function contieneParola(storia,parola) {
         isVerbo = true;
     }
     else if (parola.endsWith("ire")) {
-        redice = parola.slice(0, -3);
+        radice = parola.slice(0, -3);
         isVerbo = true
     }
 
@@ -86,7 +89,10 @@ function contieneParola(storia,parola) {
             radice + "ato", radice + "ata", radice + "ati", radice + "ate",
             radice + "ito", radice + "ita", radice + "iti",radice + "ite",
             radice + "uto", radice + "uta", radice + "uti", radice + "ute",
-            radice + "ando",radice + "endo", radice + "ante" 
+            radice + "ando",radice + "endo", radice + "ante",radice + "erei",
+            radice + "eresti",radice + "eresi",radice + "eremmo",radice + "ereste",radice + "erebberro",
+            radice + "irei",radice + "iresti",radice + "iremmo",radice + "ireste",radice + "irebbero",
+            radice + "ai",radice + "asti",radice + "ò",radice + "ammo",radice + "aste",radice + "arono", radice + "assi", radice + "erei",radice + "eresti",radice + "essi",radice + "emmo",radice + "este",radice + "ebbero"
         ];
 
         for (let v of varianti) {
@@ -98,6 +104,7 @@ function contieneParola(storia,parola) {
     }
     return false;
 }
+
 function resetParole() {
     paroleGenerate = [];
     numeroParole = 0;
@@ -196,5 +203,5 @@ document.getElementById("storyInput").addEventListener("input", function() {
 document.getElementById("contatoreParole").textContent = "Parole generate:" + numeroParole + "/" + ParoleMassime;
 ValidaStoria();
 
-document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia
+document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia valida
 
