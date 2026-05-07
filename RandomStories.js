@@ -58,10 +58,15 @@ function contieneParola(testo,parola) {
 
     if (irregolari[parola]) {
         for (const forma of irregolari[parola]) {
-            const regexVariante = new RegExp("\\b" + forma + "\\b", "gi");
+            const regexVariante = new RegExp(
+                "(^|[^" + lettera + "])" +
+                forma.replace(/[.*+?^${}()|\]\\]/g, "\\$&") +
+                "(?=[^" + lettera + "]|$)",
+                "iu"
+            );
             if (regexVariante.test(testo)) {
-                return true; // se una delle forme irregolari invece è presente nella storia
-            }
+                return true;
+            }    
         }
     }
     
@@ -96,7 +101,12 @@ function contieneParola(testo,parola) {
         ];
 
         for (let v of varianti) {
-            const regexVariante = new RegExp("\\b" + v + "\\b", "gi");
+            const regexVariante = new RegExp(
+                "(^|[^" + lettera + "])" +
+                v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") +
+                "(?=[^" + lettera + "]|$)",
+                "iu"
+            );
             if (regexVariante.test(testo)) {
                 return true; // così se una delle varianti del verbo è presente nel testo la storia e valida comunque,speriamo che funziona ti prego
             }
