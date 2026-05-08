@@ -1,7 +1,51 @@
-body {
+body {    /* si restarta più forte di prima!! */
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background: #000000;
-    color: #ffffff
+    font-family: 'Segoe UI', 'QuickSand', sans-serif;
+    min-height: 100vh;
+    color: #ffffff;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+    background-size: cover;
+    background-position: center;
+    transition: background 0.9s ease, background-image 0.9s ease;
+}
+ /*sondo del pisi */
+body.state-generating {
+    background-image: url('pc-background.png');
+    background-color: #0c1223;
+}
+/*sfondo del book */
+body.state-writing {
+    background-image: url('notebook-background.png');
+    background-color: #ebe4d2;
+}
+
+.container {
+    max-width: 920px;
+    margin: 40px auto;
+    padding: 30px;
+    background: rgba(12, 17, 35, 0.78);
+    backdrop-filter: blur(18px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    position: relative;
+    overflow: hidden;
+}
+
+/* fixo il titolo */
+h1 {
+    margin: 0 0 12px;
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    background: linear-gradient(135deg, #6ea8ff 0%, #8ce38f 100%);
+    -webkit-backgound-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.istruzioni {
+    margin: 0 0 28px;
+    
 }
