@@ -192,19 +192,35 @@ function salvaStoria() {
     URL.revokeObjectURL(link.href); //serve a liberare la memoria dopo che la storia è stata scaricata
 }
 
+function setAppState(state) {
+    document.body.classList.remove('state-generating', 'state-writing');
+    document.body.classList.add(state);
+}
+
+document.body.classList.add('state-generating');
+
 // ora faccio in modo che quando clicco sul pulsante genera parole, venga chiamata la funzione GeneraParola
 document.getElementById("btnGeneraParola").addEventListener("click", function() {
+    setAppState('state-generating');
     GeneraParola();
 });
 
 document.getElementById("btnResetParole").addEventListener("click", function() {
+    setAppState('state-generating');
     resetParole();
 });
 
-document.getElementById("btnSalva").addEventListener("click", function(){
+document.getElementById("btnMostraParole").addEventListener("click", function () {
+    setAppState('state-generating');
+})
+
+document.getElementById("btnSalva").addEventListener("click", function() {
     salvaStoria();
 });
 
+document.getElementById("storyInput").addEventListener("focus", function() {
+    setAppState('state-writing');
+})
 document.getElementById("storyInput").addEventListener("input", function() {
     ValidaStoria(); // ogni volta che l'utente modifica il testo della storia, viene chiamata la funzione ValidaStoria per verificare se la storia e valida o meno,ed in caso di errori mostrare i messaggi di errore in tempo reale,oppure se la storia è ancora valida,mostrare il messaggio di successo e dare la possibilità di salvare la storia
 
@@ -215,3 +231,13 @@ ValidaStoria();
 
 document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia valida
 
+document.addEventListener("keydown", function(event) {
+    if (event.code == "F3")  {
+        event.preventDefault();
+        if (document.body.classList.contains("state-generating")) {
+            setAppState("state-writing");
+        } else {
+            setAppState("state-generating");
+        }
+    }
+})
