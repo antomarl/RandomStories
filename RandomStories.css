@@ -112,7 +112,7 @@ body.state-generating .pc-wrapper {
 /* durante la generazione il taccuino si "allontana" un po' di più */
 body.state-generating .notebook-wrapper {
     transform: translate(-50%, -130%) scale(0.5);
-    opacity: 1;
+    opacity: 0.4;
     filter: blur(3px);
     z-index: 1;
 }
@@ -127,27 +127,61 @@ body.state-writing .notebook-wrapper {
 
 body.state-writing .pc-wrapper {
     transform: translate(-50%, -130%) scale(0.5); /*faccio scivolare il pc verso l'alto cosi*/
-    opacity: 0.3;
+    opacity: 0.4;
     filter: blur(3px);
     z-index: 1;
 }
 
 /*faccio sovrappore le immaggini e gli faccio cambiare opacità */
-.pennello {
+.pannello {
     position: absolute;
     transition: opacity 0.4s ease;
 }
 
-/*volgio fare lo sfobndo del pc scuro come termnale style :) */
+/*volgio fare lo sfobndo del pc nero come termnale style :) */
 #sectionGeneraParole {
-    top: 8%; /*per farlo entrare sul pc */
-    left: 12%;
-    width: 76%;
+    top: 13%; /*per farlo entrare sul pc */
+    left: 17%;
+    width: 67%;
     height: 62%;
     padding: 18px 22px;
-    overflow-y: auto; /* se ci sono tante parole lunghe generate, dato che il pc è nicu si può scrollare*/;
-    background: rgba8Ì(20, 25, 35, 0.85);
-    border-radius: 8px;
+    overflow-y: auto; /* se ci sono tante parole lunghe generate, dato che il pc è nicu si può scrollare*/
+    background: black;
+    border-radius: 5px;
     color: #e8f0ff;
 }
 
+#sectionGeneraParole h2 {
+    margin: 0 0 12px;
+    font-size: 1.2rem;
+    color: #ffffff; /* schermo azzuro */
+    text-align: center;
+}
+
+.bottoni {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+/* posto dove stanno le parole generate*/
+#listaParole {
+    min-height: 60px;
+    padding: 10px 14px;
+    background: rgba(255,255,255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #ffff;
+}
+
+#sectionStoria {
+    top: 6%;
+    left: 8%;
+    width: 84%;
+    height: 80%;
+    padding: 16px 22px;
+    dis
+}
