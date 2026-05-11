@@ -1,33 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
   <head>
+    <meta charset="UTF-8">
     <title>Random Stories</title>
     <link rel="stylesheet" href="RandomStories.css">
   </head>
-  <body>
-    <div class="container">
-      <h1>Random Stories</h1>
-      <p class="istruzioni">Genera 10 parole casuali, poi scrivi una storia che le contenga tutte!</p>
-      <section id="sectionGeneraParole">
-        <h2><strong>Genera Parole</strong></h2>
-        <button id="btnGeneraParola">Genera una parola casuale</button>
-        <button id="btnResetParole">Reset parole</button>
-        <button id="btnMostraParole"> Mostra Parole Generate</button>
-        <p id="contatoreParole">Parole generate: 0/10</p>
-        <div id="listaParole"></div>
-      </section>
-      
-      <section id="SectionStoria">
-        <h2><strong>Scrivi la storia</strong></h2>
-        <textarea id="storyInput" placeholder="Scrivi qui la tua storia..."></textarea>
-      </section>
-      
-      <section id="sectionSalvataggio">
-        <div id="messaggioErrore"></div>
-        <button id="btnSalva">Salva Storia</button>
-      </section>
+  <body class="state-generating">
+    <div class="scena">
+      <div class="pc-wrapper">
+        <img src="pc-background.png" alt="PC" class="pc-img">
+        <section id="sectionGeneraParole" class="pannello">
+          <h2> Genera Parole</h2>
+          <div class="bottoni">
+            <button id="btnGeneraParola">Genera parola</button>
+            <button id="btnResetParole">Reset</button>
+            <button id="btnMostraParole">Mostra</button>
+          </div>
+          <p id="contatoreParole">Parole generate: 0/10</p>
+          <div id="listaParole"></div>
+        </section>
+      </div>
+      <div class="notebook-wrapper">
+        <img src="notebook-background.png" alt="Quaderno" class="notebook-img">
+        <section id="SectionStoria" class="pannello">
+          <h2>Scrivi la tua storia!</h2>
+          <textarea id="storyInput" placeholder="Scriv qui la tua storia..."></textarea>
+          <div id="messaggioErrore"></div>
+          <button id="btnSalva" disabled>Salva Storia</button>
+        </section>
+      </div>
     </div>
-    
+    <header class="intestazione">
+      <h1>Random Stories</h1>
+      <p class="istruzioni"> Genera fino a 10 parole casuali del vocabolario italiani,poi scrivi una storia che le contenga tutte!! premi <kbd>F3</kbd>per cambiare zona!</p>
+    </header>
     <script src="paroleLista.js"></script>
     <script src="RandomStories.js"></script>
   </body>

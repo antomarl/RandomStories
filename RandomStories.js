@@ -50,7 +50,7 @@ function contieneParola(testo,parola) {
         "fare" : ["faccio","fai","fa","facciamo","fate","fanno","fatto","fatta","fatti","fatte","feci","fece","faceste","facemmo","faceste","fecero","facevo","facevi","faceva","facevamo","facevate","facevamo"],
         "dire" : ["dico","dici","dice","diciamo","dite","dicono","detto","detta","detti","dette","disse","dissero","dicemmo","diceva","dicevo","dicevi","dicevamo","dicevate","dicevano"],
         "venire" : ["vengo","vieni","viene","veniamo","venite","vengono","venuto","venuta","venuti", "venute","venni","venne", "venivo", "veniva","venivamo","venivate","venivano","venivi"],
-        "udire" : ["udo","udì","udiamo","udite","udirono","udite","udiamo","udirono","udii","udi","udivo","udiva","udivamo","udivate","udivano","udivi"],
+        "udire" : ["odo","udì","udiamo","udite","udirono","udite","udiamo","udirono","udii","udi","udivo","udiva","udivamo","udivate","udivano","udivi"],
         "stare" : ["sto","stai","sta","stiamo","state","stanno","stato","stata","stati","starà","staremo","starete","staranno","staremo","staremmo","starò","starai","stavo","stava","stavi","stavamo","stavate","stavano"],
         "dare" : ["do","dai","da","diamo","date","danno","dato","data","dati","daremo","diedi","darò","darai","darà","darete","daranno","diedi","diede","diedero","davo","davi","dava","davamo","davate","davano"],
         "potere" : ["posso","puoi","può","possiamo","potete","possono","potuto","potevo","potevi","poteva","potevamo","potevate"]
@@ -60,7 +60,7 @@ function contieneParola(testo,parola) {
         for (const forma of irregolari[parola]) {
             const regexVariante = new RegExp(
                 "(^|[^" + lettera + "])" +
-                forma.replace(/[.*+?^${}()|\]\\]/g, "\\$&") +
+                forma.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") +
                 "(?=[^" + lettera + "]|$)",
                 "iu"
             );
@@ -119,7 +119,7 @@ function resetParole() {
     paroleGenerate = [];
     numeroParole = 0;
     document.getElementById("listaParole").innerHTML = ""; // pulisce la visualizzazione delle parole generate
-    document.getElementById("contatoreParole").textContent ="paroleGenerate: 0/" + ParoleMassime; // resetta il contatore delle parole casuali
+    document.getElementById("contatoreParole").textContent ="parole generate: 0/" + ParoleMassime; // resetta il contatore delle parole casuali
     document.getElementById("messaggioErrore").innerHTML = ""; // pulisce eventuali errori di messaggi precedenti
     document.getElementById("btnSalva").disabled = true; // disabilita il pulsante per salvare la storia finchè non viene generata una nuova storia valida
     ValidaStoria(); // chiama la funzione ValidaStoria per aggiornare lo stato della storia dopo il reset delle parole generate
@@ -212,7 +212,7 @@ document.getElementById("btnResetParole").addEventListener("click", function() {
 
 document.getElementById("btnMostraParole").addEventListener("click", function () {
     setAppState('state-generating');
-})
+});
 
 document.getElementById("btnSalva").addEventListener("click", function() {
     salvaStoria();
@@ -220,7 +220,7 @@ document.getElementById("btnSalva").addEventListener("click", function() {
 
 document.getElementById("storyInput").addEventListener("focus", function() {
     setAppState('state-writing');
-})
+});
 document.getElementById("storyInput").addEventListener("input", function() {
     ValidaStoria(); // ogni volta che l'utente modifica il testo della storia, viene chiamata la funzione ValidaStoria per verificare se la storia e valida o meno,ed in caso di errori mostrare i messaggi di errore in tempo reale,oppure se la storia è ancora valida,mostrare il messaggio di successo e dare la possibilità di salvare la storia
 
@@ -232,7 +232,7 @@ ValidaStoria();
 document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia valida
 
 document.addEventListener("keydown", function(event) {
-    if (event.code == "F3")  {
+    if (event.key === "F3")  {
         event.preventDefault();
         if (document.body.classList.contains("state-generating")) {
             setAppState("state-writing");
@@ -240,4 +240,4 @@ document.addEventListener("keydown", function(event) {
             setAppState("state-generating");
         }
     }
-})
+});
