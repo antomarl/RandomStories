@@ -176,12 +176,106 @@ body.state-writing .pc-wrapper {
     line-height: 1.6;
     color: #ffff;
 }
-
-#sectionStoria {
-    top: 6%;
-    left: 8%;
-    width: 84%;
-    height: 80%;
+/*pannello del quaderno*/
+#SectionStoria {
+    top: 8%;
+    left: 10%;
+    width: 80%;
+    height: 75%;
     padding: 16px 22px;
-    dis
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+}
+
+#SectionStoria h2 {
+    margin: 0 0 8px;
+    font-size: 1.1rem;
+    color: #2c1810;
+    text-align: center;
+    font-style: italic;
+}
+
+#storyInput {
+    flex: 1;                    /* riempie tutto lo spazio del pannello */
+    width: 100%;
+    padding: 12px 35px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    border: none;
+    background: transparent;    /* trasparente per vedere le righe del quaderno */
+    color: #2c1810;
+    font-family: 'Segoe UI', 'Quicksand', sans-serif;
+    resize: none;
+    outline: none;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+#storyInput::placeholder {
+    color: rgba(44, 24, 16, 0.45);
+    font-style: italic;
+}
+
+#indicatorePagina {
+    text-align: center;
+    margin: 12px 0 8px;
+    font-size: 0.85rem;
+    color: #6b4a2f;
+    font-style:italic;
+}
+#btnSalva {
+   position: fixed;
+   right: -25%;
+   top: 50%;
+   transform: translateY(-50%);
+   padding: 14px 28px;
+   font-size: 1rem;
+   font-weight: 700;
+   border:none;
+   border-radius:12px;
+   background: linear-gradient(135deg, #7bd472, #3f9a44);
+   color: #fff;
+   cursor: pointer;
+   box-shadow: 0 6px 1px rgba(0, 0, 0, 0.3);
+   transition: transform 0.2s ease, box-shadow 0.2s ease,opacity 0.02s ease;
+   z-index: 5;
+}
+
+#btnSalva:hover:not(:disabled) {
+    transform: translateY(-50%) translateX(-3px);
+    box-shadow: 0 0px 20px rgba(0, 0, 0, 0.35);
+}
+
+#btnaSalva:disabled {
+    background: #888;
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;        
+}
+
+#messaggioErrore {
+    position: fixed;
+    left: -25%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 220px;
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    text-align: center;
+    border-radius: 12px;
+    z-index: 5;
+    line-height: 1.4;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#messaggioErrore:empty {
+    display: none;
+}
+
+body.state-generating #btnSalva,
+body.state-generating #messaggioErrore,
+body.state-generating #indicatorePagina {
+    display: none;
 }
