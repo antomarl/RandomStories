@@ -181,7 +181,7 @@ body.state-writing .pc-wrapper {
     top: 8%;
     left: 10%;
     width: 80%;
-    height: 75%;
+    height: 82.5%;
     padding: 16px 22px;
     display: flex;
     flex-direction: column;
@@ -210,6 +210,7 @@ body.state-writing .pc-wrapper {
     outline: none;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    overflow: hidden;
 }
 
 #storyInput::placeholder {

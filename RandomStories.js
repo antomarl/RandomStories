@@ -266,6 +266,19 @@ document.getElementById("storyInput").addEventListener("focus", function() {
     setAppState('state-writing');
 });
 document.getElementById("storyInput").addEventListener("input", function() {
+    // controllo se il testo ha supertato la grandezza del libro senza la possibilità di usare la rotellina
+    if (this.scrollHeight > this.clientHeight) {
+        while (this.scrollHeight > this.clientHeight && this.value.length > 0) {
+            this.value = this.value.substring(0, this.value.length - 1);
+        }
+       document.getElementById("indicatorePagina").textContent = "Pagina " + (paginaCorrente + 1 ) + " - Piena! Premi ctrl + freccia destra per continuare.";
+       document.getElementById("indicatorePagina").style.color = "red";
+    } else {
+        document.getElementById("indicatorePagina").textContent = "Pagina " + (paginaCorrente + 1) + " di " + pagine.length;
+        document.getElementById("indicatorePagina").style.color = "#6b4a2f";
+    }
+
+    
     pagine[paginaCorrente] = this.value;
     ValidaStoria(); // ogni volta che l'utente modifica il testo della storia, viene chiamata la funzione ValidaStoria per verificare se la storia e valida o meno,ed in caso di errori mostrare i messaggi di errore in tempo reale,oppure se la storia è ancora valida,mostrare il messaggio di successo e dare la possibilità di salvare la storia
 
