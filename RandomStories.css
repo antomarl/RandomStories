@@ -144,18 +144,39 @@ body.state-writing .pc-wrapper {
     left: 17%;
     width: 67%;
     height: 62%;
-    padding: 18px 22px;
-    overflow-y: auto; /* se ci sono tante parole lunghe generate, dato che il pc è nicu si può scrollare*/
-    background: black;
+    padding: 20px 24px;
+    overflow-y: auto; /* se ci sono tante parole lunghe generate, dato che il pc è nicu si può scrollare upt:che micnhiata che ho pensato,tanto mica non ci entrano*/
+    background: #0a0e0a;
     border-radius: 5px;
-    color: #e8f0ff;
+    color: #5fff87;
+    font-family: 'Courier New', 'Consolas', monospace;
 }
 
 #sectionGeneraParole h2 {
-    margin: 0 0 12px;
-    font-size: 1.2rem;
-    color: #ffffff; /* schermo azzuro */
-    text-align: center;
+    margin: 0 0 16px;
+    font-size: 1.1rem;
+    color: #5fff87; 
+    text-align: left;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+#sectionGeneraParole h2::before {
+    content: "> ";
+    color: #5fff87;
+}
+
+#sectionGeneraParole h2::after {
+    content: "_";
+    animation: lampeggia 1s steps(1) infinite;
+    margin-left: 4px;
+}
+
+@keyframes lampeggia {
+    0%, 50% {opacity: 1; }
+    51%, 100% {opacity: 0;}
 }
 
 .bottoni {
@@ -176,11 +197,33 @@ body.state-writing .pc-wrapper {
     line-height: 1.6;
     color: #ffff;
 }
-
-#generaParola {
-    margin: 6px 0 3px;
-
+#sectionGeneraParole .bottoni button {
+    background: transparent;
+    color: #5fff87;
+    border: 1px solid #f5ff87;
+    padding: 6px 14px;
+    font-family: 'Curiuer New', monospace;
+    font-size: 0.85rem;
+    font-weight:600;
+    border-radius:3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: none;
 }
+
+#sectionGeneraParole .bottoni button:hover {
+    background: #5fff87;
+    color: #0a0e0a;
+    box-shadow: 0 0 12px rgba(95, 255, 235, 0.7);
+    transform: none;
+}
+
+#sectionGeneraParole .bottoni button:hover {
+    transform: scale(0.96);
+}
+
 /*pannello del quaderno*/
 #SectionStoria {
     top: 8%;
