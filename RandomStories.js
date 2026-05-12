@@ -253,11 +253,6 @@ document.getElementById("btnResetParole").addEventListener("click", function() {
     resetParole();
 });
 
-document.getElementById("btnMostraParole").addEventListener("click", function () {
-    setAppState('state-generating');
-    mostraParole();
-});
-
 document.getElementById("btnSalva").addEventListener("click", function() {
     salvaStoria();
 });

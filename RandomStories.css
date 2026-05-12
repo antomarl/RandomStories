@@ -179,6 +179,23 @@ body.state-writing .pc-wrapper {
     51%, 100% {opacity: 0;}
 }
 
+#contatoreParole {
+    color: #5fff87;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    margin:16px 0 8px;
+    letter-spacing: 1px;
+}
+
+#contatoreParole::before {
+    content: "[ ";
+    color:#5fff87;
+}
+
+#contatoreParole::after {
+    content: " ]";
+    color:#5fff87;
+}
 .bottoni {
     display: flex;
     flex-wrap: wrap;
@@ -189,14 +206,24 @@ body.state-writing .pc-wrapper {
 /* posto dove stanno le parole generate*/
 #listaParole {
     min-height: 60px;
-    padding: 10px 14px;
-    background: rgba(255,255,255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: #ffff;
+    padding: 12px 16px;
+    background: rgba(95,255,135, 0.05);
+    border: 1px solid rgba(95, 255, 135, 0.4);
+    border-radius: 3px;
+    font-size: 0.90rem;
+    line-height: 1.7;
+    color: #5fff87;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.05;
 }
+
+#listaParole:empty::after {
+    content: "// nessuna parola generata...";
+    color: rgba(95, 255, 135, 0.4);
+    font-style: italic;
+}
+
+
 #sectionGeneraParole .bottoni button {
     background: transparent;
     color: #5fff87;
@@ -224,6 +251,23 @@ body.state-writing .pc-wrapper {
     transform: scale(0.96);
 }
 
+#sectionGeneraParole::after {
+    content: "";
+    position:absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.15) 0px,
+        rgba(0,0,0,0.15) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    pointer-events: none;
+    border-radius: 5px;
+}
 /*pannello del quaderno*/
 #SectionStoria {
     top: 8%;
