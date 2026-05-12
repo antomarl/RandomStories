@@ -223,7 +223,7 @@ body.state-writing .pc-wrapper {
     font-style: italic;
 }
 
-
+/*ora è tutto più terminale styles, pure elektrowindows dice che è figo*/
 #sectionGeneraParole .bottoni button {
     background: transparent;
     color: #5fff87;
@@ -239,7 +239,7 @@ body.state-writing .pc-wrapper {
     letter-spacing: 1px;
     box-shadow: none;
 }
-
+/* io sono così felice che è venuto cosi bene,glielo mando a dani e l'unica cosa che fa e mettere pollice in su :| */
 #sectionGeneraParole .bottoni button:hover {
     background: #5fff87;
     color: #0a0e0a;
@@ -251,6 +251,7 @@ body.state-writing .pc-wrapper {
     transform: scale(0.96);
 }
 
+/* sta cosa sotto mi ha detto l'IA come farla,ma è una cazzo di figata!*/
 #sectionGeneraParole::after {
     content: "";
     position:absolute;
@@ -268,7 +269,7 @@ body.state-writing .pc-wrapper {
     pointer-events: none;
     border-radius: 5px;
 }
-/*pannello del quaderno*/
+/*parte del del quaderno*/
 #SectionStoria {
     top: 8%;
     left: 10%;
@@ -279,25 +280,30 @@ body.state-writing .pc-wrapper {
     flex-direction: column;
     background: transparent;
 }
-
+/*dato che ho cambiato il pc,sisetmo anc he il quaderno,perchè cosi fa cagare in paragone*/
 #SectionStoria h2 {
-    margin: -30px 0 8px;
-    font-size: 1.1rem;
-    color: #2c1810;
+    margin: -25px 0 8px;
+    font-size: 1.6rem;
+    color: #4a2f1f;
     text-align: center;
-    font-style: italic;
+    font-family: 'Brush Script MT', 'Lucida HandWriting', 'Segoe Script', cursive;
+    font-style: normal;
+    transform: rotate(-1deg); /*strorto sembra più tipo volante*/
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 #storyInput {
-    flex: 1;                    /* riempie tutto lo spazio del pannello */
+    flex: 1;    /* riempie tutto lo spazio del pannello */
     width: 100%;
     padding: 12px 35px;
     font-size: 0.95rem;
-    line-height: 1.7;
+    line-height: 1.8;
     border: none;
     background: transparent;    /* trasparente per vedere le righe del quaderno */
     color: #2c1810;
-    font-family: 'Segoe UI', 'Quicksand', sans-serif;
+    font-family:'Times New Roman', Times, serif;
+    letter-spacing: 0.5px;
     resize: none;
     outline: none;
     word-wrap: break-word;
@@ -307,16 +313,20 @@ body.state-writing .pc-wrapper {
 
 #storyInput::placeholder {
     color: rgba(44, 24, 16, 0.45);
+    font-family:'Courier New', monospace;
     font-style: italic;
 }
 
 #indicatorePagina {
     text-align: center;
-    margin: 12px 0 8px;
-    font-size: 0.85rem;
+    margin: 8px 0 12px;
+    font-size: 1rem;
     color: #6b4a2f;
+    font-family:'Brush Script MT', 'Lucida Handwriting', cursive;
     font-style:italic;
+    letter-spacing: 1px;
 }
+/* non mi piace moltissimo,perà è intuitivo,in caso in futuro lo cambio*/
 #btnSalva {
    position: fixed;
    right: -25%;
@@ -346,7 +356,7 @@ body.state-writing .pc-wrapper {
     cursor: not-allowed;
     box-shadow: none;        
 }
-
+/* mommy is alrigth, dad is alrigth, they just seem a little weird, surrender,surrender, but dont give yourself a wayy. ho fatto vil rewatch di pixels oggi a pranzo,peak*/
 #messaggioErrore {
     position: fixed;
     left: -25%;
@@ -371,4 +381,12 @@ body.state-generating #btnSalva,
 body.state-generating #messaggioErrore,
 body.state-generating #indicatorePagina {
     display: none;
+}
+
+
+/* ho creato un pulsante per cambiare tema da bianco a nero,però non so ancora come si fa...*/
+
+#coloreTema {
+    top: -20px;
+    left: 50px;
 }
