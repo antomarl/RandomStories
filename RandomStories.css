@@ -189,7 +189,7 @@ body.state-writing .pc-wrapper {
 }
 
 #SectionStoria h2 {
-    margin: 0 0 8px;
+    margin: -30px 0 8px;
     font-size: 1.1rem;
     color: #2c1810;
     text-align: center;
@@ -237,17 +237,17 @@ body.state-writing .pc-wrapper {
    background: linear-gradient(135deg, #7bd472, #3f9a44);
    color: #fff;
    cursor: pointer;
-   box-shadow: 0 6px 1px rgba(0, 0, 0, 0.3);
-   transition: transform 0.2s ease, box-shadow 0.2s ease,opacity 0.02s ease;
+   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+   transition: transform 0.2s ease, box-shadow 0.2s ease,opacity 0.2s ease;
    z-index: 5;
 }
 
 #btnSalva:hover:not(:disabled) {
     transform: translateY(-50%) translateX(-3px);
-    box-shadow: 0 0px 20px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
-#btnaSalva:disabled {
+#btnSalva:disabled {
     background: #888;
     opacity: 0.5;
     cursor: not-allowed;

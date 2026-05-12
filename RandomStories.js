@@ -4,6 +4,39 @@ let numeroParole = 0; // Variabile per tenere traccia del numero di parole gener
 
 const ParoleMassime = 10; //numero massimo di parole da generare
 
+let pagine = [""]; // array delle pagine,inizia con 1 vuoto
+
+let paginaCorrente = 0; // indice della pagina che si sta vedendo;
+
+function setAppState(state) {
+    document.body.classList.remove('state-generating', 'state-writing');
+    document.body.classList.add(state);
+}
+function cambiaPagina(direzione) {
+    pagine[paginaCorrente] = document.getElementById('storyInput').value;
+
+    if (direzione === 'avanti') {
+        paginaCorrente++;
+        if (paginaCorrente >= pagine.length) {
+            pagine.push("");
+        }
+    } else if (direzione === "indietro") {
+        if (paginaCorrente > 0) {
+            paginaCorrente--;
+        } else {
+            return;   // sei già a pagina 1, non andare oltre
+        }
+    } else {
+        return;
+    }
+
+    document.getElementById("storyInput").value = pagine[paginaCorrente];
+    document.getElementById("indicatorePagina").textContent =
+        "Pagina " + (paginaCorrente + 1) + " di " + pagine.length;
+
+    ValidaStoria();
+}
+
 function GeneraParola() {
     if (numeroParole >= ParoleMassime) {
         alert("Sei giunto alla fine delle parole da generare,ora inizia a scrivere la tua storia!"); // se il numero di parole generate ha raggiunto il limite,viene generato un alert per informare l'utente che non può generare più parole e deve iniziare a scrivere la storia
@@ -118,7 +151,11 @@ function contieneParola(testo,parola) {
 function resetParole() {
     paroleGenerate = [];
     numeroParole = 0;
+    pagine = [""];
+    paginaCorrente = 0;
+    document.getElementById("storyInput").value = "";
     document.getElementById("listaParole").innerHTML = ""; // pulisce la visualizzazione delle parole generate
+    document.getElementById("indicatorePagina").textContent = "Pagina 1";
     document.getElementById("contatoreParole").textContent ="parole generate: 0/" + ParoleMassime; // resetta il contatore delle parole casuali
     document.getElementById("messaggioErrore").innerHTML = ""; // pulisce eventuali errori di messaggi precedenti
     document.getElementById("btnSalva").disabled = true; // disabilita il pulsante per salvare la storia finchè non viene generata una nuova storia valida
@@ -135,8 +172,8 @@ function mostraParole() {
 }
 
 function ValidaStoria() {
-    let storia = document.getElementById("storyInput").value.toLowerCase(); // Prende il testo della storia e lo converte in minuscolo
-
+    pagine[paginaCorrente] = document.getElementById("storyInput").value; //prende il testo della storia e lo converte in minuscolo
+    let storia = pagine.join(" ").toLowerCase();
     document.getElementById("messaggioErrore").innerHTML = ""; // serve a pulire eventuali errori di messaggi precedenti
     document.getElementById("messaggioErrore").style.color = "red"; // serve a impostare il colore del messaggio di errore in rosso
 
@@ -148,13 +185,18 @@ function ValidaStoria() {
 
     let tuttoValido= true
 
+    let mancanti = [];
+
     for (let parola of paroleGenerate) {
         if (!contieneParola(storia, parola)) {
-            document.getElementById("messaggioErrore").innerHTML += "La parola '" + parola + "' è mancante nella tua storia.<br>";
-            tuttoValido = false; // se anche solo una parola manca, la storia diventa automaticamente non valida
-        }   
+            mancanti.push(parola);
+            tuttoValido = false;
+        }
     }
 
+    if (mancanti.length > 0) {
+        document.getElementById("messaggioErrore").innerHTML = "Mancano: <br>" + mancanti.join(", ");
+    }
     // se è tutto apposto,il messaggio di sucesso viene mostrato e diamo la possibilità di salvare la storia
     if (tuttoValido) {
         document.getElementById("messaggioErrore").innerHTML = "La tua storia è valida,ora puoi salvarla  cliccando su  'Salva Storia',oppure genera una nuova storia completamente da zero!";
@@ -172,29 +214,30 @@ function salvaStoria() {
         alert("la tua storia non è valida,assicurati di includere tutte le parole generate prima di salvarla!");
         return;
     }
+    // faccio in modo che si salvi anche la pagina corrente quando esporto
+    pagine[paginaCorrente] = document.getElementById("storyInput").value;
 
-    let storia = document.getElementById("storyInput").value; // serve a prendere il testo della storia
+    let storiaCompleta = "";
 
-    if (storia.trim() === "") {
-        alert("La storia è vuota, inserisci del testo prima di salvarla!");
+    for (let i = 0; i < pagine.length; i++) {
+        storiaCompleta += "=== Pagina " + (i + 1) + "===\n";
+        storiaCompleta += pagine[i] + "\n\n";
+    }
+
+    if (storiaCompleta.trim() === "") {
+        alert("la storia è vuota!");
         return;
     }
 
-    let blob = new Blob([storia], {type: "text/plain;charset=utf-8"});  //crea un file blob virtuale con il contenuto della storia
-
-    //creo il link per scaricare il file
+    let blob = new Blob([storiaCompleta], {type: "text/plain;charset=utf-8"});
     let link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = "storia.txt"; // nome del file che verrà scaricato
-    document.body.appendChild(link); // aggiungo il link al corpo del documento
-    link.click(); // simulo un click sul link per avviare il download
-    document.body.removeChild(link); // rimuovo il link dal corpo del documento
-    URL.revokeObjectURL(link.href); //serve a liberare la memoria dopo che la storia è stata scaricata
-}
+    link.download = "storia.txt";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href); 
 
-function setAppState(state) {
-    document.body.classList.remove('state-generating', 'state-writing');
-    document.body.classList.add(state);
 }
 
 document.body.classList.add('state-generating');
@@ -212,6 +255,7 @@ document.getElementById("btnResetParole").addEventListener("click", function() {
 
 document.getElementById("btnMostraParole").addEventListener("click", function () {
     setAppState('state-generating');
+    mostraParole();
 });
 
 document.getElementById("btnSalva").addEventListener("click", function() {
@@ -222,6 +266,7 @@ document.getElementById("storyInput").addEventListener("focus", function() {
     setAppState('state-writing');
 });
 document.getElementById("storyInput").addEventListener("input", function() {
+    pagine[paginaCorrente] = this.value;
     ValidaStoria(); // ogni volta che l'utente modifica il testo della storia, viene chiamata la funzione ValidaStoria per verificare se la storia e valida o meno,ed in caso di errori mostrare i messaggi di errore in tempo reale,oppure se la storia è ancora valida,mostrare il messaggio di successo e dare la possibilità di salvare la storia
 
 });
@@ -240,4 +285,18 @@ document.addEventListener("keydown", function(event) {
             setAppState("state-generating");
         }
     }
+    
+    //ora devo fare le frecci per cambiare da una pagina all'altra
+    if (document.body.classList.contains("state-writing")) {
+        if (event.ctrlKey && event.key === "ArrowRight") {
+                event.preventDefault();
+                cambiaPagina("avanti");
+                
+        } else if (event.ctrlKey && event.key === "ArrowLeft") {
+                event.preventDefault();
+                cambiaPagina("indietro")
+            
+        }
+    }
+
 });
