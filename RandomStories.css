@@ -176,6 +176,11 @@ body.state-writing .pc-wrapper {
     line-height: 1.6;
     color: #ffff;
 }
+
+#generaParola {
+    margin: 6px 0 3px;
+
+}
 /*pannello del quaderno*/
 #SectionStoria {
     top: 8%;
