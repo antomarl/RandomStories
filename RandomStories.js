@@ -144,6 +144,7 @@ function contieneParola(testo,parola) {
     }
 
     if (isVerbo && radice.length > 2) {
+        // sono uscito pazzo a scrivere questo a mano,ma la goduria di vedere che alle 21 di sera funzionava è impagabile,penso niente mi dara una felicità cosi genuina
         const varianti = [
             radice + "o", radice + "i", radice + "a", radice + "iamo", radice + "ate", radice + "ano",
             radice + "avo", radice + "ava", radice + "avi", radice + "avamo", radice + "avate", radice + "avano",
@@ -334,5 +335,24 @@ document.addEventListener("keydown", function(event) {
         }
     }
 
+});
+// se una persona mette modalità scura, poi esce e dopo rientra nel sito viene alluciato, ora invece localstorage salva i dati del sito anche se si esce e lo lascia nell'ultimo mdo in cui uno la tenutp
+if (localStorage.getItem('tema') === 'scuro') {
+    document.body.classList.add('tema-scuro');
+    document.getElementById('coloreTema').textContent = 'Tema Chiaro';  //se è scuro il botttone dirà tema chiaro,cioè se uno clicca diventa tema chiaro
+} else {
+    document.getElementById('coloreTema').textContent = 'Tema Scuro';
+}
+
+document.getElementById("coloreTema").addEventListener("click", function () {
+    const temaScuroAttivo = document.body.classList.toggle('tema-scuro') // toggle è una figata! praticamente aggiunge la classe se non c'è e la toglie se c'è,tipo il not che ci ha fatto fare Cavallaro e Lo Giudice
+
+    if (temaScuroAttivo) {
+        this.textContent = 'Tema Chiaro'; // this serve per rifersi allo stesso bottone di cui si parola,
+        localStorage.setItem('tema', 'scuro');
+    } else {
+        this.textContent = 'Tema Scuro';
+        localStorage.setItem('tema', 'chiaro');
+    }
 });
 
