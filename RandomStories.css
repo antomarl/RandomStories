@@ -298,7 +298,7 @@ body.state-writing .pc-wrapper {
     width: 100%;
     padding: 12px 35px;
     font-size: 1.50rem;
-    line-height: 1.8;
+    line-height: 1.7; /* volevo farlo di ogni riga del queadero ma mi sono rotto i coglioni perchè non ce la faccio quindi sticazzi */
     border: none;
     background: transparent;    /* trasparente per vedere le righe del quaderno */
     color: #2c1810;
@@ -385,12 +385,6 @@ body.state-generating #indicatorePagina {
 }
 
 
-/* ho creato un pulsante per cambiare tema da bianco a nero,però non so ancora come si fa...*/
-
-#coloreTema {
-    top: -20px;
-    left: 50px;
-}
 
 
 .messaggio {
@@ -424,3 +418,28 @@ body.state-generating #indicatorePagina {
     background: rgba(255, 204, 0, 0.08);
     border: 1px solid rgba(255, 204, 0, 0.03);
 }
+
+
+/* ho spostato il pulsatne sotto,ora si starta!*/
+
+#coloreTema {
+    position: fixed;
+    top: -15;
+    left: 50px;
+    z-index: 20;
+    padding: 8px 16;
+    border: none;
+    border-radius: 20px;
+    background: #2c1810;
+    color: #fff;
+    font-size: 0.91rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    pointer-events:all
+}
+
+body.tema-scuro {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+}
+
