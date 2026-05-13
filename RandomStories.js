@@ -40,9 +40,9 @@ function cambiaPagina(direzione) {
 function GeneraParola() {
     if (numeroParole >= ParoleMassime) {
       /*leviamo l'alert di merda */
-      mostraMessaggioPc {
+      mostraMessaggioPc (
         "> Limite raggiunto: " + ParoleMassime + "/" + ParoleMassime + "parole generate, ora premi F3 per iniziare a scrivere!", "avviso"
-      };
+      );
       return;
     }
 
@@ -66,7 +66,7 @@ function GeneraParola() {
 }
 // sto creando la funzione per toglire l'alert 
 function mostraMessaggioPc(testo, tipo) {
-    let msg = document.getElementById("messagioPC");
+    let msg = document.getElementById("messaggioPC");
     msg.textContent = testo;
     msg.className = "messaggio";
 
@@ -78,7 +78,8 @@ function mostraMessaggioPc(testo, tipo) {
 
 }
 
-function pulisciMessaggioPC {
+function pulisciMessaggioPC () {
+    
     document.getElementById("messaggioPC").textContent = "";
     document.getElementById("messaggioPC").className = "messaggio";
 }
@@ -192,7 +193,9 @@ function mostraParole() {
             "Nessuna parola generata. Clicca 'genera parola' per iniziare.","avviso"
         )
     }   else {
-        alert("Parole generate finora: " + paroleGenerate.join(", "));
+        mostraMessaggioPc (
+            "> Parole generate: " + paroleGenerate.join(", "), "successo"
+        );
     }
 }
 
@@ -236,7 +239,6 @@ function ValidaStoria() {
 
 function salvaStoria() {
     if (!ValidaStoria()) {
-        alert("la tua storia non è valida,assicurati di includere tutte le parole generate prima di salvarla!");
         return;
     }
     // faccio in modo che si salvi anche la pagina corrente quando esporto
@@ -250,7 +252,7 @@ function salvaStoria() {
     }
 
     if (storiaCompleta.trim() === "") {
-        alert("la storia è vuota!");
+        mostraMessaggioPc("> Errore: la storia è vuota!", "errore");
         return;
     }
 
