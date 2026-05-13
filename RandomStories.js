@@ -39,8 +39,11 @@ function cambiaPagina(direzione) {
 
 function GeneraParola() {
     if (numeroParole >= ParoleMassime) {
-        alert("Sei giunto alla fine delle parole da generare,ora inizia a scrivere la tua storia!"); // se il numero di parole generate ha raggiunto il limite,viene generato un alert per informare l'utente che non può generare più parole e deve iniziare a scrivere la storia
-        return;
+      /*leviamo l'alert di merda */
+      mostraMessaggioPc {
+        "> Limite raggiunto: " + ParoleMassime + "/" + ParoleMassime + "parole generate, ora premi F3 per iniziare a scrivere!", "avviso"
+      };
+      return;
     }
 
     let indiceRandom = Math.floor(Math.random() * paroleDisponibili.length); // 
@@ -52,13 +55,33 @@ function GeneraParola() {
         numeroParole++; // Incrementa il contatore delle parole generate
        document.getElementById("listaParole").innerHTML = paroleGenerate.join(", "); // Aggiorna la visualizzazione delle parole generate
        document.getElementById("contatoreParole").textContent = "Parole generate :" + numeroParole + "/" + ParoleMassime;
+       mostraMessaggioPc(
+        "> Parola aggiunta: \"" + parolaGenerata + "\"", "successo"
+       );
        ValidaStoria(); // per vedere se la storia è ancora valida dopo aver generato la parola
     } else {
         // Se la parola è già stata generata, chiama ricorsivamente la funzione per generare una nuova parola
         GeneraParola();
     }
 }
+// sto creando la funzione per toglire l'alert 
+function mostraMessaggioPc(testo, tipo) {
+    let msg = document.getElementById("messagioPC");
+    msg.textContent = testo;
+    msg.className = "messaggio";
 
+    if (tipo === "successo") {
+        msg.classList.add("successo");
+    } else if (tipo === 'avviso') {
+        msg.classList.add("avviso");
+    }
+
+}
+
+function pulisciMessaggioPC {
+    document.getElementById("messaggioPC").textContent = "";
+    document.getElementById("messaggioPC").className = "messaggio";
+}
 function contieneParola(testo,parola) {
     // converte la storia in minuscolo per una ricerca case-insensitive
     testo = testo.toLowerCase();
@@ -164,8 +187,10 @@ function resetParole() {
 
 function mostraParole() {
     if (paroleGenerate.length === 0) {
-        alert("non hai ancora generato parole,clicca su 'Genera parole' per iniziare!");
-        return;
+        /* tolgo gli alert pure qua*/
+        mostraMessaggioPc(
+            "Nessuna parola generata. Clicca 'genera parola' per iniziare.","avviso"
+        )
     }   else {
         alert("Parole generate finora: " + paroleGenerate.join(", "));
     }

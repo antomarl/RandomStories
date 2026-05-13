@@ -1,5 +1,4 @@
 const paroleDisponibili = [
-    'a',
     'abbandonare',
     'abbastanza',
     'abitare',
@@ -96,6 +95,7 @@ const paroleDisponibili = [
     'avere',
     'avvenire',
     'avvertire',
+    'elektrowindws',
     'avvicinare',
     'avvocato',
     'azione',
