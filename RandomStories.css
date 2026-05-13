@@ -297,15 +297,15 @@ body.state-writing .pc-wrapper {
     flex: 1;    /* riempie tutto lo spazio del pannello */
     width: 100%;
     padding: 12px 35px;
-    font-size: 0.95rem;
+    font-size: 1.50rem;
     line-height: 1.8;
     border: none;
     background: transparent;    /* trasparente per vedere le righe del quaderno */
     color: #2c1810;
-    font-family:'Times New Roman', Times, serif;
+    font-family:'Caveat', 'Brush Script MT', cursive;
     letter-spacing: 0.5px;
     resize: none;
-    /* ho creato un pulsante per cambiare tema da bianco a nero,però non so ancora come si fa...*/    outline: none;
+    outline: none;
     word-wrap: break-word;
     overflow-wrap: break-word;
     overflow: hidden;
@@ -313,7 +313,8 @@ body.state-writing .pc-wrapper {
 
 #storyInput::placeholder {
     color: rgba(44, 24, 16, 0.45);
-    font-family:'Courier New', monospace;
+    font-size: 1.50rem;
+    font-family:'Caveat','Brush Script MT', cursive;
     font-style: italic;
 }
 
