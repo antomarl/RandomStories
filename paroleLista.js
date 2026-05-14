@@ -95,7 +95,7 @@ const paroleDisponibili = [
     'avere',
     'avvenire',
     'avvertire',
-    'elektrowindws',
+    'elektrowindows',
     'avvicinare',
     'avvocato',
     'azione',

@@ -63,6 +63,15 @@ function GeneraParola() {
         // Se la parola è già stata generata, chiama ricorsivamente la funzione per generare una nuova parola
         GeneraParola();
     }
+    //voglio creare un easter egg per sebywlan aka sebylanza aka iano aka elektrowindows aka niente li ho finiti
+    if (parolaGenerata == "elektrowindows") {
+        let pc = document.querySelector(".pc-wrapper");
+        pc.classList.add("glitch-attivo");
+        setTimeout(function() {
+            pc.classList.remove("glitch-attivo");
+        }, 1800);
+
+    }
 }
 // sto creando la funzione per toglire l'alert 
 function mostraMessaggioPc(testo, tipo) {

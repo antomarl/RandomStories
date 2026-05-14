@@ -438,8 +438,49 @@ body.state-generating #indicatorePagina {
     transition: all 0.4s ease;
     pointer-events:all
 }
-
+/* bottone molto minimale per adesso,però vabbe ci sta dai, ora devo pero fare tutta l'interfaccia un po' al contrario,per chi vuole usarla di notte o a paura della luce*/
 body.tema-scuro {
     background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+}
+
+body.tema-scuro .intestazione {
+    background: linear-gradient(to bottom, rgba(20, 20, 40, 0.9), rgba(20,20,40,0));
+}
+
+body.tema-scuro .intestazione h1 {
+    color: #e0e0e0;
+}
+
+body.tema-scuro .intestazione .istruzioni {
+    color: #b0b0cc;
+}
+
+body.tema-scuro .intestazione kbd {
+    background: #5fff87;
+    color: #0a0e0a;
+}
+
+body.tema-scuro #coloreTema {
+    background: #5fff87;
+    color: #0a0e0a;
+}
+
+#coloreTema:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* facciamo l'easter egg per il bro,dato che è uno smanettone facciamo a mo di glitch*/
+
+@keyframes glitch {  /* serve a definire un animazione */
+    0% { filter: hue-rotate(0deg); }
+    25% { filter: hue-rotate(90deg) invert(1); }
+    50% {filter: hue-rotate(180deg); }
+    75% {filter: hue-rotate(270deg) invert(1); }
+    100% { filter: hue-rotate(360deg); }
+}
+/*  uso animation (che ho scoperto sia una proprietà shortand,ovvero abbreviata) e posso scrivere più robe nella stessa riga*/
+.glitch-attivo {
+    animation: glitch 0.3s steps(5) 6;
 }
 
