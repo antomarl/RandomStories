@@ -4,11 +4,7 @@ let numeroParole = 0; // Variabile per tenere traccia del numero di parole gener
 
 const ParoleMassime = 10; //numero massimo di parole da generare
 
-let pagine = [
-    { sx: "testo sinistra pag 1", dx: "testo destra pag 1" },
-    { sx: "testo sinistra pag 2", dx: "testo destra pag 2" }
-    
-] // array delle pagine,inizia con 1 vuoto
+let pagine = [{sx: "", dx: ""}] // array delle pagine,inizia con 1 vuoto
 
 let paginaCorrente = 0; // indice della pagina che si sta vedendo;
 
@@ -18,7 +14,7 @@ function setAppState(state) {
 }
 function cambiaPagina(direzione) {
     pagine[paginaCorrente].sx = document.getElementById('storyInputSx').value; // Rip Storyinput N2026 M2026
-    pagine[paginaCorrente].dx = document.getElementById('storyInputDX').value;
+    pagine[paginaCorrente].dx = document.getElementById('storyInputDx').value;
 
     if (direzione === 'avanti') {
         paginaCorrente++;
@@ -35,8 +31,8 @@ function cambiaPagina(direzione) {
         return;
     }
 
-    document.getElementById("storyInputSX").value = pagine[paginaCorrente].sx;
-    document.getElementById("storyInputDX").value = pagine[paginaCorrente].dx;
+    document.getElementById("storyInputSx").value = pagine[paginaCorrente].sx;
+    document.getElementById("storyInputDx").value = pagine[paginaCorrente].dx;
     document.getElementById("indicatorePagina").textContent =
         "Pagina " + (paginaCorrente + 1) + " di " + pagine.length;
 
@@ -191,9 +187,10 @@ function contieneParola(testo,parola) {
 function resetParole() {
     paroleGenerate = [];
     numeroParole = 0;
-    pagine = [""];
+    pagine = [{sx: "", dx: "" }]; 
     paginaCorrente = 0;
-    document.getElementById("storyInput").value = "";
+    document.getElementById("storyInputSx").value = "";
+    document.getElementById("storyInputDx").value = "";
     document.getElementById("listaParole").innerHTML = ""; // pulisce la visualizzazione delle parole generate
     document.getElementById("indicatorePagina").textContent = "Pagina 1";
     document.getElementById("contatoreParole").textContent ="parole generate: 0/" + ParoleMassime; // resetta il contatore delle parole casuali
@@ -216,10 +213,23 @@ function mostraParole() {
 }
 
 function ValidaStoria() {
-    pagine[paginaCorrente] = document.getElementById("storyInput").value; //prende il testo della storia e lo converte in minuscolo
-    let storia = pagine.join(" ").toLowerCase();
-    document.getElementById("messaggioErrore").innerHTML = ""; // serve a pulire eventuali errori di messaggi precedenti
-    document.getElementById("messaggioErrore").style.color = "red"; // serve a impostare il colore del messaggio di errore in rosso
+    // ora salvo il contenuto delle 2 aree nella pagina corrente
+
+    let inputSx = document.getElementById("storyInputSx");
+    let inputDx = document.getElementById("storyInputDx");   //salviamo i valori di entrambe le textarea, rimpiango storyInput nelc prime
+    if (inputSx && inputDx) {
+        pagine[paginaCorrente].sx = inputSx.value;
+        pagine[paginaCorrente].dx = inputDx.value;
+    }
+
+    let storia = "";
+    for(let p of pagine) {
+        storia += p.sx + " " + p.dx + " ";
+    }
+
+    storia = storia.toLocaleLowerCase();
+    document.getElementById("messaggioErrore").innerHTML = " ";
+    document.getElementById("messaggioErrore").style.color = "red";
 
     if (paroleGenerate.length === 0) {
         document.getElementById("messaggioErrore").innerHTML = "devi generare almeno una parola prima di validitare la tua storia!";
@@ -253,18 +263,29 @@ function ValidaStoria() {
     return false; // se anche solo una parola manca, la storia non è valida e la funzione restituisce false
 }
 
+function salvaPaginaCorrente() { // scrivo 2 funzioni cosi scrivo il codice una volta sola,il codice si capisce megli o e si accorcia, a quanto pare si chiama principio DRY
+    pagine[paginaCorrente].sx = textareaSx.value;
+    pagine[paginaCorrente].dx = textareaDx.value;   
+}
+
+function aggiornaIndicatorePagina() {
+    document.getElementById("indicatorePagina").textContent = "pagina " + (paginaCorrente + 1) + " di " + pagine.length;
+    document.getElementById("indicatorePagina").style.color = "#6b4a2f";
+}
+
 function salvaStoria() {
     if (!ValidaStoria()) {
         return;
     }
-    // faccio in modo che si salvi anche la pagina corrente quando esporto
-    pagine[paginaCorrente] = document.getElementById("storyInput").value;
+    // faccio in modo che si salvi anche la pagina corrente quando esporto(edit: stessa cosa per entrambe le textarea)
+    pagine[paginaCorrente].sx = document.getElementById("storyInputSx").value;
+    pagine[paginaCorrente].dx = document.getElementById("storyInputDx").value;
 
     let storiaCompleta = "";
 
     for (let i = 0; i < pagine.length; i++) {
         storiaCompleta += "=== Pagina " + (i + 1) + "===\n";
-        storiaCompleta += pagine[i] + "\n\n";
+        storiaCompleta += pagine[i].sx +" " + pagicharATne[i].dx + "\n\n";
     }
 
     if (storiaCompleta.trim() === "") {
@@ -312,12 +333,12 @@ textareaDx.addEventListener("focus", function () {
 });
 
 // ora sistemo la crittura sulla sinistra
-textareaSx.addEventListener("input", function {
+textareaSx.addEventListener("input", function() {
     if(this.scrollHeight > this.clientHeight) {
         let testoExtra = ""; //dato che potrebbero esserci frasi lunghe,taglio,cosi va a destrsa
 
         while(this.scrollHeight > this.clientHeight && this.value.length > 0 ) {
-            testoExtra = this.value.charAT ( this.value.length - 1) + testoExtra;
+            testoExtra = this.value.charAt ( this.value.length - 1) + testoExtra;
             this.value = this.value.substring(0, this.value.length - 1);
         }
         textareaDx.value = testoExtra + textareaDx.value;
@@ -336,9 +357,17 @@ textareaDx.addEventListener("input", function() {
         while (this.scrollHeight > this.clientHeight && this.value.length > 0) {
             this.value = this.value.substring(0, this.value.length - 1);
         }
-        document.getElementById("indicatorePagina").textConten =
+        document.getElementById("indicatorePagina").textContent =  "Pagina " + (paginaCorrente + 1) + " - Piena! Premi ctrl + freccia destra per continuare";
+        document.getElementById("indicatorePagina").style.color = "red";
+    } else {
+        aggiornaIndicatorePagina();
     }
-})
+
+    salvaPaginaCorrente();
+    ValidaStoria()
+});
+
+
 
 document.getElementById("contatoreParole").textContent = "Parole generate:" + numeroParole + "/" + ParoleMassime;
 ValidaStoria();
