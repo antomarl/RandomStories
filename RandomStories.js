@@ -4,7 +4,11 @@ let numeroParole = 0; // Variabile per tenere traccia del numero di parole gener
 
 const ParoleMassime = 10; //numero massimo di parole da generare
 
-let pagine = [""]; // array delle pagine,inizia con 1 vuoto
+let pagine = [
+    { sx: "testo sinistra pag 1", dx: "testo destra pag 1" },
+    { sx: "testo sinistra pag 2", dx: "testo destra pag 2" }
+    
+] // array delle pagine,inizia con 1 vuoto
 
 let paginaCorrente = 0; // indice della pagina che si sta vedendo;
 
@@ -13,12 +17,13 @@ function setAppState(state) {
     document.body.classList.add(state);
 }
 function cambiaPagina(direzione) {
-    pagine[paginaCorrente] = document.getElementById('storyInput').value;
+    pagine[paginaCorrente].sx = document.getElementById('storyInputSx').value; // Rip Storyinput N2026 M2026
+    pagine[paginaCorrente].dx = document.getElementById('storyInputDX').value;
 
     if (direzione === 'avanti') {
         paginaCorrente++;
         if (paginaCorrente >= pagine.length) {
-            pagine.push("");
+            pagine.push({sx: "", dx: ""});
         }
     } else if (direzione === "indietro") {
         if (paginaCorrente > 0) {
@@ -30,7 +35,8 @@ function cambiaPagina(direzione) {
         return;
     }
 
-    document.getElementById("storyInput").value = pagine[paginaCorrente];
+    document.getElementById("storyInputSX").value = pagine[paginaCorrente].sx;
+    document.getElementById("storyInputDX").value = pagine[paginaCorrente].dx;
     document.getElementById("indicatorePagina").textContent =
         "Pagina " + (paginaCorrente + 1) + " di " + pagine.length;
 
@@ -293,28 +299,46 @@ document.getElementById("btnResetParole").addEventListener("click", function() {
 document.getElementById("btnSalva").addEventListener("click", function() {
     salvaStoria();
 });
+// le due textarea le metto in 2 variabili perchè è più comodo 
+const textareaSx = document.getElementById("storyInputSx");
+const textareaDx = document.getElementById('storyInputDx')
 
-document.getElementById("storyInput").addEventListener("focus", function() {
+textareaSx.addEventListener("focus", function () {
+    setAppState("state-writing");
+});
+   // o siamo a de3stra o sinistra comunque si mette in staste writing
+textareaDx.addEventListener("focus", function () {
     setAppState('state-writing');
 });
-document.getElementById("storyInput").addEventListener("input", function() {
-    // controllo se il testo ha supertato la grandezza del libro senza la possibilità di usare la rotellina
+
+// ora sistemo la crittura sulla sinistra
+textareaSx.addEventListener("input", function {
+    if(this.scrollHeight > this.clientHeight) {
+        let testoExtra = ""; //dato che potrebbero esserci frasi lunghe,taglio,cosi va a destrsa
+
+        while(this.scrollHeight > this.clientHeight && this.value.length > 0 ) {
+            testoExtra = this.value.charAT ( this.value.length - 1) + testoExtra;
+            this.value = this.value.substring(0, this.value.length - 1);
+        }
+        textareaDx.value = testoExtra + textareaDx.value;
+
+        textareaDx.focus();
+        textareaDx.setSelectionRange(testoExtra.length, testoExtra.length);
+    }
+    salvaPaginaCorrente();
+    aggiornaIndicatorePagina();
+    ValidaStoria();
+});
+
+textareaDx.addEventListener("input", function() {
+    //ora se si trabococca bisogna cangiari pagina
     if (this.scrollHeight > this.clientHeight) {
         while (this.scrollHeight > this.clientHeight && this.value.length > 0) {
             this.value = this.value.substring(0, this.value.length - 1);
         }
-       document.getElementById("indicatorePagina").textContent = "Pagina " + (paginaCorrente + 1 ) + " - Piena! Premi ctrl + freccia destra per continuare.";
-       document.getElementById("indicatorePagina").style.color = "red";
-    } else {
-        document.getElementById("indicatorePagina").textContent = "Pagina " + (paginaCorrente + 1) + " di " + pagine.length;
-        document.getElementById("indicatorePagina").style.color = "#6b4a2f";
+        document.getElementById("indicatorePagina").textConten =
     }
-
-    
-    pagine[paginaCorrente] = this.value;
-    ValidaStoria(); // ogni volta che l'utente modifica il testo della storia, viene chiamata la funzione ValidaStoria per verificare se la storia e valida o meno,ed in caso di errori mostrare i messaggi di errore in tempo reale,oppure se la storia è ancora valida,mostrare il messaggio di successo e dare la possibilità di salvare la storia
-
-});
+})
 
 document.getElementById("contatoreParole").textContent = "Parole generate:" + numeroParole + "/" + ParoleMassime;
 ValidaStoria();
