@@ -293,9 +293,18 @@ body.state-writing .pc-wrapper {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-#storyInput {
-    flex: 1;    /* riempie tutto lo spazio del pannello */
+/*ho fatto le due aree lesgo,ora manca il css perche così fa un po' cacare*/
+#contenitorePagine {
+    flex: 1;  /* cosi riempie tutto lo spazio che può avere(mangia tutto tipo breiscot) */
+    display: flex; /* così le due textarea si mettono in fila per 6 col resto di 2(no in realta uno dopo l'altro)*/
+    gap: 0; /*ho un odio pregresso con i commenti in css e html,non potevano essere come in js ?! comunque serve a non fare spazio tra le due aree */
     width: 100%;
+    overflow: hidden;
+}
+
+.story-input {
+    flex: 1;   
+    width: 50%;
     padding: 12px 35px;
     font-size: 1.50rem;
     line-height: 1.7; /* volevo farlo di ogni riga del queadero ma mi sono rotto i coglioni perchè non ce la faccio quindi sticazzi */
@@ -311,7 +320,7 @@ body.state-writing .pc-wrapper {
     overflow: hidden;
 }
 
-#storyInput::placeholder {
+.storyInput::placeholder {
     color: rgba(44, 24, 16, 0.45);
     font-size: 1.50rem;
     font-family:'Caveat','Brush Script MT', cursive;

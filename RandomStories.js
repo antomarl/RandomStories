@@ -33,9 +33,7 @@ function cambiaPagina(direzione) {
 
     document.getElementById("storyInputSx").value = pagine[paginaCorrente].sx;
     document.getElementById("storyInputDx").value = pagine[paginaCorrente].dx;
-    document.getElementById("indicatorePagina").textContent =
-        "Pagina " + (paginaCorrente + 1) + " di " + pagine.length;
-
+    document.getElementById("indicatorePagina").textContent = "Pagina " + (paginaCorrente + 1) + " di " + pagine.length;
     ValidaStoria();
 }
 
@@ -66,6 +64,7 @@ function GeneraParola() {
         GeneraParola();
     }
     //voglio creare un easter egg per sebywlan aka sebylanza aka iano aka elektrowindows aka niente li ho finiti
+    // aggiornamento,non capisco perche ma non sta andando più il glitch,che rottura di palle come roba
     if (parolaGenerata == "elektrowindows") {
         let pc = document.querySelector(".pc-wrapper");
         pc.classList.add("glitch-attivo");
@@ -365,6 +364,16 @@ textareaDx.addEventListener("input", function() {
 
     salvaPaginaCorrente();
     ValidaStoria()
+}); // funzionaq cazzo si,ora pero devo fare in modo che se cnacello il contenuto a destra ritorno a sinistra, perchè mi rompo ad usare il moue
+// ma quanto sono forti i negramaro,mi sto ascoltando attenta mentre ora scirvo quello che ho scritto sopra
+
+textareaDx.addEventListener("keydown", function(event) {
+    if (event.key === "Backspace" &&  this.value === "") {
+        event.preventDefault();
+        textareaSx.focus();
+        let lunghezza = textareaSx.value.length;
+        textareaSx.setSelectionRange(lunghezza, lunghezza); 
+    }
 });
 
 
