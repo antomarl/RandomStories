@@ -13,10 +13,17 @@ html, body {
 
 /* sfondo: immagine centrata che copre tutto, con colore fallback */
 body {
-    background: url('wall-desk.png') center/cover no-repeat, #f8f3eb;
+    background: url('sfondo1.png') center/cover no-repeat, #f8f3eb;
     position: relative;
 }
+body.tema-scuro {
+    background: url('sfondo2.png') center/cover no-repeat, #1a1410;
+    color: #f5f0e8;
+}
 
+body {
+    transition: background 0.5s ease, color 0.5s ease;
+}
 /* barra del titolo fissa in cima, si sovrappone al resto della pagina */
 .intestazione {
     position: fixed;
@@ -433,7 +440,7 @@ body.state-generating #indicatorePagina {
 
 #coloreTema {
     position: fixed;
-    top: -15;
+    top: 20px;
     left: 50px;
     z-index: 20;
     padding: 8px 16;
@@ -447,10 +454,7 @@ body.state-generating #indicatorePagina {
     transition: all 0.4s ease;
     pointer-events:all
 }
-/* bottone molto minimale per adesso,però vabbe ci sta dai, ora devo pero fare tutta l'interfaccia un po' al contrario,per chi vuole usarla di notte o a paura della luce*/
-body.tema-scuro {
-    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-}
+
 
 body.tema-scuro .intestazione {
     background: linear-gradient(to bottom, rgba(20, 20, 40, 0.9), rgba(20,20,40,0));
@@ -474,6 +478,7 @@ body.tema-scuro #coloreTema {
     color: #0a0e0a;
 }
 
+/* bottone molto minimale per adesso,però vabbe ci sta dai, ora devo pero fare tutta l'interfaccia un po' al contrario,per chi vuole usarla di notte o a paura della luce*/
 #coloreTema:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);

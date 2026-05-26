@@ -284,7 +284,7 @@ function salvaStoria() {
 
     for (let i = 0; i < pagine.length; i++) {
         storiaCompleta += "=== Pagina " + (i + 1) + "===\n";
-        storiaCompleta += pagine[i].sx +" " + pagicharATne[i].dx + "\n\n";
+        storiaCompleta += pagine[i].sx +" " + pagine[i].dx + "\n\n";
     }
 
     if (storiaCompleta.trim() === "") {
@@ -367,12 +367,28 @@ textareaDx.addEventListener("input", function() {
 }); // funzionaq cazzo si,ora pero devo fare in modo che se cnacello il contenuto a destra ritorno a sinistra, perchè mi rompo ad usare il moue
 // ma quanto sono forti i negramaro,mi sto ascoltando attenta mentre ora scirvo quello che ho scritto sopra
 
+// textareaDx.addEventListener("keydown", function(event) {
+//    if (event.key === "Backspace" &&  this.value === "") {
+//        event.preventDefault();
+//       textareaSx.focus();
+//        let lunghezza = textareaSx.value.length;
+//        textareaSx.setSelectionRange(lunghezza, lunghezza); 
+//    }
+// }); , funziona, pero se per esempio il foglio destro a gia qualche scritta non torna indietro
+
 textareaDx.addEventListener("keydown", function(event) {
-    if (event.key === "Backspace" &&  this.value === "") {
+    if (event.key === "Backspace" &&  this.selectionStart === 0 && this.selectionEnd === 0) {
         event.preventDefault();
+
+        if (this.value.length > 0 ) {
+            textareaSx.value =textareaSx.value + this.value;
+            this.value = "";
+            salvaPaginaCorrente();
+        }
         textareaSx.focus();
         let lunghezza = textareaSx.value.length;
-        textareaSx.setSelectionRange(lunghezza, lunghezza); 
+        textareaSx.setSelectionRange(lunghezza, lunghezza);
+
     }
 });
 
@@ -426,4 +442,3 @@ document.getElementById("coloreTema").addEventListener("click", function () {
         localStorage.setItem('tema', 'chiaro');
     }
 });
-
