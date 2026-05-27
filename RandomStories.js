@@ -482,8 +482,66 @@ function caricaSessione() {
         paginaCorrente = dati.paginaCorrente || 0;
 
         document.getElementById("storyInputSx").value = pagine[paginaCorrente].sx || "";
-        document.getElementById("storyin")
+        document.getElementById("storyInputDx").value = pagine[paginaCorrente].dx || "";
+        document.getElementById("listaParole").innerHTML = paroleGenerate.join(", ");
+        document.getElementById("contatorePArole").textContent = "Parole generate: " + numeroParole + "/" + ParoleMassime;
+        document.getElementById("indicatorePagina").textContent = "pagina " + (paginaCorrente + 1) + " di " + pagine.length;
+        ValidaStoria()
+
+        return true; // tutto ok
+
+    }  catch (errore) {
+        console.warn("errore durante il ripristino della sessione") // non si sa mai si corrompe il JSON
+
+        return false;
+    }  
         
-        
-    }
 }
+
+function MMR(testo) {  //(tipo abbreviazzione di mostra messaggio di ripristino) serve perchè bisogna chiedere cobnferna,senno e faclie elimare tutto per sbagglio
+    const msg = document.getElementById("messaggioRipristino");
+    msg.textContent = testo;
+    msg.classList.add("visible");
+
+    //dopo 3 sec se ne va
+    setTimeout(function() {
+     msg.classList.remove("visibile");
+    
+    }, 3000);
+} 
+
+function nuovaSessione() {
+    const conferma = confirm("Sicuro di voler iniziare una nuova sessione? Perderai TUTTO il lavoro attuale!")
+    if (!conferma) {
+        return;
+    }
+
+    localStorage.removeItem("randomStories_sessione"); //serve a rimuovere local storage
+
+    //resettiamo le varbiabili
+
+    paroleGenerate = [];
+    numeroParole = 0;
+    pagine = [{sx: "", dx: ""}];
+    paginaCorrente = 0;
+
+    document.getElementById("storyInputSx").value = "";
+    document.getElementById("storyInputDx").value = "";
+    document.getElementById("listaParole").innerHTML = "";
+    document.getElementById("contatoreParole").textContent = "Parole generate: 0/" +  ParoleMassime
+    document.getElementById("indicatorePagina").textcontent = "Pagina 1";
+    document.getElementById("messaggioErrore").innerHTML = "";
+    document.getElementById("btnSalva").disabled = true;
+    pulisciMessaggioPC();
+
+    MMR("nuova sessione iniziata");
+}
+
+setInterval(salvaSessione, 2000); // avvio il salvataggio dell'intervallo ogni 2 secondi
+
+const ripristinato = caricaSessione();
+if (ripristinato) {
+    MMR("sessione ripristinata!")
+}
+
+document.getElementById("btNuovaSessione").addEventListener("click", nuovaSessione);

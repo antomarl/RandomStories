@@ -523,5 +523,22 @@ body.tema-scuro #coloreTema {
     position: fixed;
     top: 80px;
     left: 50%;
-    transform: translateX(-50%)
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    background: rgba(95, 225, 135, 0.95);
+    color: #0a0a0a;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.95rem;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+#messaggioRipristino.visibile {
+    opacity: 1;
+    transform: translateX(-50%) translateY(10px);
 }
