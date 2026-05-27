@@ -92,6 +92,20 @@ function GeneraParola() {
     }
 
     aggiornaListaParole();
+
+    document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + ParoleMassime;
+    
+    //il messaggio nel terminale deve essere diverso tra rare e normali
+    if (rara) {
+        mostraMessaggioPc (
+            "parola rara sbloccata: \"" + parolaGenerata + "\":)", "successo"
+        );
+    } else {
+        mostraMessaggioPc(
+            "> Parola aggiunta: \"" + parolaGenerata + "\"","successo"
+        );
+    }
+    aggiornaListaParole();
     //voglio creare un easter egg per sebywlan aka sebylanza aka iano aka elektrowindows aka niente li ho finiti
     // aggiornamento,non capisco perche ma non sta andando più il glitch,che rottura di palle come roba
     if (parolaGenerata == "elektrowindows") {
@@ -574,3 +588,20 @@ if (ripristinato) {
 }
 
 document.getElementById("btNuovaSessione").addEventListener("click", nuovaSessione);
+
+//effetti per le parole rare:
+function aggiornaListaParole() {
+    const lista = document.getElementById("listaParole");
+
+    const htmlParole = paroleGenerate.map(function(parola) {
+        if(paroleRare.includes(parola)) {
+            return "<span class='parola-rara'>" + parola + "</span>";
+        } else {
+            return parola;
+        }
+    });
+
+    lista.innerHTML = htmlParole.join(", ");
+
+}
+
