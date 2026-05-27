@@ -1,4 +1,11 @@
+// ho creato delle parole speciali e voglio metterle rare
+
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
+
+let paroleTrovate = JSON.parse(localStorage.getItem("randomStories_rareTrovate") || "[]");
+let contatoreRareTotale = parseInt(localStorage.getItem("randomStories_contatoreRare") || "0"); // cosi salva le parole trovate in localStorage,senno poi si perdevano
+
+const probabilita_rara = 20; // deve essere hard
 
 let numeroParole = 0; // Variabile per tenere traccia del numero di parole generate
 
@@ -36,7 +43,7 @@ function cambiaPagina(direzione) {
     document.getElementById("indicatorePagina").textContent = "Pagina " + (paginaCorrente + 1) + " di " + pagine.length;
     ValidaStoria();
 }
-
+// devo modificare un po' di cose nella funzione generaparole
 function GeneraParola() {
     if (numeroParole >= ParoleMassime) {
       /*leviamo l'alert di merda */
@@ -45,24 +52,46 @@ function GeneraParola() {
       );
       return;
     }
+    // serve per decidere se esce una parola rara od una normale
+    const tiroraro = Math.floor(Math.random() * probabilita_rara);
+    const escerara = (tiroraro === 0); //1 su 20 di possibilità
 
-    let indiceRandom = Math.floor(Math.random() * paroleDisponibili.length); // 
-    let parolaGenerata = paroleDisponibili[indiceRandom];
+    let parolaGenerata;
+    let rara = false;
 
-    // Verifica se la parola è già stata generata
-    if (!paroleGenerate.includes(parolaGenerata)) {
-        paroleGenerate.push(parolaGenerata); // Aggiungi la parola all'array delle parole generate
-        numeroParole++; // Incrementa il contatore delle parole generate
-       document.getElementById("listaParole").innerHTML = paroleGenerate.join(", "); // Aggiorna la visualizzazione delle parole generate
-       document.getElementById("contatoreParole").textContent = "Parole generate :" + numeroParole + "/" + ParoleMassime;
-       mostraMessaggioPc(
-        "> Parola aggiunta: \"" + parolaGenerata + "\"", "successo"
-       );
-       ValidaStoria(); // per vedere se la storia è ancora valida dopo aver generato la parola
-    } else {
-        // Se la parola è già stata generata, chiama ricorsivamente la funzione per generare una nuova parola
-        GeneraParola();
+    if(escerara) { //prova a generare una parola speciale che non è ancora uscita
+        const indiceRaro = Math.floor(Math.random() * paroleRare.lenght);
+        parolagenerata = paroleRare[indiceRaro];
+        rara = true;
+    } else { // da una parola normale
+        const indiceRandom = Math.floor(Math.random() * paroleDisponibili.lenght);
+        parolaGenerata = paroleDisponibili[indiceRandom];
     }
+
+    if (paroleGenerate.includes(parolaGenerata)) { // controlla se una parola non sia stata già generata
+        GeneraParola();
+        return;
+    }
+
+    paroleGenerate.push(parolaGenerata);
+    numeroParole++;
+
+    if (rara) {
+        effettiRari(parolaGenerata)
+    
+        //se è la first time,slava nella lista permanente le parole rare trovate
+        if(!parolerareTrovate.includes(parolaGenerata)) {
+            parolerareTrovate.push(parolaGenerata);
+            localStorage.setitem("randomStories_rareTrovate",JSON.stringify(parolerareTrovate));
+        }
+        //incremento le parole rare trovate
+        contatoreRareTotale++
+        localStorage.setItem("randomStories_contatoreRare",contatoreRareTotale.toString())
+        aggiornaContatoreRare();
+
+    }
+
+    aggiornaListaParole();
     //voglio creare un easter egg per sebywlan aka sebylanza aka iano aka elektrowindows aka niente li ho finiti
     // aggiornamento,non capisco perche ma non sta andando più il glitch,che rottura di palle come roba
     if (parolaGenerata == "elektrowindows") {
