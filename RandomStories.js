@@ -2,7 +2,7 @@
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
 
-let paroleTrovate = JSON.parse(localStorage.getItem("randomStories_rareTrovate") || "[]");
+let parolerareTrovate = JSON.parse(localStorage.getItem("randomStories_rareTrovate") || "[]");
 let contatoreRareTotale = parseInt(localStorage.getItem("randomStories_contatoreRare") || "0"); // cosi salva le parole trovate in localStorage,senno poi si perdevano
 
 const probabilita_rara = 20; // deve essere hard
@@ -60,11 +60,11 @@ function GeneraParola() {
     let rara = false;
 
     if(escerara) { //prova a generare una parola speciale che non è ancora uscita
-        const indiceRaro = Math.floor(Math.random() * paroleRare.lenght);
-        parolagenerata = paroleRare[indiceRaro];
+        const indiceRaro = Math.floor(Math.random() * paroleRare.length);
+        parolaGenerata = paroleRare[indiceRaro];
         rara = true;
     } else { // da una parola normale
-        const indiceRandom = Math.floor(Math.random() * paroleDisponibili.lenght);
+        const indiceRandom = Math.floor(Math.random() * paroleDisponibili.length);
         parolaGenerata = paroleDisponibili[indiceRandom];
     }
 
@@ -77,12 +77,12 @@ function GeneraParola() {
     numeroParole++;
 
     if (rara) {
-        effettiRari(parolaGenerata)
+        scatenaEffettiRari(parolaGenerata)
     
         //se è la first time,slava nella lista permanente le parole rare trovate
         if(!parolerareTrovate.includes(parolaGenerata)) {
             parolerareTrovate.push(parolaGenerata);
-            localStorage.setitem("randomStories_rareTrovate",JSON.stringify(parolerareTrovate));
+            localStorage.setItem("randomStories_rareTrovate",JSON.stringify(parolerareTrovate));
         }
         //incremento le parole rare trovate
         contatoreRareTotale++
@@ -527,7 +527,7 @@ function caricaSessione() {
         document.getElementById("storyInputSx").value = pagine[paginaCorrente].sx || "";
         document.getElementById("storyInputDx").value = pagine[paginaCorrente].dx || "";
         document.getElementById("listaParole").innerHTML = paroleGenerate.join(", ");
-        document.getElementById("contatorePArole").textContent = "Parole generate: " + numeroParole + "/" + ParoleMassime;
+        document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + ParoleMassime;
         document.getElementById("indicatorePagina").textContent = "pagina " + (paginaCorrente + 1) + " di " + pagine.length;
         ValidaStoria()
 
@@ -544,7 +544,7 @@ function caricaSessione() {
 function MMR(testo) {  //(tipo abbreviazzione di mostra messaggio di ripristino) serve perchè bisogna chiedere cobnferna,senno e faclie elimare tutto per sbagglio
     const msg = document.getElementById("messaggioRipristino");
     msg.textContent = testo;
-    msg.classList.add("visible");
+    msg.classList.add("visibile");
 
     //dopo 3 sec se ne va
     setTimeout(function() {
@@ -572,7 +572,7 @@ function nuovaSessione() {
     document.getElementById("storyInputDx").value = "";
     document.getElementById("listaParole").innerHTML = "";
     document.getElementById("contatoreParole").textContent = "Parole generate: 0/" +  ParoleMassime
-    document.getElementById("indicatorePagina").textcontent = "Pagina 1";
+    document.getElementById("indicatorePagina").textContent = "Pagina 1";
     document.getElementById("messaggioErrore").innerHTML = "";
     document.getElementById("btnSalva").disabled = true;
     pulisciMessaggioPC();
@@ -604,4 +604,52 @@ function aggiornaListaParole() {
     lista.innerHTML = htmlParole.join(", ");
 
 }
+// qua devo ammettere che mi sono fatto psiegare le cose da arena ia,però tutto è scritto a mano,al massimo ricopio guys
+function scatenaEffettiRari(parola) {
+    const flash = document.getElementById("flashRaro");
+    flash.classList.remove("attivo");
+    void flash.offsetWidth; // se escono 2 rare 2 volte di non si vedrebbe la animazione
+    flash.classList.add("attivo");
 
+    const pc = document.quesrySelector(".pc-wrapper");
+    pc.classList.remove("shake-raro");
+    void pc.offsetWidth;
+    pc.classList.add("shake-raro");
+
+    generaParticelle(30);
+
+    //per gli smanettoni(come seby) faccio che se guardano f12 vedono la scritta gialla u easter egg
+    console.log("%c Parola RARA: " + parola , "color: #ffd700; font-size: 20px; font-weigh: bold; text-shadow: 0 0 8px gold;");
+}
+//pure qua,thanks arena ia
+function generaParticelle(quantità) {
+    const contenitore = document.getElementById("particelleRare"); // crea delle particelle dorate che cadono randomicamente
+
+    for(let i = 0; i< quantità; i++) {
+        const particella = document.createElement("div");
+        particella.className = "particella";
+
+        particella.style.left = Math.random() * 100 + "vw"; // posizione orizzontale random sullo schermo
+        particella.style.animationDelay = (Math.random() * 0.5) + "s";//delay random per non farle cadere insieme 
+        // ora la dimenzione è leggermente variabile,perchè così è più figo
+        const dimensione = 4 + Math.random() * 8;
+        particella.style.width = dimensione + "px";
+        particella.style.height = dimensione + "px";
+
+        contenitore.appendChild(particella);
+
+        //questa cosa finisce dopo 3 secondi senno diventa il meme "OH MY PC"
+        setTimeout(function() {
+            particella.remove();
+        }, 3000);
+
+    }
+
+}
+
+function aggiornaContatoreRare() {
+    //aggiorna il contatore con il numero id rare trovate
+    document.getElementById("contatoreRare").textContent = "Rare: " + contatoreRareTotale;
+}
+
+aggiornaContatoreRare();
