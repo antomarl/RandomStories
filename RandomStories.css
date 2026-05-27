@@ -498,3 +498,30 @@ body.tema-scuro #coloreTema {
     animation: glitch 0.3s steps(5) 6;
 }
 
+#btNuovaSessione {
+    position: fixed;
+    top: 15px;
+    left: 200px;
+    z-index: 20;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background: #8b2c2d;
+    color: #fff;
+    font-size: 0.91rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.04s ease;
+}
+
+#btNuovaSessione:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba( 0,0,0, 0.3);
+}
+
+#messaggioRipristino {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%)
+}

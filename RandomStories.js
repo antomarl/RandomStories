@@ -442,3 +442,48 @@ document.getElementById("coloreTema").addEventListener("click", function () {
         localStorage.setItem('tema', 'chiaro');
     }
 });
+
+//il mio amico Costino mi ha detto di fare in modo che se esco per sbaglio dal sito mentre scrivo la stolria non perdo tutto ciò che avevo scritto,so let's do it!
+//PS(IMPORTANTE): mi ha detto pure di spostare il la scritta centrale dei comandi e metterla di lato che compare se viene premjuto un tasto,magari un punto interrogativo
+function salvaSessione(){
+    //per rpima cosa devo aggiornare le pagine con il contenuto attuale delle textarea
+    if (pagine[paginaCorrente]) {
+        pagine[paginaCorrente].sx = document.getElementById("storyInputSx").value;
+        pagine[paginaCorrente].dx = document.getElementById("storyInputDx").value;
+    };
+
+    const datiSessione = {
+        pagine: pagine,
+        paroleGenerate: paroleGenerate,
+        numeroParole: numeroParole,
+        paginaCorrente: paginaCorrente,
+        timestamp: Date.now() // cosi l'utente sa quando viene salvato
+    };
+
+    localStorage.setItem("randomStories_sessione", JSON.stringify(datiSessione));
+}
+
+function caricaSessione() {
+    const salvataggio = localStorage.getItem("randomStories_sessione");
+
+    if (!salvataggio) {
+        return false;
+    }
+
+    try {
+        const dati= JSON.parse(salvataggio);
+        if(!dati.pagine || !Array.isArray(dati.pagine)) {
+            return false;
+        }
+
+        pagine = dati.pagine;
+        paroleGenerate = dati.paroleGenerate || [];
+        numeroParole = dati.numeroParole || 0;
+        paginaCorrente = dati.paginaCorrente || 0;
+
+        document.getElementById("storyInputSx").value = pagine[paginaCorrente].sx || "";
+        document.getElementById("storyin")
+        
+        
+    }
+}
