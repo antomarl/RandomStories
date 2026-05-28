@@ -611,7 +611,7 @@ function scatenaEffettiRari(parola) {
     void flash.offsetWidth; // se escono 2 rare 2 volte di non si vedrebbe la animazione
     flash.classList.add("attivo");
 
-    const pc = document.quesrySelector(".pc-wrapper");
+    const pc = document.querySelector(".pc-wrapper");
     pc.classList.remove("shake-raro");
     void pc.offsetWidth;
     pc.classList.add("shake-raro");
@@ -622,7 +622,7 @@ function scatenaEffettiRari(parola) {
     console.log("%c Parola RARA: " + parola , "color: #ffd700; font-size: 20px; font-weigh: bold; text-shadow: 0 0 8px gold;");
 }
 //pure qua,thanks arena ia
-function generaParticelle(quantità) {
+function generaParticelle(quantita) {
     const contenitore = document.getElementById("particelleRare"); // crea delle particelle dorate che cadono randomicamente
 
     for(let i = 0; i< quantità; i++) {
