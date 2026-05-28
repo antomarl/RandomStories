@@ -625,7 +625,7 @@ function scatenaEffettiRari(parola) {
 function generaParticelle(quantita) {
     const contenitore = document.getElementById("particelleRare"); // crea delle particelle dorate che cadono randomicamente
 
-    for(let i = 0; i< quantità; i++) {
+    for(let i = 0; i< quantita; i++) {
         const particella = document.createElement("div");
         particella.className = "particella";
 

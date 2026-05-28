@@ -1160,3 +1160,26 @@ const paroleDisponibili = [
     'zitto',
     'zona'
 ];
+
+const paroleRare = [
+    "apocalisse",
+    "elektrowindows",
+    "big bang",
+    "austrolopiteco",
+    "entropia",
+    "Ju Jitsu",
+    "sternocleidomastoideo",
+    "catinelle",
+    "catacombe",
+    "matrix",
+    "Tyler Durden",
+    "claustrofobia",
+    "metamorfosi",
+    "cerebroleso",
+    "punto zero",
+    "oblio",
+    "oscurita",
+    "Clinton Road",
+    "necromante",
+    "fantasma"
+]
