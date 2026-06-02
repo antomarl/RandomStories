@@ -1163,7 +1163,6 @@ const paroleDisponibili = [
 
 const paroleRare = [
     "apocalisse",
-    "elektrowindows",
     "big bang",
     "austrolopiteco",
     "entropia",

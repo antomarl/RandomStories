@@ -653,3 +653,20 @@ function aggiornaContatoreRare() {
 }
 
 aggiornaContatoreRare();
+
+
+//sempre costa mi ha consigliato di mettere le istruzioni di lato a comparsa,perche sono un po' brutte messe la statiche
+
+function apriIstruzioni() {
+    document.getElementById("pannelloIstruzioni").classList.add("aperto");
+    document.getElementById("overlayIstruzioni").classList.add("aperto");
+}
+
+function chiudiIstruzioni() {
+    document.getElementById("pannelloIstruzioni").classList.remove("aperto");
+    document.getElementById("overlayIstruzioni").classList.remove("aperto");
+}
+//coosi l'utente puo aprre e chiudere le istruzioni
+function toggleIstruzioni () { // se il pannello è aperto viene chiuso,senno si apre
+    const pannello = document.getElementById
+}
