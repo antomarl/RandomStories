@@ -681,10 +681,10 @@ document.getElementById("btnIstruzioni").addEventListener("click", toggleIstruzi
 
 
 // se l'utennte clicca fuori dal pannelo si chiude
-document.getElementById("overlayIstruzioni").addEventeListener("click", toggleIstruzioni);
+document.getElementById("overlayIstruzioni").addEventListener("click", chiudiIstruzioni);
 
 //click sulla x
-document.getElementById("btnChiudiIstruzioni").addEventeListener("click", chiudiIstruzioni);
+document.getElementById("btnChiudiIstruzioni").addEventListener("click", chiudiIstruzioni);
 
 //ora faccio che se si clicca H o ? si si entra,ed esc per chiudere
 document.addEventListener("keydown", function(event) {
