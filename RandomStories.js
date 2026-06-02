@@ -668,5 +668,37 @@ function chiudiIstruzioni() {
 }
 //coosi l'utente puo aprre e chiudere le istruzioni
 function toggleIstruzioni () { // se il pannello è aperto viene chiuso,senno si apre
-    const pannello = document.getElementById
+    const pannello = document.getElementById("pannelloIstruzioni");
+    if (pannello.classList.contains("aperto")) {
+        chiudiIstruzioni();
+    } else {
+        apriIstruzioni();
+    }
 }
+
+//ora faccio il click per il pulasnte ?
+document.getElementById("btnIstruzioni").addEventListener("click", toggleIstruzioni);
+
+
+// se l'utennte clicca fuori dal pannelo si chiude
+document.getElementById("overlayIstruzioni").addEventeListener("click", toggleIstruzioni);
+
+//click sulla x
+document.getElementById("btnChiudiIstruzioni").addEventeListener("click", chiudiIstruzioni);
+
+//ora faccio che se si clicca H o ? si si entra,ed esc per chiudere
+document.addEventListener("keydown", function(event) {
+    if (event.key == "Escape") {
+        chiudiIstruzioni();
+        return;
+    }
+
+    //devo fare pero che se clicco H o ? mentre sto scrivendo non si apra il pannello,senno non potrei scfrivere molte parole
+
+    const stoScrivendo = document.activeElement.tagName === "TEXTAREA";
+    if (!stoScrivendo && (event.key === "h" || event.key === "H" || event.key === "?")) {
+        event.preventDefault();
+        toggleIstruzioni();
+    }
+});
+
