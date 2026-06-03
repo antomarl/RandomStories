@@ -238,6 +238,7 @@ function resetParole() {
     document.getElementById("contatoreParole").textContent ="parole generate: 0/" + ParoleMassime; // resetta il contatore delle parole casuali
     document.getElementById("messaggioErrore").innerHTML = ""; // pulisce eventuali errori di messaggi precedenti
     document.getElementById("btnSalva").disabled = true; // disabilita il pulsante per salvare la storia finchè non viene generata una nuova storia valida
+    pulisciMessaggiPc(); // cosi toglie la scritta sotto se si resetta 
     ValidaStoria(); // chiama la funzione ValidaStoria per aggiornare lo stato della storia dopo il reset delle parole generate
 }
 
@@ -701,4 +702,3 @@ document.addEventListener("keydown", function(event) {
         toggleIstruzioni();
     }
 });
-
