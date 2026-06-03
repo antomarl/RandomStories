@@ -859,3 +859,21 @@ body.tema-scuro #btNuovaSessione {
     background: #5fff87;
     color:#000000;
 }
+
+#messaggioPC::after {
+    content: "▮"; /* voglio essere onesto,questo simbolo l'ho chiesto all'ia*/
+    color: inherit;
+    margin-left: 2px;
+    animation: cursorBlink 0.8s steps(1) infinite;
+    opacity: 0.8;
+}
+
+/* ora se il messaggio è vuoto, non compare il cursore*/
+#messaggioPC:empty::after {
+    display: none;
+}
+
+@keyframes cursorBlink {
+    0%, 50% { opacity: 1;}
+    51%, 100%{opacity: 0;}
+}

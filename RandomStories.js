@@ -120,15 +120,15 @@ function GeneraParola() {
 // sto creando la funzione per toglire l'alert 
 function mostraMessaggioPc(testo, tipo) {
     let msg = document.getElementById("messaggioPC");
-    msg.textContent = testo;
     msg.className = "messaggio";
 
-    if (tipo === "successo") {
+    if(tipo === "successo") {
         msg.classList.add("successo");
     } else if (tipo === 'avviso') {
-        msg.classList.add("avviso");
+        msg.classList.add("avviso")
     }
 
+    typeWriter(msg, testo, 30);
 }
 
 function pulisciMessaggioPC () {
@@ -702,3 +702,27 @@ document.addEventListener("keydown", function(event) {
         toggleIstruzioni();
     }
 });
+// voglio migliorare il pc per renderlo più terminale styles, così scrive uno ad uno le lettere,perche è gico cazzo
+let typingTimer = null; //serve per tenere traccia del timer
+
+function typeWriter(elemento, testo, velocita) {
+    if (!velocita) velocita = 25; //così se manca la velocità uso un default veloce ma comunque legginile
+
+    //per evitare sovrapposizioni di typing, se c'è gia un typing lo fermo
+    if (typingTimer) {
+        clearInterval(typingTimer);
+        typingTimer = null;
+    }
+
+    elemento.textContent = ""; // parte vuoto
+    let i = 0;
+
+    typingTimer = setInterval(function() {
+        elemento.textContent += testo.charAt(i);
+        i++;
+        if(i >= testo.length) {
+            clearInterval(typingTimer);
+            typingTimer = null;
+        }
+    }, velocita);
+}
