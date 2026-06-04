@@ -893,6 +893,9 @@ body.tema-scuro #btNuovaSessione {
     transition: opacity 0.3s ease;
 }
 
+body.tema-scuro #overlayConferma {
+    color: #362217;
+}
 #modalConferma {
     position: fixed;
     top: 50%;
@@ -909,7 +912,52 @@ body.tema-scuro #btNuovaSessione {
     color: #2c1810;
 }
 
-#modelConferma.visibile {
-    
+
+#modalConferma.visibile {
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#overlayConferma.visibile {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-bottoni button {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.btn-annulla {
+    background: rgba(44, 24, 16, 0.1);
+    color: #2c1810;
+}
+
+.btn-annulla:hover {
+    background: rgba(44,24,16,0.2);
+    transform: translateY(-2px);
+}
+
+body.tema-scuro .btn-annlla {
+    background: rgba(245, 240, 232, 0.15);
+    color: #f5f0e8;
+}
+
+.btn-ok {
+    background: linear-gradient(135deg, #d44a3d, #8b2c2c);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(139 , 44, 44, 0.4);
+}
+
+.btn-ok:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(139, 44, 44, 0.6);
 }
 
