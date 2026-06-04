@@ -238,7 +238,7 @@ function resetParole() {
     document.getElementById("contatoreParole").textContent ="parole generate: 0/" + ParoleMassime; // resetta il contatore delle parole casuali
     document.getElementById("messaggioErrore").innerHTML = ""; // pulisce eventuali errori di messaggi precedenti
     document.getElementById("btnSalva").disabled = true; // disabilita il pulsante per salvare la storia finchè non viene generata una nuova storia valida
-    pulisciMessaggiPc(); // cosi toglie la scritta sotto se si resetta 
+    pulisciMessaggioPc(); // cosi toglie la scritta sotto se si resetta 
     ValidaStoria(); // chiama la funzione ValidaStoria per aggiornare lo stato della storia dopo il reset delle parole generate
 }
 
@@ -542,7 +542,7 @@ function caricaSessione() {
         
 }
 
-function MMR(testo) {  //(tipo abbreviazzione di mostra messaggio di ripristino) serve perchè bisogna chiedere cobnferna,senno e faclie elimare tutto per sbagglio
+async function MMR(testo) {  //(tipo abbreviazzione di mostra messaggio di ripristino) serve perchè bisogna chiedere cobnferna,senno e faclie elimare tutto per sbagglio
     const msg = document.getElementById("messaggioRipristino");
     msg.textContent = testo;
     msg.classList.add("visibile");
@@ -554,12 +554,15 @@ function MMR(testo) {  //(tipo abbreviazzione di mostra messaggio di ripristino)
     }, 3000);
 } 
 
-function nuovaSessione() {
-    const conferma = confirm("Sicuro di voler iniziare una nuova sessione? Perderai TUTTO il lavoro attuale!")
+async function nuovaSessione() {
+    const conferma = await mostraConferma(
+        "Nuova Sessione",
+        "Sicuro di voler iniziare una nuova sessione? Perderai TUTTO il lavoro attuale!"
+    );
+
     if (!conferma) {
         return;
     }
-
     localStorage.removeItem("randomStories_sessione"); //serve a rimuovere local storage
 
     //resettiamo le varbiabili
@@ -725,4 +728,47 @@ function typeWriter(elemento, testo, velocita) {
             typingTimer = null;
         }
     }, velocita);
+}
+
+//voglio togliere quiella merda di alert
+function mostraConferma(titolo, messaggio) {
+    return new Promise(function(resolve) {
+        const overlay = document.getElementById("overlayConferma");
+        const modal = document.getElementById("modalConferma");
+        const titoloEl = document.getElementById("modalConfermaTitolo");
+        const messaggioEl = document.getElementById("modalConfermaMessaggio")
+        const btnOk = document.getElementById("modalConfermaOk");
+        const btnAnnulla = document.getElementById("modalConfermaAnnulla");
+
+        titoloEl.textContent = titolo;
+        messaggioEl.textContent = messaggio;
+
+        overlay.classList.add("visibile");
+        modal.classList.add("visibile");
+
+        function chiudi(risposta) { // funzione per chiudere e risolvere la promise con true/false
+            overlay.classList.remove("visibile");
+            modal.classList.remove("visibile");
+            
+            //ora rimuovo i listener per evitare che si accumulino
+            btnOk.removeEventListener("click", clickOk);
+            btnAnnulla.removeEventListener("click", clickAnnulla);
+            overlay.removeEventListener("click", clickAnnulla);
+            document.removeEventListener("keydown", keydown);
+            resolve(risposta);
+        }
+
+        function clickOk() { chiudi(true); }
+        function clickAnnulla() { chiudi(false); }
+        function keydown(e) {
+            if (e.key === "Escape") chiudi(false);
+            if (e.key === "Enter") chiudi(true);
+        }
+
+        btnOk.addEventListener("click", clickOk);
+        btnAnnulla.addEventListener("click", clickAnnulla);
+        overlay.addEventListener("click", clickAnnulla);
+        document.addEventListener("keydown", keydown);
+
+    });
 }
