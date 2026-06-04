@@ -793,24 +793,37 @@ function avviaBootScreen() {
     const boot = document.getElementById("bootScreen");
     const sezione = document.getElementById("sectionGeneraParole");
 
-    sezione.style.visibility = "hidden"; // così nascondo l'ui vera durante il boot
+    if (!boot || !sezione) {
+        console.error("Boot screen: elementi mancanti!"); // non funzionava un cazzo,almeno così capisco
+        return;
+    }
+
+    const figli = sezione.children; //cosiora nascondo tutti i figli della sezione tranne il bootscreen
+    for (let i = 0; i < figli.length; i++) {
+        if (figli[i].id !== "bootScreen") {
+            figli[i].style.display = "none";
+        }
+    }
 
     boot.style.display = "block";
-    boot.innerHTML = ""; // pulisce se c'era già qualcosa
-    let rigaCorrente = 0;
+    boot.innerHTML = "";
+    let: rigaCorrente = 0;
+
     function scriviProssimaRiga() {
         if (rigaCorrente >= righeBootScreen.length) {
             setTimeout(function() {
                 boot.style.display = "none";
-                sezione.style.visibility = "visible";
+                //now rimostro i figli della sessione
+                for (let i = 0; i < figli.length; i++) {
+                    if (figli[i].id !== "bootScreen") {
+                        figli[i].style.display = "";
+                    }
+                }
             }, 700);
-
             return;
         }
 
         const riga = righeBootScreen[rigaCorrente];
-
-        //ora creo un div per la riga qua sotto
         const divRiga = document.createElement("div");
         divRiga.className = "riga-boot";
         boot.appendChild(divRiga);
@@ -819,16 +832,15 @@ function avviaBootScreen() {
         const intervalloLettere = setInterval(function() {
             divRiga.textContent += riga.testo.charAt(i);
             i++;
-            if (i >= riga.testo.length) {
+            if(i >= riga.testo.length) {
                 clearInterval(intervalloLettere);
                 rigaCorrente++;
-
                 setTimeout(scriviProssimaRiga, riga.delay);
             }
         }, 15);
     }
-
     scriviProssimaRiga();
+
 }
 
-avviaBootScreen()
+avviaBootScreen();

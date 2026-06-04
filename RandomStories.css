@@ -960,13 +960,10 @@ body.tema-scuro .btn-annlla {
 
 #bootScreen {
     display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 20px 24px;
-    background: #0a0e0a;
+    width: 100%;
+    padding: 8px 0;
+    min-height: 200px;
+    background: transparent;
     color: #5fff87;
     font-family: 'Courier New', 'Consolas', monospace;
     font-size: 0.85rem;
