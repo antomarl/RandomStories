@@ -772,3 +772,28 @@ function mostraConferma(titolo, messaggio) {
 
     });
 }
+
+//voglio creare una cosa che secondo me è tipo super spaziale,quando entro nel sito deve fare un effetto cose boot topo bios,se riesco è fighissimo
+const righeBootScreen = [
+    { testo: "> RANDOM_STORIES_OS v2.1.3", delay: 400},
+    { testo: "(c) 2025 Antonino Marletta. All right reserved.", delay:600},
+    { testo: "> ", delay: 200},
+    { testo: "> Booting kernel....................  [OK]", delay:350},
+    { testo: "> Loading word database (4352).  [OK]", delay:400},
+    { testo: "> Initializing termnal....................  [OK]", delay: 350},
+    { testo: "> Cheking save state....................  [OK]", delay: 400},
+    { testo: "> Loading rare words....................  [OK]", delay: 500},
+    { testo: "> ", delay: 300},
+    { testo: "> Welcome, user." , delay: 600},
+    { testo: "> System ready.", delay:700},
+    { testo: "> _", delay: 800 }
+];
+
+function avviaBootScreen() {
+    const boot = document.getElementById("bootScreen");
+    const sezione = document.getElementById("sectionGeneraParole");
+
+    sezione.style.visibility = "hidden"; // così nascondo l'ui vera durante il boot
+
+    boot.style.display = "block"
+}

@@ -893,9 +893,6 @@ body.tema-scuro #btNuovaSessione {
     transition: opacity 0.3s ease;
 }
 
-body.tema-scuro #overlayConferma {
-    color: #362217;
-}
 #modalConferma {
     position: fixed;
     top: 50%;
