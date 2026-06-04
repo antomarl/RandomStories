@@ -795,5 +795,40 @@ function avviaBootScreen() {
 
     sezione.style.visibility = "hidden"; // così nascondo l'ui vera durante il boot
 
-    boot.style.display = "block"
+    boot.style.display = "block";
+    boot.innerHTML = ""; // pulisce se c'era già qualcosa
+    let rigaCorrente = 0;
+    function scriviProssimaRiga() {
+        if (rigaCorrente >= righeBootScreen.length) {
+            setTimeout(function() {
+                boot.style.display = "none";
+                sezione.style.visibility = "visible";
+            }, 700);
+
+            return;
+        }
+
+        const riga = righeBootScreen[rigaCorrente];
+
+        //ora creo un div per la riga qua sotto
+        const divRiga = document.createElement("div");
+        divRiga.className = "riga-boot";
+        boot.appendChild(divRiga);
+
+        let i = 0;
+        const intervalloLettere = setInterval(function() {
+            divRiga.textContent += riga.testo.charAt(i);
+            i++;
+            if (i >= riga.testo.length) {
+                clearInterval(intervalloLettere);
+                rigaCorrente++;
+
+                setTimeout(scriviProssimaRiga, riga.delay);
+            }
+        }, 15);
+    }
+
+    scriviProssimaRiga();
 }
+
+avviaBootScreen()

@@ -958,3 +958,34 @@ body.tema-scuro .btn-annlla {
     box-shadow: 0 6px 16px rgba(139, 44, 44, 0.6);
 }
 
+#bootScreen {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20px 24px;
+    background: #0a0e0a;
+    color: #5fff87;
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    overflow: auto;
+    z-index: 5;
+    border-radius: 5px;
+}
+
+.riga-boot {
+    white-space: pre;
+    letter-spacing: 0.5px;
+}
+
+.riga-boot:last-child {
+    animation: lampeggiaBoot 0.6s steps(1) infinite;
+}
+
+@keyframes lampeggiaBoot {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.4;}
+}
