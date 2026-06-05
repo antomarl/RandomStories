@@ -814,7 +814,7 @@ function avviaBootScreen() {
 
     boot.style.display = "block";
     boot.innerHTML = "";
-    let: rigaCorrente = 0;
+    let rigaCorrente = 0;
 
     function scriviProssimaRiga() {
         if (rigaCorrente >= righeBootScreen.length) {
@@ -881,14 +881,17 @@ function calcolaStatistiche() {
         ppm = Math.round(parole / (secondiTotali / 60));
     }
 
-    return { parole, caratteri, tempoFormattato, numeroPagine, ppm };
+    const minuti = Math.floor(secondiTotali / 60);
+    const secondi = secondiTotali % 60;
+    const tempoFormattato = String(minuti).padStart(2, "0") + ":" + String(secondi).padStart(2, "0");
 
+    return { parole, caratteri, tempoFormattato, numeroPagine, ppm };
 }
 
 function aggiornaStatistiche() {
     const stats = calcolaStatistiche();
-    document.getElementById("statsparole").textContent = stats.parole;
-    document.getElementById("statscaratteri").textcontent = stats.caratteri;
+    document.getElementById("statsParole").textContent = stats.parole;
+    document.getElementById("statsCaratteri").textContent = stats.caratteri;
     document.getElementById("statsTempo").textContent = stats.tempoFormattato;
     document.getElementById("statsPagine").textContent = stats.numeroPagine;
     document.getElementById("statsPpm").textContent = stats.ppm;
@@ -911,7 +914,7 @@ function resetStatistiche() {
         timerStats = null;
     }
 
-    tempoinizio = null;
+    tempoInizio = null;
     aggiornaStatistiche(); // azzera i numeri a schermo
 }
 

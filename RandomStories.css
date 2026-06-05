@@ -1012,3 +1012,67 @@ body.tema-scuro .btn-annlla {
     0%, 50% { opacity: 1; }
     51%, 100% { opacity: 0.4;}
 }
+
+#barraStatistiche {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: rgba(255, 250, 240, 0.85);
+    border: 1px dashed rgba(75, 50, 30, 0.3);
+    border-radius: 10px;
+    font-family: 'Courier New','Consolas', monospace;
+    font-size: 0.85rem;
+    color: #4a2f1f;
+    letter-spacing: 0.3px;
+    user-select: none;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    z-index: 5;
+    transition: opacity 0.4s ease;
+}
+
+.stat-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.stat-item strong {
+    color: #2c1810;
+    font-weight: 700;
+    min-width: 14px;
+    display: inline-block;
+    text-align: right;
+}
+
+.stat-sep {
+    color: rgba(75, 50, 30, 0.4);
+    font-weight: 400;
+}
+
+body.tema-scuro #barraStatistiche {
+    background: rgba(26,20,16, 0.85);
+    color: #e0d8c8;
+    border-color: rgba(245, 240, 232, 0.25);
+}
+
+body.tema-scuro #barraStatistiche .stat-item strong {
+    color: #5fff87;
+}
+
+body.tema-scuro #barraStatistiche .stat-sep {
+    color: rgba(245, 240, 232, 0.4);
+}
+
+body.state-generating #barraStatistiche {
+    opacity: 0;
+    pointer-events: none;
+}
