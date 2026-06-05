@@ -1,0 +1,2 @@
+diario 5/6/2026:
+ho deciso di creare un diario per reicordare ciò che faccio è salvare i miei progressi,ed in più perche mi son reso conto che 900+ righe di js in un unico file è un casino,mi confondo assai,e mi è stato consigliato di fare una refactoring del mio js,cioè creare più file js piccoli,credo che inizierà domani perchè sono stanco, a domani.
