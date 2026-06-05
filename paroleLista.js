@@ -1180,5 +1180,6 @@ const paroleRare = [
     "oscurita",
     "Clinton Road",
     "necromante",
-    "fantasma"
+    "fantasma",
+    "WFTP"
 ]

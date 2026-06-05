@@ -245,6 +245,7 @@ function resetParole() {
     document.getElementById("btnSalva").disabled = true; // disabilita il pulsante per salvare la storia finchè non viene generata una nuova storia valida
     pulisciMessaggioPC(); // cosi toglie la scritta sotto se si resetta 
     ValidaStoria(); // chiama la funzione ValidaStoria per aggiornare lo stato della storia dopo il reset delle parole generate
+    resetStatistiche();
 }
 
 function mostraParole() {
@@ -587,6 +588,7 @@ async function nuovaSessione() {
     pulisciMessaggioPC();
 
     MMR("nuova sessione iniziata");
+    resetStatistiche();
 }
 
 setInterval(salvaSessione, 2000); // avvio il salvataggio dell'intervallo ogni 2 secondi
@@ -849,3 +851,78 @@ function avviaBootScreen() {
 }
 
 avviaBootScreen();
+
+let tempoInizio = null; //serve per quando si inizia a scrivere il primo carattere
+let timerStats = null; //aggiorna le stats ogni secondo
+
+function calcolaStatistiche() {
+    let testoCompleto = ""; //ora unisco il testo di tutte le pagine in una stringa unica
+    for(let p of pagine) {
+        testoCompleto += (p.sx || "") + " " + (p.dx || "") + " ";
+    }
+
+    testoCompleto = testoCompleto.trim();
+
+    const caratteri = testoCompleto.length; // cosi conta i caratteri totali
+
+    const parole = testoCompleto.length > 0
+        ? testoCompleto.split(/\s+/).filter(function(p) { return p.length > 0; }).length
+        : 0; // conta le parole splittandole per spazi e filtrando le stringhe vuote
+
+    const numeroPagine = pagine.length; // numero di pagine usate
+
+    let secondiTotali = 0; // calcolo il tempo trascorso mentre si scrive
+    if ( tempoInizio !== null) {
+        secondiTotali = Math.floor((Date.now() - tempoInizio) / 1000 )
+    }
+
+    let ppm = 0; // ppm(parole per minuto)
+    if (secondiTotali > 0) {
+        ppm = Math.round(parole / (secondiTotali / 60));
+    }
+
+    return { parole, caratteri, tempoFormattato, numeroPagine, ppm };
+
+}
+
+function aggiornaStatistiche() {
+    const stats = calcolaStatistiche();
+    document.getElementById("statsparole").textContent = stats.parole;
+    document.getElementById("statscaratteri").textcontent = stats.caratteri;
+    document.getElementById("statsTempo").textContent = stats.tempoFormattato;
+    document.getElementById("statsPagine").textContent = stats.numeroPagine;
+    document.getElementById("statsPpm").textContent = stats.ppm;
+}
+
+function avviaTimerStats() {
+    if (timerStats !== null) return; //se è gia attivo non lo riavvio,per eviatre sovrapposizioni
+
+    //ora segno l'inizio
+    if (tempoInizio === null) {
+        tempoInizio = Date.now();
+    }
+
+    timerStats = setInterval(aggiornaStatistiche, 1000); // aggiorno il timer ogni secondo
+}
+
+function resetStatistiche() {
+    if ( timerStats !== null) {
+        clearInterval(timerStats);
+        timerStats = null;
+    }
+
+    tempoinizio = null;
+    aggiornaStatistiche(); // azzera i numeri a schermo
+}
+
+textareaSx.addEventListener("input", function() {
+    avviaTimerStats();
+    aggiornaStatistiche();
+});
+
+textareaDx.addEventListener("input", function() {
+    avviaTimerStats();
+    aggiornaStatistiche();
+});
+
+aggiornaStatistiche();
