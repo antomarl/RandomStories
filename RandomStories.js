@@ -41,6 +41,11 @@ function cambiaPagina(direzione) {
     document.getElementById("storyInputSx").value = pagine[paginaCorrente].sx;
     document.getElementById("storyInputDx").value = pagine[paginaCorrente].dx;
     document.getElementById("indicatorePagina").textContent = "Pagina " + (paginaCorrente + 1) + " di " + pagine.length;
+    
+    const textareaSx = document.getElementById("storyInputSx");
+    textareaSx.focus();
+    textareaSx.setSelectionRange(textareaSx.value.length, textareaSx.value.length);
+   
     ValidaStoria();
 }
 // devo modificare un po' di cose nella funzione generaparole
@@ -780,8 +785,8 @@ const righeBootScreen = [
     { testo: "> ", delay: 200},
     { testo: "> Booting kernel....................  [OK]", delay:350},
     { testo: "> Loading word database (4352).  [OK]", delay:400},
-    { testo: "> Initializing termnal....................  [OK]", delay: 350},
-    { testo: "> Cheking save state....................  [OK]", delay: 400},
+    { testo: "> Initializing terminal....................  [OK]", delay: 350},
+    { testo: "> Checking save state....................  [OK]", delay: 400},
     { testo: "> Loading rare words....................  [OK]", delay: 500},
     { testo: "> ", delay: 300},
     { testo: "> Welcome, user." , delay: 600},
