@@ -17,4 +17,3 @@ Notes
 - Verb validation supports irregular Italian verbs (essere, avere, andare, fare, and more)
 - Built for [Hack Club Horizons Europa](https://hackclub.com/)
 
-

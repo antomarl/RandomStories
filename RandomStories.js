@@ -1,3 +1,5 @@
+import { paroleMassime, probabilitaRara } from "./js/config.js"; // ho imporatto le due funzioni che avevo messo in config.js
+import { setAppState } from "./js/stato.js"; // ho importato pure questo
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -5,20 +7,16 @@ let paroleGenerate = [] ;  // Array per memorizzare le parole generate
 let parolerareTrovate = JSON.parse(localStorage.getItem("randomStories_rareTrovate") || "[]");
 let contatoreRareTotale = parseInt(localStorage.getItem("randomStories_contatoreRare") || "0"); // cosi salva le parole trovate in localStorage,senno poi si perdevano
 
-const probabilita_rara = 20; // deve essere hard
+// non serve più messa qua, rip
 
 let numeroParole = 0; // Variabile per tenere traccia del numero di parole generate
 
-const ParoleMassime = 10; //numero massimo di parole da generare
+// neanche questa
 
 let pagine = [{sx: "", dx: ""}] // array delle pagine,inizia con 1 vuoto
 
 let paginaCorrente = 0; // indice della pagina che si sta vedendo;
 
-function setAppState(state) {
-    document.body.classList.remove('state-generating', 'state-writing');
-    document.body.classList.add(state);
-}
 function cambiaPagina(direzione) {
     pagine[paginaCorrente].sx = document.getElementById('storyInputSx').value; // Rip Storyinput N2026 M2026
     pagine[paginaCorrente].dx = document.getElementById('storyInputDx').value;
@@ -50,15 +48,15 @@ function cambiaPagina(direzione) {
 }
 // devo modificare un po' di cose nella funzione generaparole
 function GeneraParola() {
-    if (numeroParole >= ParoleMassime) {
+    if (numeroParole >= paroleMassime) {
       /*leviamo l'alert di merda */
       mostraMessaggioPc (
-        "> Limite raggiunto: " + ParoleMassime + "/" + ParoleMassime + "parole generate, ora premi F3 per iniziare a scrivere!", "avviso"
+        "> Limite raggiunto: " + paroleMassime + "/" + paroleMassime + "parole generate, ora premi F3 per iniziare a scrivere!", "avviso"
       );
       return;
     }
     // serve per decidere se esce una parola rara od una normale
-    const tiroraro = Math.floor(Math.random() * probabilita_rara);
+    const tiroraro = Math.floor(Math.random() * probabilitaRara); // qua prima avevo scritto probabilita_rara, ma adesso per fare tutti nello stesso stile l'ho rinominata
     const escerara = (tiroraro === 0); //1 su 20 di possibilità
 
     let parolaGenerata;
@@ -98,7 +96,7 @@ function GeneraParola() {
 
     aggiornaListaParole();
 
-    document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + ParoleMassime;
+    document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + paroleMassime;
     
     //il messaggio nel terminale deve essere diverso tra rare e normali
     if (rara) {
@@ -240,7 +238,7 @@ function resetParole() {
     document.getElementById("storyInputDx").value = "";
     document.getElementById("listaParole").innerHTML = ""; // pulisce la visualizzazione delle parole generate
     document.getElementById("indicatorePagina").textContent = "Pagina 1";
-    document.getElementById("contatoreParole").textContent ="parole generate: 0/" + ParoleMassime; // resetta il contatore delle parole casuali
+    document.getElementById("contatoreParole").textContent ="parole generate: 0/" + paroleMassime; // resetta il contatore delle parole casuali
     document.getElementById("messaggioErrore").innerHTML = ""; // pulisce eventuali errori di messaggi precedenti
     document.getElementById("btnSalva").disabled = true; // disabilita il pulsante per salvare la storia finchè non viene generata una nuova storia valida
     pulisciMessaggioPC(); // cosi toglie la scritta sotto se si resetta 
@@ -444,7 +442,7 @@ textareaDx.addEventListener("keydown", function(event) {
 
 
 
-document.getElementById("contatoreParole").textContent = "Parole generate:" + numeroParole + "/" + ParoleMassime;
+document.getElementById("contatoreParole").textContent = "Parole generate:" + numeroParole + "/" + paroleMassime;
 ValidaStoria();
 
 document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia valida
@@ -534,7 +532,7 @@ function caricaSessione() {
         document.getElementById("storyInputSx").value = pagine[paginaCorrente].sx || "";
         document.getElementById("storyInputDx").value = pagine[paginaCorrente].dx || "";
         document.getElementById("listaParole").innerHTML = paroleGenerate.join(", ");
-        document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + ParoleMassime;
+        document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + paroleMassime;
         document.getElementById("indicatorePagina").textContent = "pagina " + (paginaCorrente + 1) + " di " + pagine.length;
         ValidaStoria()
 
@@ -581,7 +579,7 @@ async function nuovaSessione() {
     document.getElementById("storyInputSx").value = "";
     document.getElementById("storyInputDx").value = "";
     document.getElementById("listaParole").innerHTML = "";
-    document.getElementById("contatoreParole").textContent = "Parole generate: 0/" +  ParoleMassime
+    document.getElementById("contatoreParole").textContent = "Parole generate: 0/" +  paroleMassime
     document.getElementById("indicatorePagina").textContent = "Pagina 1";
     document.getElementById("messaggioErrore").innerHTML = "";
     document.getElementById("btnSalva").disabled = true;
