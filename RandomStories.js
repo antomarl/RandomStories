@@ -1,6 +1,7 @@
 import { paroleMassime, probabilitaRara } from "./js/config/costanti.js"; // ho imporatto le due funzioni che avevo messo in config.js
 import { setAppState } from "./js/stato/statoApp.js"; // ho importato pure questo
 import { typeWriter, mostraMessaggioPc, pulisciMessaggioPC } from "./js/ui/terminale.js"; // e siamo  a tre,lesgo
+import { inizializzaTema, cambiaTema } from "./js/ui/tema.js";
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -453,26 +454,10 @@ document.addEventListener("keydown", function(event) {
     }
 
 });
-// se una persona mette modalità scura, poi esce e dopo rientra nel sito viene alluciato, ora invece localstorage salva i dati del sito anche se si esce e lo lascia nell'ultimo mdo in cui uno la tenutp
-if (localStorage.getItem('tema') === 'scuro') {
-    document.body.classList.add('tema-scuro');
-    document.getElementById('coloreTema').textContent = 'Tema Chiaro';  //se è scuro il botttone dirà tema chiaro,cioè se uno clicca diventa tema chiaro
-} else {
-    document.getElementById('coloreTema').textContent = 'Tema Scuro';
-}
-
-document.getElementById("coloreTema").addEventListener("click", function () {
-    const temaScuroAttivo = document.body.classList.toggle('tema-scuro') // toggle è una figata! praticamente aggiunge la classe se non c'è e la toglie se c'è,tipo il not che ci ha fatto fare Cavallaro e Lo Giudice
-
-    if (temaScuroAttivo) {
-        this.textContent = 'Tema Chiaro'; // this serve per rifersi allo stesso bottone di cui si parola,
-        localStorage.setItem('tema', 'scuro');
-    } else {
-        this.textContent = 'Tema Scuro';
-        localStorage.setItem('tema', 'chiaro');
-    }
-});
-
+//all'avvio applioco il tema salvato dall'utente(se era gia entrato una volta)
+inizializzaTema();
+//e aggangio il cambio tema al click sul bottone
+document.getElementById("coloreTema").addEventListener("click", cambiaTema)
 //il mio amico Costino mi ha detto di fare in modo che se esco per sbaglio dal sito mentre scrivo la stolria non perdo tutto ciò che avevo scritto,so let's do it!
 //PS(IMPORTANTE): mi ha detto pure di spostare il la scritta centrale dei comandi e metterla di lato che compare se viene premjuto un tasto,magari un punto interrogativo
 function salvaSessione(){

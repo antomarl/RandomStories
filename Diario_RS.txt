@@ -1,24 +1,28 @@
 diario 5/6/2026:
-ho deciso di creare un diario per reicordare ciò che faccio è salvare i miei progressi,ed in più perche mi son reso conto che 900+ righe di js in un unico file è un casino,mi confondo assai,e mi è stato consigliato di fare una refactoring del mio js,cioè creare più file js piccoli,credo che inizierà domani perchè sono stanco, a domani.
+ho deciso di creare un diario per reicordare ciï¿½ che faccio ï¿½ salvare i miei progressi,ed in piï¿½ perche mi son reso conto che 900+ righe di js in un unico file ï¿½ un casino,mi confondo assai,e mi ï¿½ stato consigliato di fare una refactoring del mio js,cioï¿½ creare piï¿½ file js piccoli,credo che inizierï¿½ domani perchï¿½ sono stanco, a domani.
 
 diario 7/6/2026:
-ieri non ho fatto nulla,un po' perchè mi seccavo,quindi inizio oggi
-ho iniziato aggiungendo una cartella ed un file config.js,mi sto facendo aiutare da arena ia,perchè mi da una mano
+ieri non ho fatto nulla,un po' perchï¿½ mi seccavo,quindi inizio oggi
+ho iniziato aggiungendo una cartella ed un file config.js,mi sto facendo aiutare da arena ia,perchï¿½ mi da una mano
 
 l'ho creata, ho tolto da RandomStories.js la costante ParoleMassime e probabilitaRara ma non clicca piu :(, ora vdeo di  capire come risolvere
-e quando dico non clicca più,intendo che proprio non funziona nessun bottone (che pallee)
+e quando dico non clicca piï¿½,intendo che proprio non funziona nessun bottone (che pallee)
 
 risolto,niente semplicemente avevo scritto sul mio file principale paroleMassime invece di ParoleMassime,ora tutto apposto
 
 ora ho fatto il file stato.js per mettere il cambio di stato da generazione parole e scrittura,l'ho inserito nel file main e tolto la funzione 
 
-ora ho creato delle sotto cartelle dentro la cartella, e ho cambiato i nomi dei due moduli, e li ho messi in due cartelle diverse,per comodità
+ora ho creato delle sotto cartelle dentro la cartella, e ho cambiato i nomi dei due moduli, e li ho messi in due cartelle diverse,per comoditï¿½
 
 ho creato un altro modulo,chiamato terminale.js,che fa tutte le cose che riguardano l'interfacccia grafica del pc(la scrittura come macchina da scrivere,i messaggi sotto colorati e il pulisci messaggi) 
 
 ps : io sto scrivendo tutto a mano di nuovo,ed una volta fatto cancello quella parte in randomStories.js
 
 facendo questo modulo ho imparato un nuovo concetto, l'incapsulamento:
-nella variabile typingTimer non ho messo export davanti,questo vuol dire che è privata del modulo,cioè nessun altro file può vederla o modificarla
-perchè tanto chi usa typeWriter non deve saper come funziona dentro,deve solo chiamarla. Questo principiò viene chiamato di inapsulamento: 
+nella variabile typingTimer non ho messo export davanti,questo vuol dire che ï¿½ privata del modulo,cioï¿½ nessun altro file puï¿½ vederla o modificarla
+perchï¿½ tanto chi usa typeWriter non deve saper come funziona dentro,deve solo chiamarla. Questo principiï¿½ viene chiamato di inapsulamento: 
 tieni dentro al modulo i dettagli implementativi, esponi fuori solo le funzioni pubbliche
+
+ho creato un alltro modulo,quello del colore tema,in questo modulo ho apportato alcune modifiche ,per esempio :  this.textContent = 'Tema Chiaro';
+ho rimosso il this,perche prima funzionava perchï¿½ era dentro un event listener,ma adesso si trova dentro un nuovo file,non sappiamo piï¿½ chi la chiama,quindi credo sia piï¿½ sicuro prendere il bottone esplicitamente con getElemnetById
+poi ho creato una costante chiamata bottone invece di chiamare getElementById ogn volta
