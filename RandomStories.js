@@ -1,5 +1,6 @@
 import { paroleMassime, probabilitaRara } from "./js/config/costanti.js"; // ho imporatto le due funzioni che avevo messo in config.js
 import { setAppState } from "./js/stato/statoApp.js"; // ho importato pure questo
+import { typeWriter, mostraMessaggioPc, pulisciMessaggioPC } from "./js/ui/terminale.js"; // e siamo  a tre,lesgo
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -119,25 +120,6 @@ function GeneraParola() {
         }, 1800);
 
     }
-}
-// sto creando la funzione per toglire l'alert 
-function mostraMessaggioPc(testo, tipo) {
-    let msg = document.getElementById("messaggioPC");
-    msg.className = "messaggio";
-
-    if(tipo === "successo") {
-        msg.classList.add("successo");
-    } else if (tipo === 'avviso') {
-        msg.classList.add("avviso")
-    }
-
-    typeWriter(msg, testo, 30);
-}
-
-function pulisciMessaggioPC () {
-    
-    document.getElementById("messaggioPC").textContent = "";
-    document.getElementById("messaggioPC").className = "messaggio";
 }
 function contieneParola(testo,parola) {
     // converte la storia in minuscolo per una ricerca case-insensitive
@@ -710,31 +692,6 @@ document.addEventListener("keydown", function(event) {
         toggleIstruzioni();
     }
 });
-// voglio migliorare il pc per renderlo più terminale styles, così scrive uno ad uno le lettere,perche è gico cazzo
-let typingTimer = null; //serve per tenere traccia del timer
-
-function typeWriter(elemento, testo, velocita) {
-    if (!velocita) velocita = 25; //così se manca la velocità uso un default veloce ma comunque legginile
-
-    //per evitare sovrapposizioni di typing, se c'è gia un typing lo fermo
-    if (typingTimer) {
-        clearInterval(typingTimer);
-        typingTimer = null;
-    }
-
-    elemento.textContent = ""; // parte vuoto
-    let i = 0;
-
-    typingTimer = setInterval(function() {
-        elemento.textContent += testo.charAt(i);
-        i++;
-        if(i >= testo.length) {
-            clearInterval(typingTimer);
-            typingTimer = null;
-        }
-    }, velocita);
-}
-
 //voglio togliere quiella merda di alert
 function mostraConferma(titolo, messaggio) {
     return new Promise(function(resolve) {
