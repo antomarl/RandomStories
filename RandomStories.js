@@ -1,5 +1,5 @@
-import { paroleMassime, probabilitaRara } from "./js/config.js"; // ho imporatto le due funzioni che avevo messo in config.js
-import { setAppState } from "./js/stato.js"; // ho importato pure questo
+import { paroleMassime, probabilitaRara } from "./js/config/costanti.js"; // ho imporatto le due funzioni che avevo messo in config.js
+import { setAppState } from "./js/stato/statoApp.js"; // ho importato pure questo
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate

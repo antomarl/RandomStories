@@ -1,0 +1,13 @@
+diario 5/6/2026:
+ho deciso di creare un diario per reicordare ci� che faccio � salvare i miei progressi,ed in pi� perche mi son reso conto che 900+ righe di js in un unico file � un casino,mi confondo assai,e mi � stato consigliato di fare una refactoring del mio js,cio� creare pi� file js piccoli,credo che inizier� domani perch� sono stanco, a domani.
+
+diario 7/6/2026:
+ieri non ho fatto nulla,un po' perch� mi seccavo,quindi inizio oggi
+ho iniziato aggiungendo una cartella ed un file config.js,mi sto facendo aiutare da arena ia,perch� mi da una mano
+
+l'ho creata, ho tolto da RandomStories.js la costante ParoleMassime e probabilitaRara ma non clicca piu :(, ora vdeo di  capire come risolvere
+e quando dico non clicca pi�,intendo che proprio non funziona nessun bottone (che pallee)
+
+risolto,niente semplicemente avevo scritto sul mio file principale paroleMassime invece di ParoleMassime,ora tutto apposto
+
+ora ho fatto il file stato.js per mettere il cambio di stato da generazione parole e scrittura,l'ho inserito nel file main e tolto la funzione 
