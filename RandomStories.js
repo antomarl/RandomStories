@@ -3,7 +3,8 @@ import { setAppState } from "./js/stato/statoApp.js"; // ho importato pure quest
 import { typeWriter, mostraMessaggioPc, pulisciMessaggioPC } from "./js/ui/terminale.js"; // e siamo  a tre,lesgo
 import { inizializzaTema, cambiaTema } from "./js/ui/tema.js";
 import { apriIstruzioni, chiudiIstruzioni, toggleIstruzioni } from "./js/ui/istruzioni.js";
-import { mostraConferma } from "./js/ui/modali.js"
+import { mostraConferma } from "./js/ui/modali.js";
+import { attivaGlitchPC } from "./js/effetti/glitch.js";
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -115,14 +116,7 @@ function GeneraParola() {
     aggiornaListaParole();
     //voglio creare un easter egg per sebywlan aka sebylanza aka iano aka elektrowindows aka niente li ho finiti
     // aggiornamento,non capisco perche ma non sta andando più il glitch,che rottura di palle come roba
-    if (parolaGenerata == "elektrowindows") {
-        let pc = document.querySelector(".pc-wrapper");
-        pc.classList.add("glitch-attivo");
-        setTimeout(function() {
-            pc.classList.remove("glitch-attivo");
-        }, 1800);
-
-    }
+    attivaGlitchPC();
 }
 function contieneParola(testo,parola) {
     // converte la storia in minuscolo per una ricerca case-insensitive
