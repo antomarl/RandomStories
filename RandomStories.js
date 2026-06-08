@@ -2,6 +2,7 @@ import { paroleMassime, probabilitaRara } from "./js/config/costanti.js"; // ho 
 import { setAppState } from "./js/stato/statoApp.js"; // ho importato pure questo
 import { typeWriter, mostraMessaggioPc, pulisciMessaggioPC } from "./js/ui/terminale.js"; // e siamo  a tre,lesgo
 import { inizializzaTema, cambiaTema } from "./js/ui/tema.js";
+import { apriIstruzioni, chiudiIstruzioni, toggleIstruzioni } from "./js/ui/istruzioni.js";
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -630,27 +631,6 @@ function aggiornaContatoreRare() {
 
 aggiornaContatoreRare();
 
-
-//sempre costa mi ha consigliato di mettere le istruzioni di lato a comparsa,perche sono un po' brutte messe la statiche
-
-function apriIstruzioni() {
-    document.getElementById("pannelloIstruzioni").classList.add("aperto");
-    document.getElementById("overlayIstruzioni").classList.add("aperto");
-}
-
-function chiudiIstruzioni() {
-    document.getElementById("pannelloIstruzioni").classList.remove("aperto");
-    document.getElementById("overlayIstruzioni").classList.remove("aperto");
-}
-//coosi l'utente puo aprre e chiudere le istruzioni
-function toggleIstruzioni () { // se il pannello è aperto viene chiuso,senno si apre
-    const pannello = document.getElementById("pannelloIstruzioni");
-    if (pannello.classList.contains("aperto")) {
-        chiudiIstruzioni();
-    } else {
-        apriIstruzioni();
-    }
-}
 
 //ora faccio il click per il pulasnte ?
 document.getElementById("btnIstruzioni").addEventListener("click", toggleIstruzioni);
