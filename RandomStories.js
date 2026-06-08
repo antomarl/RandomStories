@@ -3,6 +3,7 @@ import { setAppState } from "./js/stato/statoApp.js"; // ho importato pure quest
 import { typeWriter, mostraMessaggioPc, pulisciMessaggioPC } from "./js/ui/terminale.js"; // e siamo  a tre,lesgo
 import { inizializzaTema, cambiaTema } from "./js/ui/tema.js";
 import { apriIstruzioni, chiudiIstruzioni, toggleIstruzioni } from "./js/ui/istruzioni.js";
+import { mostraConferma } from "./js/ui/modali.js"
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -657,48 +658,6 @@ document.addEventListener("keydown", function(event) {
         toggleIstruzioni();
     }
 });
-//voglio togliere quiella merda di alert
-function mostraConferma(titolo, messaggio) {
-    return new Promise(function(resolve) {
-        const overlay = document.getElementById("overlayConferma");
-        const modal = document.getElementById("modalConferma");
-        const titoloEl = document.getElementById("modalConfermaTitolo");
-        const messaggioEl = document.getElementById("modalConfermaMessaggio")
-        const btnOk = document.getElementById("modalConfermaOk");
-        const btnAnnulla = document.getElementById("modalConfermaAnnulla");
-
-        titoloEl.textContent = titolo;
-        messaggioEl.textContent = messaggio;
-
-        overlay.classList.add("visibile");
-        modal.classList.add("visibile");
-
-        function chiudi(risposta) { // funzione per chiudere e risolvere la promise con true/false
-            overlay.classList.remove("visibile");
-            modal.classList.remove("visibile");
-            
-            //ora rimuovo i listener per evitare che si accumulino
-            btnOk.removeEventListener("click", clickOk);
-            btnAnnulla.removeEventListener("click", clickAnnulla);
-            overlay.removeEventListener("click", clickAnnulla);
-            document.removeEventListener("keydown", keydown);
-            resolve(risposta);
-        }
-
-        function clickOk() { chiudi(true); }
-        function clickAnnulla() { chiudi(false); }
-        function keydown(e) {
-            if (e.key === "Escape") chiudi(false);
-            if (e.key === "Enter") chiudi(true);
-        }
-
-        btnOk.addEventListener("click", clickOk);
-        btnAnnulla.addEventListener("click", clickAnnulla);
-        overlay.addEventListener("click", clickAnnulla);
-        document.addEventListener("keydown", keydown);
-
-    });
-}
 
 //voglio creare una cosa che secondo me è tipo super spaziale,quando entro nel sito deve fare un effetto cose boot topo bios,se riesco è fighissimo
 const righeBootScreen = [

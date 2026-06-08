@@ -1,3 +1,5 @@
+
+
 diario 5/6/2026:
 ho deciso di creare un diario per reicordare ciï¿½ che faccio ï¿½ salvare i miei progressi,ed in piï¿½ perche mi son reso conto che 900+ righe di js in un unico file ï¿½ un casino,mi confondo assai,e mi ï¿½ stato consigliato di fare una refactoring del mio js,cioï¿½ creare piï¿½ file js piccoli,credo che inizierï¿½ domani perchï¿½ sono stanco, a domani.
 
@@ -26,3 +28,12 @@ tieni dentro al modulo i dettagli implementativi, esponi fuori solo le funzioni 
 ho creato un alltro modulo,quello del colore tema,in questo modulo ho apportato alcune modifiche ,per esempio :  this.textContent = 'Tema Chiaro';
 ho rimosso il this,perche prima funzionava perchï¿½ era dentro un event listener,ma adesso si trova dentro un nuovo file,non sappiamo piï¿½ chi la chiama,quindi credo sia piï¿½ sicuro prendere il bottone esplicitamente con getElemnetById
 poi ho creato una costante chiamata bottone invece di chiamare getElementById ogn volta
+
+diario 8/6/2026:
+
+oggi ho creato il modulo istruzioni,che contiene le istruzioni per nuova sessione,che l'avevo creata per rimuovere gli alert (che facevano schifo)
+un mio amico mi ha consigliato stamattina a scuola di mettere un ia che ti mette le parole per campi semantici ,ma è una spacchinata,vediamo se prima o poi la farò
+
+ho creato pure la funzione moduli per rimuovere gli alert fastidiosi,ho avuto qualche problema di debugging(come al solito...) nei nomi come btnOK, btnOk e quindi non funzionava nulla
+
+come ultimo della giornata voglio fare quello per l'easter egg di elektrowindows(che sarebbe un mio amico)

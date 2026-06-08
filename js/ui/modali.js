@@ -4,9 +4,9 @@ export function mostraConferma(titolo, messaggio) {
     return new Promise(function(resolve) {
         const overlay = document.getElementById("overlayConferma");
         const modal = document.getElementById("modalConferma");
-        const titoloEl = document.getElementById("modalConfermasTitolo");
+        const titoloEl = document.getElementById("modalConfermaTitolo");
         const messaggioEl = document.getElementById("modalConfermaMessaggio");
-        const btnOk = document.getElementById("modalConferma");
+        const btnOk = document.getElementById("modalConfermaOk");
         const btnAnnulla = document.getElementById("modalConfermaAnnulla");
 
         titoloEl.textContent = titolo;
@@ -24,7 +24,32 @@ export function mostraConferma(titolo, messaggio) {
 
             overlay.removeEventListener("click", clickAnnulla);
 
-            document.getElementBy
+            document.removeEventListener("keydown", keydown);
+
+            resolve(risposta)
         }
-    })
+
+        function clickOk() {
+            chiudi(true);
+        }
+
+        function clickAnnulla() {
+            chiudi(false);
+        }
+
+        function keydown(e) {
+            if (e.key === "Escape") {
+                chiudi(false);
+            }
+
+            if (e.key === "Enter") {
+                chiudi(true);
+            }
+        }
+
+        btnOk.addEventListener("click", clickOk);
+        btnAnnulla.addEventListener("click", clickAnnulla);
+        overlay.addEventListener("click", clickAnnulla);
+        document.addEventListener("keydown", keydown);
+    });
 }
