@@ -6,6 +6,7 @@ import { apriIstruzioni, chiudiIstruzioni, toggleIstruzioni } from "./js/ui/istr
 import { mostraConferma } from "./js/ui/modali.js";
 import { attivaGlitchPC } from "./js/effetti/glitch.js";
 import { generaParticelle } from "./js/effetti/particelle.js";
+import { scatenaEffettiRari } from "./js/effetti/flashRaro.js";
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -577,24 +578,6 @@ function aggiornaListaParole() {
     lista.innerHTML = htmlParole.join(", ");
 
 }
-// qua devo ammettere che mi sono fatto psiegare le cose da arena ia,però tutto è scritto a mano,al massimo ricopio guys
-function scatenaEffettiRari(parola) {
-    const flash = document.getElementById("flashRaro");
-    flash.classList.remove("attivo");
-    void flash.offsetWidth; // se escono 2 rare 2 volte di non si vedrebbe la animazione
-    flash.classList.add("attivo");
-
-    const pc = document.querySelector(".pc-wrapper");
-    pc.classList.remove("shake-raro");
-    void pc.offsetWidth;
-    pc.classList.add("shake-raro");
-
-    generaParticelle(30);
-
-    //per gli smanettoni(come seby) faccio che se guardano f12 vedono la scritta gialla u easter egg
-    console.log("%c Parola RARA: " + parola , "color: #ffd700; font-size: 20px; font-weigh: bold; text-shadow: 0 0 8px gold;");
-}
-
 function aggiornaContatoreRare() {
     //aggiorna il contatore con il numero id rare trovate
     document.getElementById("contatoreRare").textContent = "Rare: " + contatoreRareTotale;
