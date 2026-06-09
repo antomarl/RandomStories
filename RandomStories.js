@@ -5,6 +5,7 @@ import { inizializzaTema, cambiaTema } from "./js/ui/tema.js";
 import { apriIstruzioni, chiudiIstruzioni, toggleIstruzioni } from "./js/ui/istruzioni.js";
 import { mostraConferma } from "./js/ui/modali.js";
 import { attivaGlitchPC } from "./js/effetti/glitch.js";
+import { generaParticelle } from "./js/effetti/particelle.js";
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -116,7 +117,7 @@ function GeneraParola() {
     aggiornaListaParole();
     //voglio creare un easter egg per sebywlan aka sebylanza aka iano aka elektrowindows aka niente li ho finiti
     // aggiornamento,non capisco perche ma non sta andando più il glitch,che rottura di palle come roba
-    attivaGlitchPC();
+    if (parolaGenerata === "elektrowindows") { attivaGlitchPC() };
 }
 function contieneParola(testo,parola) {
     // converte la storia in minuscolo per una ricerca case-insensitive
@@ -592,31 +593,6 @@ function scatenaEffettiRari(parola) {
 
     //per gli smanettoni(come seby) faccio che se guardano f12 vedono la scritta gialla u easter egg
     console.log("%c Parola RARA: " + parola , "color: #ffd700; font-size: 20px; font-weigh: bold; text-shadow: 0 0 8px gold;");
-}
-//pure qua,thanks arena ia
-function generaParticelle(quantita) {
-    const contenitore = document.getElementById("particelleRare"); // crea delle particelle dorate che cadono randomicamente
-
-    for(let i = 0; i< quantita; i++) {
-        const particella = document.createElement("div");
-        particella.className = "particella";
-
-        particella.style.left = Math.random() * 100 + "vw"; // posizione orizzontale random sullo schermo
-        particella.style.animationDelay = (Math.random() * 0.5) + "s";//delay random per non farle cadere insieme 
-        // ora la dimenzione è leggermente variabile,perchè così è più figo
-        const dimensione = 4 + Math.random() * 8;
-        particella.style.width = dimensione + "px";
-        particella.style.height = dimensione + "px";
-
-        contenitore.appendChild(particella);
-
-        //questa cosa finisce dopo 3 secondi senno diventa il meme "OH MY PC"
-        setTimeout(function() {
-            particella.remove();
-        }, 3000);
-
-    }
-
 }
 
 function aggiornaContatoreRare() {
