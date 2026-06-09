@@ -34,6 +34,11 @@ diario 8/6/2026:
 oggi ho creato il modulo istruzioni,che contiene le istruzioni per nuova sessione,che l'avevo creata per rimuovere gli alert (che facevano schifo)
 un mio amico mi ha consigliato stamattina a scuola di mettere un ia che ti mette le parole per campi semantici ,ma è una spacchinata,vediamo se prima o poi la farò
 
+diario 9/6/2026:
+
+ciao, oggi ho aggiunto il modulo particelle.js,che serviva per far comparire le particelle gialle qunado veniva estratta una parola rara, ed ora ora ho finito il modulo flashRaro, che faceva comparire la scritta nel log di F12(questo solo per veri smanettoni), per fortuna fino ad ora hanno funziionato entrambi senza bisogno di fix,che sia il giorno buono?
+pure messaggi.js(sarebbe quello dove compare il messagio "nuova sessione iniziata" o "sessione Ripristinata" qunado clicci il bottone Nuova Sessione) non ha errori!!!,lesgo subwoofer
+
 ho creato pure la funzione moduli per rimuovere gli alert fastidiosi,ho avuto qualche problema di debugging(come al solito...) nei nomi come btnOK, btnOk e quindi non funzionava nulla
 
 come ultimo della giornata voglio fare quello per l'easter egg di elektrowindows(che sarebbe un mio amico)

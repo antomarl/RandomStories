@@ -7,6 +7,7 @@ import { mostraConferma } from "./js/ui/modali.js";
 import { attivaGlitchPC } from "./js/effetti/glitch.js";
 import { generaParticelle } from "./js/effetti/particelle.js";
 import { scatenaEffettiRari } from "./js/effetti/flashRaro.js";
+import { MMR } from "./js/ui/messaggi.js";
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -510,18 +511,6 @@ function caricaSessione() {
     }  
         
 }
-
-async function MMR(testo) {  //(tipo abbreviazzione di mostra messaggio di ripristino) serve perchè bisogna chiedere cobnferna,senno e faclie elimare tutto per sbagglio
-    const msg = document.getElementById("messaggioRipristino");
-    msg.textContent = testo;
-    msg.classList.add("visibile");
-
-    //dopo 3 sec se ne va
-    setTimeout(function() {
-     msg.classList.remove("visibile");
-    
-    }, 3000);
-} 
 
 async function nuovaSessione() {
     const conferma = await mostraConferma(
