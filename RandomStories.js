@@ -8,6 +8,7 @@ import { attivaGlitchPC } from "./js/effetti/glitch.js";
 import { generaParticelle } from "./js/effetti/particelle.js";
 import { scatenaEffettiRari } from "./js/effetti/flashRaro.js";
 import { MMR } from "./js/ui/messaggi.js";
+import { aggiornaStatistiche, avviaTimerStats, resetStatistiche} from "./js/ui/statistiche.js";
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -673,80 +674,15 @@ function avviaBootScreen() {
 
 avviaBootScreen();
 
-let tempoInizio = null; //serve per quando si inizia a scrivere il primo carattere
-let timerStats = null; //aggiorna le stats ogni secondo
-
-function calcolaStatistiche() {
-    let testoCompleto = ""; //ora unisco il testo di tutte le pagine in una stringa unica
-    for(let p of pagine) {
-        testoCompleto += (p.sx || "") + " " + (p.dx || "") + " ";
-    }
-
-    testoCompleto = testoCompleto.trim();
-
-    const caratteri = testoCompleto.length; // cosi conta i caratteri totali
-
-    const parole = testoCompleto.length > 0
-        ? testoCompleto.split(/\s+/).filter(function(p) { return p.length > 0; }).length
-        : 0; // conta le parole splittandole per spazi e filtrando le stringhe vuote
-
-    const numeroPagine = pagine.length; // numero di pagine usate
-
-    let secondiTotali = 0; // calcolo il tempo trascorso mentre si scrive
-    if ( tempoInizio !== null) {
-        secondiTotali = Math.floor((Date.now() - tempoInizio) / 1000 )
-    }
-
-    let ppm = 0; // ppm(parole per minuto)
-    if (secondiTotali > 0) {
-        ppm = Math.round(parole / (secondiTotali / 60));
-    }
-
-    const minuti = Math.floor(secondiTotali / 60);
-    const secondi = secondiTotali % 60;
-    const tempoFormattato = String(minuti).padStart(2, "0") + ":" + String(secondi).padStart(2, "0");
-
-    return { parole, caratteri, tempoFormattato, numeroPagine, ppm };
-}
-
-function aggiornaStatistiche() {
-    const stats = calcolaStatistiche();
-    document.getElementById("statsParole").textContent = stats.parole;
-    document.getElementById("statsCaratteri").textContent = stats.caratteri;
-    document.getElementById("statsTempo").textContent = stats.tempoFormattato;
-    document.getElementById("statsPagine").textContent = stats.numeroPagine;
-    document.getElementById("statsPpm").textContent = stats.ppm;
-}
-
-function avviaTimerStats() {
-    if (timerStats !== null) return; //se è gia attivo non lo riavvio,per eviatre sovrapposizioni
-
-    //ora segno l'inizio
-    if (tempoInizio === null) {
-        tempoInizio = Date.now();
-    }
-
-    timerStats = setInterval(aggiornaStatistiche, 1000); // aggiorno il timer ogni secondo
-}
-
-function resetStatistiche() {
-    if ( timerStats !== null) {
-        clearInterval(timerStats);
-        timerStats = null;
-    }
-
-    tempoInizio = null;
-    aggiornaStatistiche(); // azzera i numeri a schermo
-}
 
 textareaSx.addEventListener("input", function() {
-    avviaTimerStats();
-    aggiornaStatistiche();
+    avviaTimerStats(pagine);
+    aggiornaStatistiche(pagine);
 });
 
 textareaDx.addEventListener("input", function() {
-    avviaTimerStats();
-    aggiornaStatistiche();
+    avviaTimerStats(pagine);
+    aggiornaStatistiche(pagine);
 });
 
-aggiornaStatistiche();
+aggiornaStatistiche(pagine);
