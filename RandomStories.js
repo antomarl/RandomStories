@@ -9,6 +9,7 @@ import { generaParticelle } from "./js/effetti/particelle.js";
 import { scatenaEffettiRari } from "./js/effetti/flashRaro.js";
 import { MMR } from "./js/ui/messaggi.js";
 import { aggiornaStatistiche, avviaTimerStats, resetStatistiche} from "./js/ui/statistiche.js";
+import { avviaBootScreen } from "./js/ui/bootScreen.js"
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -601,77 +602,6 @@ document.addEventListener("keydown", function(event) {
         toggleIstruzioni();
     }
 });
-
-//voglio creare una cosa che secondo me è tipo super spaziale,quando entro nel sito deve fare un effetto cose boot topo bios,se riesco è fighissimo
-const righeBootScreen = [
-    { testo: "> RANDOM_STORIES_OS v2.1.3", delay: 400},
-    { testo: "(c) 2025 Antonino Marletta. All right reserved.", delay:600},
-    { testo: "> ", delay: 200},
-    { testo: "> Booting kernel....................  [OK]", delay:350},
-    { testo: "> Loading word database (4352).  [OK]", delay:400},
-    { testo: "> Initializing terminal....................  [OK]", delay: 350},
-    { testo: "> Checking save state....................  [OK]", delay: 400},
-    { testo: "> Loading rare words....................  [OK]", delay: 500},
-    { testo: "> ", delay: 300},
-    { testo: "> Welcome, user." , delay: 600},
-    { testo: "> System ready.", delay:700},
-    { testo: "> _", delay: 800 }
-];
-
-function avviaBootScreen() {
-    const boot = document.getElementById("bootScreen");
-    const sezione = document.getElementById("sectionGeneraParole");
-
-    if (!boot || !sezione) {
-        console.error("Boot screen: elementi mancanti!"); // non funzionava un cazzo,almeno così capisco
-        return;
-    }
-
-    const figli = sezione.children; //cosiora nascondo tutti i figli della sezione tranne il bootscreen
-    for (let i = 0; i < figli.length; i++) {
-        if (figli[i].id !== "bootScreen") {
-            figli[i].style.display = "none";
-        }
-    }
-
-    boot.style.display = "block";
-    boot.innerHTML = "";
-    let rigaCorrente = 0;
-
-    function scriviProssimaRiga() {
-        if (rigaCorrente >= righeBootScreen.length) {
-            setTimeout(function() {
-                boot.style.display = "none";
-                //now rimostro i figli della sessione
-                for (let i = 0; i < figli.length; i++) {
-                    if (figli[i].id !== "bootScreen") {
-                        figli[i].style.display = "";
-                    }
-                }
-            }, 700);
-            return;
-        }
-
-        const riga = righeBootScreen[rigaCorrente];
-        const divRiga = document.createElement("div");
-        divRiga.className = "riga-boot";
-        boot.appendChild(divRiga);
-
-        let i = 0;
-        const intervalloLettere = setInterval(function() {
-            divRiga.textContent += riga.testo.charAt(i);
-            i++;
-            if(i >= riga.testo.length) {
-                clearInterval(intervalloLettere);
-                rigaCorrente++;
-                setTimeout(scriviProssimaRiga, riga.delay);
-            }
-        }, 15);
-    }
-    scriviProssimaRiga();
-
-}
-
 avviaBootScreen();
 
 
