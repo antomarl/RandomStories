@@ -15,4 +15,32 @@ export function salvaSessione(pagine,paginaCorrente,paroleGenerate,numeroParole)
         timestap: Date.now() 
     };
     localStorage.setItem("randomStories_sessione", JSON.stringify(datiSessione));
- }
+}
+
+// CaricaSessione , rispetto all'originale,voglio renderla anche un po' più pulita,dove deve leggere,valutare e restistuire il contenuto
+// voglio che recuperi solo dati e che non tocchi più il DOM
+
+export function caricaSessione() {
+    const salvataggio = localStorage.getItem("randomStories_sessione");
+
+    if (!salvataggio) {
+        return false;
+    }
+
+    try {
+
+        const dati = JSON.parse(salvataggio);
+        if(!dati.pagine || !Array.isArray(dati.pagine)) {
+            return false;
+        }
+
+        return dati;
+    } 
+    
+    catch (errore) {
+        console.warn("errore durante il ripristino della sessione");
+
+        return false;
+    }
+
+}

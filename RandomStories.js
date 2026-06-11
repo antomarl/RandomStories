@@ -10,7 +10,7 @@ import { scatenaEffettiRari } from "./js/effetti/flashRaro.js";
 import { MMR } from "./js/ui/messaggi.js";
 import { aggiornaStatistiche, avviaTimerStats, resetStatistiche} from "./js/ui/statistiche.js";
 import { avviaBootScreen } from "./js/ui/bootScreen.js"
-import { salvaSessione } from "./js/sessione/salvataggio.js";
+import { salvaSessione, caricaSessione} from "./js/sessione/salvataggio.js";
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -463,41 +463,6 @@ document.getElementById("coloreTema").addEventListener("click", cambiaTema)
 //il mio amico Costino mi ha detto di fare in modo che se esco per sbaglio dal sito mentre scrivo la stolria non perdo tutto ciò che avevo scritto,so let's do it!
 //PS(IMPORTANTE): mi ha detto pure di spostare il la scritta centrale dei comandi e metterla di lato che compare se viene premjuto un tasto,magari un punto interrogativo
 
-function caricaSessione() {
-    const salvataggio = localStorage.getItem("randomStories_sessione");
-
-    if (!salvataggio) {
-        return false;
-    }
-
-    try {
-        const dati= JSON.parse(salvataggio);
-        if(!dati.pagine || !Array.isArray(dati.pagine)) {
-            return false;
-        }
-
-        pagine = dati.pagine;
-        paroleGenerate = dati.paroleGenerate || [];
-        numeroParole = dati.numeroParole || 0;
-        paginaCorrente = dati.paginaCorrente || 0;
-
-        document.getElementById("storyInputSx").value = pagine[paginaCorrente].sx || "";
-        document.getElementById("storyInputDx").value = pagine[paginaCorrente].dx || "";
-        document.getElementById("listaParole").innerHTML = paroleGenerate.join(", ");
-        document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + paroleMassime;
-        document.getElementById("indicatorePagina").textContent = "pagina " + (paginaCorrente + 1) + " di " + pagine.length;
-        ValidaStoria()
-
-        return true; // tutto ok
-
-    }  catch (errore) {
-        console.warn("errore durante il ripristino della sessione") // non si sa mai si corrompe il JSON
-
-        return false;
-    }  
-        
-}
-
 async function nuovaSessione() {
     const conferma = await mostraConferma(
         "Nuova Sessione",
@@ -525,7 +490,7 @@ async function nuovaSessione() {
     document.getElementById("btnSalva").disabled = true;
     pulisciMessaggioPC();
 
-    MMR("nuova sessione iniziata");
+    MMR("Nuova sessione iniziata!");
     resetStatistiche();
 }
 
@@ -533,9 +498,23 @@ setInterval(function() {
     salvaSessione ( pagine,paginaCorrente,paroleGenerate,numeroParole);
 }, 2000);
 
-const ripristinato = caricaSessione();
-if (ripristinato) {
-    MMR("sessione ripristinata!")
+const datiSessione = caricaSessione(); // ho cambiato nome poichè ho cambiato la funzione,ora sotto sistemo 
+
+if(datiSessione) {
+    pagine = datiSessione.pagine;
+    paroleGenerate = datiSessione.paroleGenerate || [];
+    numeroParole = datiSessione.numeroParole || 0;
+    paginaCorrente = datiSessione.paginaCorrente || 0;
+
+    document.getElementById("storyInputSx").value = pagine[paginaCorrente].sx || "";
+    document.getElementById("storyInputDx").value = pagine[paginaCorrente].dx || "";
+    document.getElementById("listaParole").innerHTML = paroleGenerate.join(", ");
+    document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + paroleMassime;
+    document.getElementById("indicatorePagina").textContent = "pagina " + (paginaCorrente + 1) + " di " + pagine.length;
+
+    ValidaStoria();
+
+    MMR("Sessione ripristinata!")
 }
 
 document.getElementById("btNuovaSessione").addEventListener("click", nuovaSessione);

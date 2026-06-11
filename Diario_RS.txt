@@ -1,5 +1,3 @@
-
-
 diario 5/6/2026:
 ho deciso di creare un diario per reicordare ciï¿½ che faccio ï¿½ salvare i miei progressi,ed in piï¿½ perche mi son reso conto che 900+ righe di js in un unico file ï¿½ un casino,mi confondo assai,e mi ï¿½ stato consigliato di fare una refactoring del mio js,cioï¿½ creare piï¿½ file js piccoli,credo che inizierï¿½ domani perchï¿½ sono stanco, a domani.
 
@@ -45,3 +43,9 @@ iero ho fatto lìsolo un ora :( ,oggi ho finito statisctiche.js in una mezzoretta
 ho creato pure la funzione moduli per rimuovere gli alert fastidiosi,ho avuto qualche problema di debugging(come al solito...) nei nomi come btnOK, btnOk e quindi non funzionava nulla
 
 come ultimo della giornata voglio fare quello per l'easter egg di elektrowindows(che sarebbe un mio amico)
+
+ho fatto anche per metà il modulo salvasessione,pero devo imnserire anche la funzione carica sessione,lo farò domani.
+
+diario 11/6/2026:
+oggi voglio completare il modulo di ieri e farne altri.
+colpetato il modulo salvataggio.js,lesgo
