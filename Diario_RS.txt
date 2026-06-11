@@ -49,3 +49,5 @@ ho fatto anche per metà il modulo salvasessione,pero devo imnserire anche la fun
 diario 11/6/2026:
 oggi voglio completare il modulo di ieri e farne altri.
 colpetato il modulo salvataggio.js,lesgo
+
+oggi ho fatto pure  il modulo listaParole.js,che serviva per le parole rare,senza errori,acnhe se ormai ho imparato bene a corregerli grazie alla console

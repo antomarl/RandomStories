@@ -11,6 +11,7 @@ import { MMR } from "./js/ui/messaggi.js";
 import { aggiornaStatistiche, avviaTimerStats, resetStatistiche} from "./js/ui/statistiche.js";
 import { avviaBootScreen } from "./js/ui/bootScreen.js"
 import { salvaSessione, caricaSessione} from "./js/sessione/salvataggio.js";
+import { aggiornaListaParole } from "./js/parole/listaParole.js";
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -105,7 +106,7 @@ function GeneraParola() {
 
     }
 
-    aggiornaListaParole();
+    aggiornaListaParole(paroleGenerate, paroleRare);
 
     document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + paroleMassime;
     
@@ -119,7 +120,7 @@ function GeneraParola() {
             "> Parola aggiunta: \"" + parolaGenerata + "\"","successo"
         );
     }
-    aggiornaListaParole();
+    aggiornaListaParole(paroleGenerate, paroleRare );
     //voglio creare un easter egg per sebywlan aka sebylanza aka iano aka elektrowindows aka niente li ho finiti
     // aggiornamento,non capisco perche ma non sta andando più il glitch,che rottura di palle come roba
     if (parolaGenerata === "elektrowindows") { attivaGlitchPC() };
@@ -518,22 +519,6 @@ if(datiSessione) {
 }
 
 document.getElementById("btNuovaSessione").addEventListener("click", nuovaSessione);
-
-//effetti per le parole rare:
-function aggiornaListaParole() {
-    const lista = document.getElementById("listaParole");
-
-    const htmlParole = paroleGenerate.map(function(parola) {
-        if(paroleRare.includes(parola)) {
-            return "<span class='parola-rara'>" + parola + "</span>";
-        } else {
-            return parola;
-        }
-    });
-
-    lista.innerHTML = htmlParole.join(", ");
-
-}
 function aggiornaContatoreRare() {
     //aggiorna il contatore con il numero id rare trovate
     document.getElementById("contatoreRare").textContent = "Rare: " + contatoreRareTotale;
