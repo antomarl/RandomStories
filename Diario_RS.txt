@@ -51,3 +51,4 @@ oggi voglio completare il modulo di ieri e farne altri.
 colpetato il modulo salvataggio.js,lesgo
 
 oggi ho fatto pure  il modulo listaParole.js,che serviva per le parole rare,senza errori,acnhe se ormai ho imparato bene a corregerli grazie alla console
+penso che il modulo più difficile fino ad pra sia stato nuovasessione.js,ci ho messo circa un ora,mi ha fatto impazzire,però ho imparato molte cose,come imporatre funzioni di un modulo dentro un altro modulo,come creare un afunzione wrapper ed altro,ora sono ad 1:55h,non so se farne un altro o concludere qui per oggi,vediamo

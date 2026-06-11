@@ -13,7 +13,8 @@ import { avviaBootScreen } from "./js/ui/bootScreen.js"
 import { salvaSessione, caricaSessione} from "./js/sessione/salvataggio.js";
 import { aggiornaListaParole } from "./js/parole/listaParole.js";
 import { aggiornaContatoreRare } from "./js/parole/contatoreParole.js"
-// ho creato delle parole speciali e voglio metterle rare
+import { nuovaSessione } from "./js/sessione/nuovaSessione.js";
+// ho creato delle parole speciali e voglio metterle rare;
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
 
@@ -464,38 +465,6 @@ inizializzaTema();
 document.getElementById("coloreTema").addEventListener("click", cambiaTema)
 //il mio amico Costino mi ha detto di fare in modo che se esco per sbaglio dal sito mentre scrivo la stolria non perdo tutto ciò che avevo scritto,so let's do it!
 //PS(IMPORTANTE): mi ha detto pure di spostare il la scritta centrale dei comandi e metterla di lato che compare se viene premjuto un tasto,magari un punto interrogativo
-
-async function nuovaSessione() {
-    const conferma = await mostraConferma(
-        "Nuova Sessione",
-        "Sicuro di voler iniziare una nuova sessione? Perderai TUTTO il lavoro attuale!"
-    );
-
-    if (!conferma) {
-        return;
-    }
-    localStorage.removeItem("randomStories_sessione"); //serve a rimuovere local storage
-
-    //resettiamo le varbiabili
-
-    paroleGenerate = [];
-    numeroParole = 0;
-    pagine = [{sx: "", dx: ""}];
-    paginaCorrente = 0;
-
-    document.getElementById("storyInputSx").value = "";
-    document.getElementById("storyInputDx").value = "";
-    document.getElementById("listaParole").innerHTML = "";
-    document.getElementById("contatoreParole").textContent = "Parole generate: 0/" +  paroleMassime
-    document.getElementById("indicatorePagina").textContent = "Pagina 1";
-    document.getElementById("messaggioErrore").innerHTML = "";
-    document.getElementById("btnSalva").disabled = true;
-    pulisciMessaggioPC();
-
-    MMR("Nuova sessione iniziata!");
-    resetStatistiche(pagine);
-}
-
 setInterval(function() {
     salvaSessione ( pagine,paginaCorrente,paroleGenerate,numeroParole);
 }, 2000);
@@ -518,9 +487,16 @@ if(datiSessione) {
 
     MMR("Sessione ripristinata!")
 }
+// dopo la refactoring document....quell'evento non funzionava piu,perche rendeva parole,pagine tutti indefiniti,quidni devo creare una funzione wrapper
+async function GestisciNuovaSessione() {
+    const risultato = await nuovaSessione(paroleGenerate,numeroParole,pagine,paginaCorrente,paroleMassime,resetStatistiche,pulisciMessaggioPC);
+    if (risultato) {
+        numeroParole = risultato.numeroParole;
+        paginaCorrente = risultato.paginaCorrente;
+    }
+}
 
-document.getElementById("btNuovaSessione").addEventListener("click", nuovaSessione);
-
+document.getElementById("btNuovaSessione").addEventListener("click",GestisciNuovaSessione);
 aggiornaContatoreRare(contatoreRareTotale);
 
 
