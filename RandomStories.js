@@ -10,6 +10,7 @@ import { scatenaEffettiRari } from "./js/effetti/flashRaro.js";
 import { MMR } from "./js/ui/messaggi.js";
 import { aggiornaStatistiche, avviaTimerStats, resetStatistiche} from "./js/ui/statistiche.js";
 import { avviaBootScreen } from "./js/ui/bootScreen.js"
+import { salvaSessione } from "./js/sessione/salvataggio.js";
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -461,23 +462,6 @@ inizializzaTema();
 document.getElementById("coloreTema").addEventListener("click", cambiaTema)
 //il mio amico Costino mi ha detto di fare in modo che se esco per sbaglio dal sito mentre scrivo la stolria non perdo tutto ciò che avevo scritto,so let's do it!
 //PS(IMPORTANTE): mi ha detto pure di spostare il la scritta centrale dei comandi e metterla di lato che compare se viene premjuto un tasto,magari un punto interrogativo
-function salvaSessione(){
-    //per rpima cosa devo aggiornare le pagine con il contenuto attuale delle textarea
-    if (pagine[paginaCorrente]) {
-        pagine[paginaCorrente].sx = document.getElementById("storyInputSx").value;
-        pagine[paginaCorrente].dx = document.getElementById("storyInputDx").value;
-    };
-
-    const datiSessione = {
-        pagine: pagine,
-        paroleGenerate: paroleGenerate,
-        numeroParole: numeroParole,
-        paginaCorrente: paginaCorrente,
-        timestamp: Date.now() // cosi l'utente sa quando viene salvato
-    };
-
-    localStorage.setItem("randomStories_sessione", JSON.stringify(datiSessione));
-}
 
 function caricaSessione() {
     const salvataggio = localStorage.getItem("randomStories_sessione");
@@ -545,7 +529,9 @@ async function nuovaSessione() {
     resetStatistiche();
 }
 
-setInterval(salvaSessione, 2000); // avvio il salvataggio dell'intervallo ogni 2 secondi
+setInterval(function() {
+    salvaSessione ( pagine,paginaCorrente,paroleGenerate,numeroParole);
+}, 2000);
 
 const ripristinato = caricaSessione();
 if (ripristinato) {
