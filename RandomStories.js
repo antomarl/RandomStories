@@ -12,6 +12,7 @@ import { aggiornaStatistiche, avviaTimerStats, resetStatistiche} from "./js/ui/s
 import { avviaBootScreen } from "./js/ui/bootScreen.js"
 import { salvaSessione, caricaSessione} from "./js/sessione/salvataggio.js";
 import { aggiornaListaParole } from "./js/parole/listaParole.js";
+import { aggiornaContatoreRare } from "./js/parole/contatoreParole.js"
 // ho creato delle parole speciali e voglio metterle rare
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -102,7 +103,7 @@ function GeneraParola() {
         //incremento le parole rare trovate
         contatoreRareTotale++
         localStorage.setItem("randomStories_contatoreRare",contatoreRareTotale.toString())
-        aggiornaContatoreRare();
+        aggiornaContatoreRare(contatoreRareTotale);
 
     }
 
@@ -229,7 +230,7 @@ function resetParole() {
     document.getElementById("btnSalva").disabled = true; // disabilita il pulsante per salvare la storia finchè non viene generata una nuova storia valida
     pulisciMessaggioPC(); // cosi toglie la scritta sotto se si resetta 
     ValidaStoria(); // chiama la funzione ValidaStoria per aggiornare lo stato della storia dopo il reset delle parole generate
-    resetStatistiche();
+    resetStatistiche(pagine);
 }
 
 function mostraParole() {
@@ -492,7 +493,7 @@ async function nuovaSessione() {
     pulisciMessaggioPC();
 
     MMR("Nuova sessione iniziata!");
-    resetStatistiche();
+    resetStatistiche(pagine);
 }
 
 setInterval(function() {
@@ -519,12 +520,8 @@ if(datiSessione) {
 }
 
 document.getElementById("btNuovaSessione").addEventListener("click", nuovaSessione);
-function aggiornaContatoreRare() {
-    //aggiorna il contatore con il numero id rare trovate
-    document.getElementById("contatoreRare").textContent = "Rare: " + contatoreRareTotale;
-}
 
-aggiornaContatoreRare();
+aggiornaContatoreRare(contatoreRareTotale);
 
 
 //ora faccio il click per il pulasnte ?
