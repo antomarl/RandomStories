@@ -14,7 +14,7 @@ import { salvaSessione, caricaSessione} from "./js/sessione/salvataggio.js";
 import { aggiornaListaParole } from "./js/parole/listaParole.js";
 import { aggiornaContatoreRare } from "./js/parole/contatoreParole.js"
 import { nuovaSessione } from "./js/sessione/nuovaSessione.js";
-import { salvaStoria as salvaStoriaModulo } from "./js/storia/salvaStoria.js";
+import { salvaStoria } from "./js/storia/salvaStoria.js";
 // ho creato delle parole speciali e voglio metterle rare;
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -308,38 +308,6 @@ function aggiornaIndicatorePagina() {
     document.getElementById("indicatorePagina").textContent = "pagina " + (paginaCorrente + 1) + " di " + pagine.length;
     document.getElementById("indicatorePagina").style.color = "#6b4a2f";
 }
-
-function salvaStoria() {
-    if (!ValidaStoria()) {
-        return;
-    }
-    // faccio in modo che si salvi anche la pagina corrente quando esporto(edit: stessa cosa per entrambe le textarea)
-    pagine[paginaCorrente].sx = document.getElementById("storyInputSx").value;
-    pagine[paginaCorrente].dx = document.getElementById("storyInputDx").value;
-
-    let storiaCompleta = "";
-
-    for (let i = 0; i < pagine.length; i++) {
-        storiaCompleta += "=== Pagina " + (i + 1) + "===\n";
-        storiaCompleta += pagine[i].sx +" " + pagine[i].dx + "\n\n";
-    }
-
-    if (storiaCompleta.trim() === "") {
-        mostraMessaggioPc("> Errore: la storia è vuota!", "errore");
-        return;
-    }
-
-    let blob = new Blob([storiaCompleta], {type: "text/plain;charset=utf-8"});
-    let link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "storia.txt";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(link.href); 
-
-}
-
 document.body.classList.add('state-generating');
 
 // ora faccio in modo che quando clicco sul pulsante genera parole, venga chiamata la funzione GeneraParola
@@ -354,7 +322,7 @@ document.getElementById("btnResetParole").addEventListener("click", function() {
 });
 
 document.getElementById("btnSalva").addEventListener("click", function() {
-    salvaStoriaModulo( pagine, paginaCorrente, ValidaStoria, mostraMessaggioPc);
+    salvaStoria( pagine, paginaCorrente, ValidaStoria, mostraMessaggioPc);
 });
 // le due textarea le metto in 2 variabili perchè è più comodo 
 const textareaSx = document.getElementById("storyInputSx");
