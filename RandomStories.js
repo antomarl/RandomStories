@@ -14,6 +14,7 @@ import { salvaSessione, caricaSessione} from "./js/sessione/salvataggio.js";
 import { aggiornaListaParole } from "./js/parole/listaParole.js";
 import { aggiornaContatoreRare } from "./js/parole/contatoreParole.js"
 import { nuovaSessione } from "./js/sessione/nuovaSessione.js";
+import { salvaStoria as salvaStoriaModulo } from "./js/storia/salvaStoria.js";
 // ho creato delle parole speciali e voglio metterle rare;
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -353,7 +354,7 @@ document.getElementById("btnResetParole").addEventListener("click", function() {
 });
 
 document.getElementById("btnSalva").addEventListener("click", function() {
-    salvaStoria();
+    salvaStoriaModulo( pagine, paginaCorrente, ValidaStoria, mostraMessaggioPc);
 });
 // le due textarea le metto in 2 variabili perchè è più comodo 
 const textareaSx = document.getElementById("storyInputSx");
@@ -464,7 +465,7 @@ inizializzaTema();
 //e aggangio il cambio tema al click sul bottone
 document.getElementById("coloreTema").addEventListener("click", cambiaTema)
 //il mio amico Costino mi ha detto di fare in modo che se esco per sbaglio dal sito mentre scrivo la stolria non perdo tutto ciò che avevo scritto,so let's do it!
-//PS(IMPORTANTE): mi ha detto pure di spostare il la scritta centrale dei comandi e metterla di lato che compare se viene premjuto un tasto,magari un punto interrogativo
+//PS(IMPORTANTE): mi ha detto pure di spostare il la scritta centrale dei comandi e metterla di lato che compare se vieddddddddddddddddcswcscscscxssccsscsc
 setInterval(function() {
     salvaSessione ( pagine,paginaCorrente,paroleGenerate,numeroParole);
 }, 2000);
