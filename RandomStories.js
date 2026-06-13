@@ -15,6 +15,7 @@ import { aggiornaListaParole } from "./js/parole/listaParole.js";
 import { aggiornaContatoreRare } from "./js/parole/contatoreParole.js"
 import { nuovaSessione } from "./js/sessione/nuovaSessione.js";
 import { salvaStoria } from "./js/storia/salvaStoria.js";
+import { contieneParola } from "./js/parole/contieneParola.js";
 // ho creato delle parole speciali e voglio metterle rare;
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -127,97 +128,9 @@ function GeneraParola() {
     //voglio creare un easter egg per sebywlan aka sebylanza aka iano aka elektrowindows aka niente li ho finiti
     // aggiornamento,non capisco perche ma non sta andando più il glitch,che rottura di palle come roba
     if (parolaGenerata === "elektrowindows") { attivaGlitchPC() };
+
+    ValidaStoria();
 }
-function contieneParola(testo,parola) {
-    // converte la storia in minuscolo per una ricerca case-insensitive
-    testo = testo.toLowerCase();
-
-    const lettera = "\\p{L}"; 
-    const regexEsatta = new RegExp (
-        "(^|[^" + lettera + "])" +
-        parola.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") +
-        "(?=[^" + lettera + "]|$)",
-        "iu"
-    );
-
-    if (regexEsatta.test(testo)) {
-        return true; // se la parola esatta è presente nella storia,la funzione restituisce true e la storia è valida per quella parola
-    }
-    
-    // dizionaro per tutti quei verdbi irregolari (che rottura)
-    const irregolari = {
-        "essere" :["sono","sei","è","siamo","siete","sono","stato","stata","stati","state","eravamo","ero","eri","era","eravamo","eravate","erano","fui","fosti","fu"],
-        "avere" : ["ho","hai","ha","abbiamo","avete","hanno","avuto","avuta","avuti","avute"],
-        "andare" :["vado","vai","va","andiamo","andate","vanno","andato","andata","andati","andate","andai","andò","andasti","vanno","andammo","andaste"],
-        "fare" : ["faccio","fai","fa","facciamo","fate","fanno","fatto","fatta","fatti","fatte","feci","fece","faceste","facemmo","faceste","fecero","facevo","facevi","faceva","facevamo","facevate","facevamo"],
-        "dire" : ["dico","dici","dice","diciamo","dite","dicono","detto","detta","detti","dette","disse","dissero","dicemmo","diceva","dicevo","dicevi","dicevamo","dicevate","dicevano"],
-        "venire" : ["vengo","vieni","viene","veniamo","venite","vengono","venuto","venuta","venuti", "venute","venni","venne", "venivo", "veniva","venivamo","venivate","venivano","venivi"],
-        "udire" : ["odo","udì","udiamo","udite","udirono","udite","udiamo","udirono","udii","udi","udivo","udiva","udivamo","udivate","udivano","udivi"],
-        "stare" : ["sto","stai","sta","stiamo","state","stanno","stato","stata","stati","starà","staremo","starete","staranno","staremo","staremmo","starò","starai","stavo","stava","stavi","stavamo","stavate","stavano"],
-        "dare" : ["do","dai","da","diamo","date","danno","dato","data","dati","daremo","diedi","darò","darai","darà","darete","daranno","diedi","diede","diedero","davo","davi","dava","davamo","davate","davano"],
-        "potere" : ["posso","puoi","può","possiamo","potete","possono","potuto","potevo","potevi","poteva","potevamo","potevate"]
-    };
-
-    if (irregolari[parola]) {
-        for (const forma of irregolari[parola]) {
-            const regexVariante = new RegExp(
-                "(^|[^" + lettera + "])" +
-                forma.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") +
-                "(?=[^" + lettera + "]|$)",
-                "iu"
-            );
-            if (regexVariante.test(testo)) {
-                return true;
-            }    
-        }
-    }
-    
-    let radice = parola;
-    let isVerbo = false;
-
-    if (parola.endsWith("are"))  {
-        radice = parola.slice(0, -3);
-        isVerbo = true;
-    }
-    else if (parola.endsWith("ere")) {
-        radice = parola.slice(0, -3);
-        isVerbo = true;
-    }
-    else if (parola.endsWith("ire")) {
-        radice = parola.slice(0, -3);
-        isVerbo = true
-    }
-
-    if (isVerbo && radice.length > 2) {
-        // sono uscito pazzo a scrivere questo a mano,ma la goduria di vedere che alle 21 di sera funzionava è impagabile,penso niente mi dara una felicità cosi genuina
-        const varianti = [
-            radice + "o", radice + "i", radice + "a", radice + "iamo", radice + "ate", radice + "ano",
-            radice + "avo", radice + "ava", radice + "avi", radice + "avamo", radice + "avate", radice + "avano",
-            radice + "erò", radice + "erai", radice + "erà", radice + "eremo", radice + "erete", radice + "eranno",
-            radice + "ato", radice + "ata", radice + "ati", radice + "ate",
-            radice + "ito", radice + "ita", radice + "iti",radice + "ite",
-            radice + "uto", radice + "uta", radice + "uti", radice + "ute",
-            radice + "ando",radice + "endo", radice + "ante",radice + "erei",
-            radice + "eresti",radice + "eresi",radice + "eremmo",radice + "ereste",radice + "erebberro",
-            radice + "irei",radice + "iresti",radice + "iremmo",radice + "ireste",radice + "irebbero",
-            radice + "ai",radice + "asti",radice + "ò",radice + "ammo",radice + "aste",radice + "arono", radice + "assi", radice + "erei",radice + "eresti",radice + "essi",radice + "emmo",radice + "este",radice + "ebbero"
-        ];
-
-        for (let v of varianti) {
-            const regexVariante = new RegExp(
-                "(^|[^" + lettera + "])" +
-                v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") +
-                "(?=[^" + lettera + "]|$)",
-                "iu"
-            );
-            if (regexVariante.test(testo)) {
-                return true; // così se una delle varianti del verbo è presente nel testo la storia e valida comunque,speriamo che funziona ti prego
-            }
-        }
-    }
-    return false;
-}
-
 function resetParole() {
     paroleGenerate = [];
     numeroParole = 0;
