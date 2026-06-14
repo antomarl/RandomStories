@@ -1,6 +1,6 @@
 // questo modulo gestisce il cambio pagina del quaderno (con ctrl -  freccia destra/sinistra)
 //sto impazzendoiooo
-export function cambiaPagina(direzione,pagine,paginaCorrente,validaStoria) {
+export function cambiaPagina(direzione,pagine,paginaCorrente) {
     //non sta funzionando un cazzo
     console.log("cambiaPagina chiamato");
     console.log("direzione : ", direzione);
@@ -45,7 +45,8 @@ export function cambiaPagina(direzione,pagine,paginaCorrente,validaStoria) {
 
     textareaSx.setSelectionRange(textareaSx.value.length, textareaSx.value.length);
     //rivalida la storia
-    validaStoria();
+    console.log(" FINE cambiaPagina");
+    console.log("pagine alla fine : ", JSON.parse(JSON.stringify(pagine)));
 
     //ritorna la nuova pagina corrente
     return paginaCorrente;

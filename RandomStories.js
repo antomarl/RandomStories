@@ -33,6 +33,10 @@ let numeroParole = 0; // Variabile per tenere traccia del numero di parole gener
 let pagine = [{sx: "", dx: ""}] // array delle pagine,inizia con 1 vuoto
 window.pagine = pagine;
 
+setInterval(function() {
+    console.log("snapshot pagine: ",JSON.parse(JSON.stringify(pagine)));
+}, 10000);
+
 let paginaCorrente = 0; // indice della pagina che si sta vedendo;
 window.paginaCorrente = paginaCorrente;
 
@@ -305,11 +309,13 @@ document.addEventListener("keydown", function(event) {
     if (document.body.classList.contains("state-writing")) {
         if (event.ctrlKey && event.key === "ArrowRight") {
                 event.preventDefault();
-                paginaCorrente = cambiaPagina("avanti",pagine,paginaCorrente,ValidaStoria);
+                paginaCorrente = cambiaPagina("avanti",pagine,paginaCorrente);
+                ValidaStoria();
                 
         } else if (event.ctrlKey && event.key === "ArrowLeft") {
                 event.preventDefault();
-                paginaCorrente = cambiaPagina("indietro",pagine,paginaCorrente,ValidaStoria);
+                paginaCorrente = cambiaPagina("indietro",pagine,paginaCorrente);
+                ValidaStoria();
             
         }
     }
