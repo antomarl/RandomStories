@@ -72,7 +72,7 @@ export function contieneParola(testo, parola) {
         ];
 
         for (let v of varianti) {
-            const regexVariante = new RegExp("(^|[^" + lettera + "])" + v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(?=[^" + lettera + "[|$)","iu");
+            const regexVariante = new RegExp("(^|[^" + lettera + "])" + v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(?=[^" + lettera + "]|$)","iu");
             
             if (regexVariante.test(testo)) {
                 return true;

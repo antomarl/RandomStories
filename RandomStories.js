@@ -16,6 +16,7 @@ import { aggiornaContatoreRare } from "./js/parole/contatoreParole.js"
 import { nuovaSessione } from "./js/sessione/nuovaSessione.js";
 import { salvaStoria } from "./js/storia/salvaStoria.js";
 import { contieneParola } from "./js/parole/contieneParola.js";
+import { cambiaPagina } from "./js/quaderno/cambiaPagina.js";
 // ho creato delle parole speciali e voglio metterle rare;
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -30,38 +31,11 @@ let numeroParole = 0; // Variabile per tenere traccia del numero di parole gener
 // neanche questa
 
 let pagine = [{sx: "", dx: ""}] // array delle pagine,inizia con 1 vuoto
+window.pagine = pagine;
 
 let paginaCorrente = 0; // indice della pagina che si sta vedendo;
+window.paginaCorrente = paginaCorrente;
 
-function cambiaPagina(direzione) {
-    pagine[paginaCorrente].sx = document.getElementById('storyInputSx').value; // Rip Storyinput N2026 M2026
-    pagine[paginaCorrente].dx = document.getElementById('storyInputDx').value;
-
-    if (direzione === 'avanti') {
-        paginaCorrente++;
-        if (paginaCorrente >= pagine.length) {
-            pagine.push({sx: "", dx: ""});
-        }
-    } else if (direzione === "indietro") {
-        if (paginaCorrente > 0) {
-            paginaCorrente--;
-        } else {
-            return;   // sei già a pagina 1, non andare oltre
-        }
-    } else {
-        return;
-    }
-
-    document.getElementById("storyInputSx").value = pagine[paginaCorrente].sx;
-    document.getElementById("storyInputDx").value = pagine[paginaCorrente].dx;
-    document.getElementById("indicatorePagina").textContent = "Pagina " + (paginaCorrente + 1) + " di " + pagine.length;
-    
-    const textareaSx = document.getElementById("storyInputSx");
-    textareaSx.focus();
-    textareaSx.setSelectionRange(textareaSx.value.length, textareaSx.value.length);
-   
-    ValidaStoria();
-}
 // devo modificare un po' di cose nella funzione generaparole
 function GeneraParola() {
     if (numeroParole >= paroleMassime) {
@@ -331,11 +305,11 @@ document.addEventListener("keydown", function(event) {
     if (document.body.classList.contains("state-writing")) {
         if (event.ctrlKey && event.key === "ArrowRight") {
                 event.preventDefault();
-                cambiaPagina("avanti");
+                paginaCorrente = cambiaPagina("avanti",pagine,paginaCorrente,ValidaStoria);
                 
         } else if (event.ctrlKey && event.key === "ArrowLeft") {
                 event.preventDefault();
-                cambiaPagina("indietro")
+                paginaCorrente = cambiaPagina("indietro",pagine,paginaCorrente,ValidaStoria);
             
         }
     }
