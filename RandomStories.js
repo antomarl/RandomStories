@@ -18,6 +18,8 @@ import { salvaStoria } from "./js/storia/salvaStoria.js";
 import { contieneParola } from "./js/parole/contieneParola.js";
 import { cambiaPagina } from "./js/quaderno/cambiaPagina.js";
 import { aggiornaIndicatorePagina } from "./js/quaderno/aggiornaIndicatorePagina.js";
+import { salvaPaginaCorrente } from "./js/quaderno/salvaPaginaCorrente.js";
+
 // ho creato delle parole speciali e voglio metterle rare;
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -191,10 +193,6 @@ function ValidaStoria() {
     return false; // se anche solo una parola manca, la storia non è valida e la funzione restituisce false
 }
 
-function salvaPaginaCorrente() { // scrivo 2 funzioni cosi scrivo il codice una volta sola,il codice si capisce megli o e si accorcia, a quanto pare si chiama principio DRY
-    pagine[paginaCorrente].sx = textareaSx.value;
-    pagine[paginaCorrente].dx = textareaDx.value;   
-}
 document.body.classList.add('state-generating');
 
 // ora faccio in modo che quando clicco sul pulsante genera parole, venga chiamata la funzione GeneraParola
@@ -237,7 +235,7 @@ textareaSx.addEventListener("input", function() {
         textareaDx.focus();
         textareaDx.setSelectionRange(testoExtra.length, testoExtra.length);
     }
-    salvaPaginaCorrente();
+    salvaPaginaCorrente(pagine, paginaCorrente);
     aggiornaIndicatorePagina(paginaCorrente, pagine);
     ValidaStoria();
 });
@@ -254,7 +252,7 @@ textareaDx.addEventListener("input", function() {
         aggiornaIndicatorePagina(paginaCorrente,pagine);
     }
 
-    salvaPaginaCorrente();
+    salvaPaginaCorrente(pagine, paginaCorrente);
     ValidaStoria()
 }); // funzionaq cazzo si,ora pero devo fare in modo che se cnacello il contenuto a destra ritorno a sinistra, perchè mi rompo ad usare il moue
 // ma quanto sono forti i negramaro,mi sto ascoltando attenta mentre ora scirvo quello che ho scritto sopra
@@ -275,7 +273,7 @@ textareaDx.addEventListener("keydown", function(event) {
         if (this.value.length > 0 ) {
             textareaSx.value =textareaSx.value + this.value;
             this.value = "";
-            salvaPaginaCorrente();
+            salvaPaginaCorrente(pagine, paginaCorrente);
         }
         textareaSx.focus();
         let lunghezza = textareaSx.value.length;
