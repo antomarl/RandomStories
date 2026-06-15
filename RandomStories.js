@@ -19,6 +19,8 @@ import { contieneParola } from "./js/parole/contieneParola.js";
 import { cambiaPagina } from "./js/quaderno/cambiaPagina.js";
 import { aggiornaIndicatorePagina } from "./js/quaderno/aggiornaIndicatorePagina.js";
 import { salvaPaginaCorrente } from "./js/quaderno/salvaPaginaCorrente.js";
+import { mostraParole } from "./js/parole/mostraParole.js";
+import { resetParole as resetParoleModulo} from "./js/parole/resetParole.js";
 
 // ho creato delle parole speciali e voglio metterle rare;
 
@@ -112,36 +114,6 @@ function GeneraParola() {
 
     ValidaStoria();
 }
-function resetParole() {
-    paroleGenerate = [];
-    numeroParole = 0;
-    pagine = [{sx: "", dx: "" }]; 
-    paginaCorrente = 0;
-    document.getElementById("storyInputSx").value = "";
-    document.getElementById("storyInputDx").value = "";
-    document.getElementById("listaParole").innerHTML = ""; // pulisce la visualizzazione delle parole generate
-    document.getElementById("indicatorePagina").textContent = "Pagina 1";
-    document.getElementById("contatoreParole").textContent ="parole generate: 0/" + paroleMassime; // resetta il contatore delle parole casuali
-    document.getElementById("messaggioErrore").innerHTML = ""; // pulisce eventuali errori di messaggi precedenti
-    document.getElementById("btnSalva").disabled = true; // disabilita il pulsante per salvare la storia finchè non viene generata una nuova storia valida
-    pulisciMessaggioPC(); // cosi toglie la scritta sotto se si resetta 
-    ValidaStoria(); // chiama la funzione ValidaStoria per aggiornare lo stato della storia dopo il reset delle parole generate
-    resetStatistiche(pagine);
-}
-
-function mostraParole() {
-    if (paroleGenerate.length === 0) {
-        /* tolgo gli alert pure qua*/
-        mostraMessaggioPc(
-            "Nessuna parola generata. Clicca 'genera parola' per iniziare.","avviso"
-        )
-    }   else {
-        mostraMessaggioPc (
-            "> Parole generate: " + paroleGenerate.join(", "), "successo"
-        );
-    }
-}
-
 function ValidaStoria() {
     // ora salvo il contenuto delle 2 aree nella pagina corrente
 
@@ -201,10 +173,18 @@ document.getElementById("btnGeneraParola").addEventListener("click", function() 
     GeneraParola();
 });
 
-document.getElementById("btnResetParole").addEventListener("click", function() {
+function gestisciResetParole() {
+    const risultato = resetParoleModulo(paroleGenerate, paroleMassime, ValidaStoria);
+
+    if (risultato) {
+        numeroParole = risultato.numeroParole;
+    }
+}
+
+document.getElementById("btnResetParole").addEventListener("click",function() {
     setAppState('state-generating');
-    resetParole();
-});
+    gestisciResetParole();
+})
 
 document.getElementById("btnSalva").addEventListener("click", function() {
     salvaStoria( pagine, paginaCorrente, ValidaStoria, mostraMessaggioPc);
