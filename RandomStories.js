@@ -17,6 +17,7 @@ import { nuovaSessione } from "./js/sessione/nuovaSessione.js";
 import { salvaStoria } from "./js/storia/salvaStoria.js";
 import { contieneParola } from "./js/parole/contieneParola.js";
 import { cambiaPagina } from "./js/quaderno/cambiaPagina.js";
+import { aggiornaIndicatorePagina } from "./js/quaderno/aggiornaIndicatorePagina.js";
 // ho creato delle parole speciali e voglio metterle rare;
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -194,11 +195,6 @@ function salvaPaginaCorrente() { // scrivo 2 funzioni cosi scrivo il codice una 
     pagine[paginaCorrente].sx = textareaSx.value;
     pagine[paginaCorrente].dx = textareaDx.value;   
 }
-
-function aggiornaIndicatorePagina() {
-    document.getElementById("indicatorePagina").textContent = "pagina " + (paginaCorrente + 1) + " di " + pagine.length;
-    document.getElementById("indicatorePagina").style.color = "#6b4a2f";
-}
 document.body.classList.add('state-generating');
 
 // ora faccio in modo che quando clicco sul pulsante genera parole, venga chiamata la funzione GeneraParola
@@ -242,7 +238,7 @@ textareaSx.addEventListener("input", function() {
         textareaDx.setSelectionRange(testoExtra.length, testoExtra.length);
     }
     salvaPaginaCorrente();
-    aggiornaIndicatorePagina();
+    aggiornaIndicatorePagina(paginaCorrente, pagine);
     ValidaStoria();
 });
 
@@ -255,7 +251,7 @@ textareaDx.addEventListener("input", function() {
         document.getElementById("indicatorePagina").textContent =  "Pagina " + (paginaCorrente + 1) + " - Piena! Premi ctrl + freccia destra per continuare";
         document.getElementById("indicatorePagina").style.color = "red";
     } else {
-        aggiornaIndicatorePagina();
+        aggiornaIndicatorePagina(paginaCorrente,pagine);
     }
 
     salvaPaginaCorrente();
