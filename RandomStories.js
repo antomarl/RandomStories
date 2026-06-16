@@ -15,12 +15,12 @@ import { aggiornaListaParole } from "./js/parole/listaParole.js";
 import { aggiornaContatoreRare } from "./js/parole/contatoreParole.js"
 import { nuovaSessione } from "./js/sessione/nuovaSessione.js";
 import { salvaStoria } from "./js/storia/salvaStoria.js";
-import { contieneParola } from "./js/parole/contieneParola.js";
 import { cambiaPagina } from "./js/quaderno/cambiaPagina.js";
 import { aggiornaIndicatorePagina } from "./js/quaderno/aggiornaIndicatorePagina.js";
 import { salvaPaginaCorrente } from "./js/quaderno/salvaPaginaCorrente.js";
 import { mostraParole } from "./js/parole/mostraParole.js";
-import { resetParole as resetParoleModulo} from "./js/parole/resetParole.js";
+import { resetParole } from "./js/parole/resetParole.js";
+import { validaStoria } from "./js/storia/validaStoria.js";
 
 // ho creato delle parole speciali e voglio metterle rare;
 
@@ -112,60 +112,14 @@ function GeneraParola() {
     // aggiornamento,non capisco perche ma non sta andando più il glitch,che rottura di palle come roba
     if (parolaGenerata === "elektrowindows") { attivaGlitchPC() };
 
-    ValidaStoria();
+    gestisciValidazioneStoria();
 }
-function ValidaStoria() {
-    // ora salvo il contenuto delle 2 aree nella pagina corrente
-
-    let inputSx = document.getElementById("storyInputSx");
-    let inputDx = document.getElementById("storyInputDx");   //salviamo i valori di entrambe le textarea, rimpiango storyInput nelc prime
-    if (inputSx && inputDx) {
-        pagine[paginaCorrente].sx = inputSx.value;
-        pagine[paginaCorrente].dx = inputDx.value;
-    }
-
-    let storia = "";
-    for(let p of pagine) {
-        storia += p.sx + " " + p.dx + " ";
-    }
-
-    storia = storia.toLocaleLowerCase();
-    document.getElementById("messaggioErrore").innerHTML = " ";
-    document.getElementById("messaggioErrore").style.color = "red";
-
-    if (paroleGenerate.length === 0) {
-        document.getElementById("messaggioErrore").innerHTML = "devi generare almeno una parola prima di validitare la tua storia!";
-        document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia se non sono state generate parole
-        return false; // se non è stata generata alcuna parola,la storia non è valida e la funzione termina qui
-    }
-
-    let tuttoValido= true
-
-    let mancanti = [];
-
-    for (let parola of paroleGenerate) {
-        if (!contieneParola(storia, parola)) {
-            mancanti.push(parola);
-            tuttoValido = false;
-        }
-    }
-
-    if (mancanti.length > 0) {
-        document.getElementById("messaggioErrore").innerHTML = "Mancano: <br>" + mancanti.join(", ");
-    }
-    // se è tutto apposto,il messaggio di sucesso viene mostrato e diamo la possibilità di salvare la storia
-    if (tuttoValido) {
-        document.getElementById("messaggioErrore").innerHTML = "La tua storia è valida,ora puoi salvarla  cliccando su  'Salva Storia',oppure genera una nuova storia completamente da zero!";
-        document.getElementById("messaggioErrore").style.color = "green"; // cambia il colore del messaggio di errore in verde 
-        document.getElementById("btnSalva").disabled = false; // abilia il pulsante per salvare la storia solo se la storia è valida
-        return true; // se tutte le parole sono presenti, la storia è valida e la funzione restituisce true
-    }
-    
-    document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia se la storia non è valida
-    return false; // se anche solo una parola manca, la storia non è valida e la funzione restituisce false
-}
-
 document.body.classList.add('state-generating');
+
+//qua aggiungo una funzione per la validazione della storia
+function gestisciValidazioneStoria() {
+    return validaStoria(pagine, paginaCorrente, paroleGenerate);
+}
 
 // ora faccio in modo che quando clicco sul pulsante genera parole, venga chiamata la funzione GeneraParola
 document.getElementById("btnGeneraParola").addEventListener("click", function() {
@@ -174,7 +128,7 @@ document.getElementById("btnGeneraParola").addEventListener("click", function() 
 });
 
 function gestisciResetParole() {
-    const risultato = resetParoleModulo(paroleGenerate, paroleMassime, ValidaStoria);
+    const risultato = resetParole(paroleGenerate, paroleMassime, gestisciValidazioneStoria);
 
     if (risultato) {
         numeroParole = risultato.numeroParole;
@@ -187,7 +141,7 @@ document.getElementById("btnResetParole").addEventListener("click",function() {
 })
 
 document.getElementById("btnSalva").addEventListener("click", function() {
-    salvaStoria( pagine, paginaCorrente, ValidaStoria, mostraMessaggioPc);
+    salvaStoria( pagine, paginaCorrente, gestisciValidazioneStoria , mostraMessaggioPc);
 });
 // le due textarea le metto in 2 variabili perchè è più comodo 
 const textareaSx = document.getElementById("storyInputSx");
@@ -217,7 +171,7 @@ textareaSx.addEventListener("input", function() {
     }
     salvaPaginaCorrente(pagine, paginaCorrente);
     aggiornaIndicatorePagina(paginaCorrente, pagine);
-    ValidaStoria();
+    gestisciValidazioneStoria();
 });
 
 textareaDx.addEventListener("input", function() {
@@ -233,7 +187,7 @@ textareaDx.addEventListener("input", function() {
     }
 
     salvaPaginaCorrente(pagine, paginaCorrente);
-    ValidaStoria()
+    gestisciValidazioneStoria();
 }); // funzionaq cazzo si,ora pero devo fare in modo che se cnacello il contenuto a destra ritorno a sinistra, perchè mi rompo ad usare il moue
 // ma quanto sono forti i negramaro,mi sto ascoltando attenta mentre ora scirvo quello che ho scritto sopra
 
@@ -265,7 +219,7 @@ textareaDx.addEventListener("keydown", function(event) {
 
 
 document.getElementById("contatoreParole").textContent = "Parole generate:" + numeroParole + "/" + paroleMassime;
-ValidaStoria();
+gestisciValidazioneStoria();
 
 document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia valida
 
@@ -284,12 +238,12 @@ document.addEventListener("keydown", function(event) {
         if (event.ctrlKey && event.key === "ArrowRight") {
                 event.preventDefault();
                 paginaCorrente = cambiaPagina("avanti",pagine,paginaCorrente);
-                ValidaStoria();
+                gestisciValidazioneStoria();
                 
         } else if (event.ctrlKey && event.key === "ArrowLeft") {
                 event.preventDefault();
                 paginaCorrente = cambiaPagina("indietro",pagine,paginaCorrente);
-                ValidaStoria();
+                gestisciValidazioneStoria();
             
         }
     }
@@ -319,7 +273,7 @@ if(datiSessione) {
     document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + paroleMassime;
     document.getElementById("indicatorePagina").textContent = "pagina " + (paginaCorrente + 1) + " di " + pagine.length;
 
-    ValidaStoria();
+    gestisciValidazioneStoria();
 
     MMR("Sessione ripristinata!")
 }
