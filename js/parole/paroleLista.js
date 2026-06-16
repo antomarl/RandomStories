@@ -1,4 +1,7 @@
-const paroleDisponibili = [
+//qyeste sono le due liste usate dal generatore
+//paroleDisponibili sono le parole normali
+// parole rare sono le parole speciali/meme/easter egg
+export const paroleDisponibili = [
     'abbandonare',
     'abbastanza',
     'abitare',
@@ -1161,7 +1164,7 @@ const paroleDisponibili = [
     'zona'
 ];
 
-const paroleRare = [
+export const paroleRare = [
     "apocalisse",
     "big bang",
     "austrolopiteco",
