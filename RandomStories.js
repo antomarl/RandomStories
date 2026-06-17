@@ -22,6 +22,7 @@ import { salvaPaginaCorrente } from "./js/quaderno/salvaPaginaCorrente.js";
 import { mostraParole } from "./js/parole/mostraParole.js";
 import { resetParole } from "./js/parole/resetParole.js";
 import { validaStoria } from "./js/storia/validaStoria.js";
+import { generaParola } from "./js/parole/generaParola.js";
 
 // ho creato delle parole speciali e voglio metterle rare;
 
@@ -47,74 +48,6 @@ let paginaCorrente = 0; // indice della pagina che si sta vedendo;
 window.paginaCorrente = paginaCorrente;
 
 // devo modificare un po' di cose nella funzione generaparole
-function GeneraParola() {
-    if (numeroParole >= paroleMassime) {
-      /*leviamo l'alert di merda */
-      mostraMessaggioPc (
-        "> Limite raggiunto: " + paroleMassime + "/" + paroleMassime + "parole generate, ora premi F3 per iniziare a scrivere!", "avviso"
-      );
-      return;
-    }
-    // serve per decidere se esce una parola rara od una normale
-    const tiroraro = Math.floor(Math.random() * probabilitaRara); // qua prima avevo scritto probabilita_rara, ma adesso per fare tutti nello stesso stile l'ho rinominata
-    const escerara = (tiroraro === 0); //1 su 20 di possibilità
-
-    let parolaGenerata;
-    let rara = false;
-
-    if(escerara) { //prova a generare una parola speciale che non è ancora uscita
-        const indiceRaro = Math.floor(Math.random() * paroleRare.length);
-        parolaGenerata = paroleRare[indiceRaro];
-        rara = true;
-    } else { // da una parola normale
-        const indiceRandom = Math.floor(Math.random() * paroleDisponibili.length);
-        parolaGenerata = paroleDisponibili[indiceRandom];
-    }
-
-    if (paroleGenerate.includes(parolaGenerata)) { // controlla se una parola non sia stata già generata
-        GeneraParola();
-        return;
-    }
-
-    paroleGenerate.push(parolaGenerata);
-    numeroParole++;
-
-    if (rara) {
-        scatenaEffettiRari(parolaGenerata)
-    
-        //se è la first time,slava nella lista permanente le parole rare trovate
-        if(!parolerareTrovate.includes(parolaGenerata)) {
-            parolerareTrovate.push(parolaGenerata);
-            localStorage.setItem("randomStories_rareTrovate",JSON.stringify(parolerareTrovate));
-        }
-        //incremento le parole rare trovate
-        contatoreRareTotale++
-        localStorage.setItem("randomStories_contatoreRare",contatoreRareTotale.toString())
-        aggiornaContatoreRare(contatoreRareTotale);
-
-    }
-
-    aggiornaListaParole(paroleGenerate, paroleRare);
-
-    document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + paroleMassime;
-    
-    //il messaggio nel terminale deve essere diverso tra rare e normali
-    if (rara) {
-        mostraMessaggioPc (
-            "parola rara sbloccata: \"" + parolaGenerata + "\":)", "successo"
-        );
-    } else {
-        mostraMessaggioPc(
-            "> Parola aggiunta: \"" + parolaGenerata + "\"","successo"
-        );
-    }
-    aggiornaListaParole(paroleGenerate, paroleRare );
-    //voglio creare un easter egg per sebywlan aka sebylanza aka iano aka elektrowindows aka niente li ho finiti
-    // aggiornamento,non capisco perche ma non sta andando più il glitch,che rottura di palle come roba
-    if (parolaGenerata === "elektrowindows") { attivaGlitchPC() };
-
-    gestisciValidazioneStoria();
-}
 document.body.classList.add('state-generating');
 
 //qua aggiungo una funzione per la validazione della storia
@@ -125,9 +58,17 @@ function gestisciValidazioneStoria() {
 // ora faccio in modo che quando clicco sul pulsante genera parole, venga chiamata la funzione GeneraParola
 document.getElementById("btnGeneraParola").addEventListener("click", function() {
     setAppState('state-generating');
-    GeneraParola();
+    gestiscigeneraParola();
 });
-
+// ora devo creare un altra funzione wrapper per generaParola(il modulo modifica i numeri che vivono nel main
+//quuindi devo riassegnarli con quello che mi restituisce)
+function gestiscigeneraParola() {
+    const risultato = generaParola(paroleGenerate,numeroParole, parolerareTrovate, contatoreRareTotale,gestisciValidazioneStoria);
+    if (risultato) {
+        numeroParole = risultato.numeroParole;
+        contatoreRareTotale = risultato.contatoreRareTotale;
+    }
+}
 function gestisciResetParole() {
     const risultato = resetParole(paroleGenerate, paroleMassime, gestisciValidazioneStoria);
 
