@@ -3,8 +3,7 @@
 //quan si vedrà la differenza tra gli uomini e i ragazzini
 // btw quesa funzione genera una parola casuale(normale o rara),la aggiunge alla lista,aggiorna UI e cintatori,e gestisce gli effetti speciali
 // vamos
-
-import { paroleMassime, probabilitaRara} from "../config/costanti.js";
+import { getDifficoltaAttiva } from "../stato/difficoltaAttiva.js";
 import {paroleDisponibili,paroleRare } from "./paroleLista.js";
 import { mostraMessaggioPc } from "../ui/terminale.js";
 import { scatenaEffettiRari } from "../effetti/flashRaro.js";
@@ -13,6 +12,9 @@ import { aggiornaListaParole } from "./listaParole.js";
 import { aggiornaContatoreRare } from "./contatoreParole.js";
 
 export function generaParola(paroleGenerate, numeroParole, parolerareTrovate,contatoreRareTotale, validaStoria) {
+    // leggo la difficoltà messa ad ogni chiamata
+    // in questo modo,se l'utente cambia modalità a metà partita,cambia instant(big brain)
+    const { paroleMassime, probabilitaRara } = getDifficoltaAttiva();
     // intanto dobbiamo bloccare la generazione delle parole se si raggiunge il limite massimo(per ora 190)
     if (numeroParole >= paroleMassime) {
         mostraMessaggioPc("> Limite raggiunto: " + paroleMassime + "/" + paroleMassime + " parole generate,ora premi F3 per iniziare a scrivere!","avviso");

@@ -4,7 +4,7 @@
 import { difficolta } from "../config/difficolta.js";
 
 // creo la chiave usata per il localStorage(la metto come costante)
-const chiaveStorage = "randomStories_difficoltà";
+const chiaveStorage = "randomStories_difficolta";
 
 // come difficlota di default mettiamo normale,se l'utenet non l'ha mai scelta
 const difficoltaDefault = "normale";
@@ -23,7 +23,7 @@ export function nomeDIfficoltaAttiva() {
 }
 // restituisco l'oggetto completo della difficoltà attiva
 export function getDifficoltaAttiva() {
-    const nome = getDifficoltaAttiva();
+    const nome = nomeDIfficoltaAttiva();
     return difficolta[nome];
 }
 

@@ -1,4 +1,4 @@
-import { paroleMassime, probabilitaRara } from "./js/config/costanti.js"; // ho imporatto le due funzioni che avevo messo in config.js
+import { getDifficoltaAttiva } from "./js/stato/difficoltaAttiva.js";
 import { setAppState } from "./js/stato/statoApp.js"; // ho importato pure questo
 import { typeWriter, mostraMessaggioPc, pulisciMessaggioPC } from "./js/ui/terminale.js"; // e siamo  a tre,lesgo
 import { inizializzaTema, cambiaTema } from "./js/ui/tema.js";
@@ -19,7 +19,7 @@ import { mostraParole } from "./js/parole/mostraParole.js";
 import { resetParole } from "./js/parole/resetParole.js";
 import { validaStoria } from "./js/storia/validaStoria.js";
 import { generaParola } from "./js/parole/generaParola.js";
-
+console.log("difficolta caricata: ", getDifficoltaAttiva());
 // ho creato delle parole speciali e voglio metterle rare;
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -66,7 +66,7 @@ function gestiscigeneraParola() {
     }
 }
 function gestisciResetParole() {
-    const risultato = resetParole(paroleGenerate, paroleMassime, gestisciValidazioneStoria);
+    const risultato = resetParole(paroleGenerate, getDifficoltaAttiva().paroleMassime, gestisciValidazioneStoria);
 
     if (risultato) {
         numeroParole = risultato.numeroParole;
@@ -156,7 +156,7 @@ textareaDx.addEventListener("keydown", function(event) {
 
 
 
-document.getElementById("contatoreParole").textContent = "Parole generate:" + numeroParole + "/" + paroleMassime;
+document.getElementById("contatoreParole").textContent = "Parole generate:" + numeroParole + "/" + getDifficoltaAttiva().paroleMassime;
 gestisciValidazioneStoria();
 
 document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia valida
@@ -208,7 +208,7 @@ if(datiSessione) {
     document.getElementById("storyInputSx").value = pagine[paginaCorrente].sx || "";
     document.getElementById("storyInputDx").value = pagine[paginaCorrente].dx || "";
     document.getElementById("listaParole").innerHTML = paroleGenerate.join(", ");
-    document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + paroleMassime;
+    document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + getDifficoltaAttiva().paroleMassime;
     document.getElementById("indicatorePagina").textContent = "pagina " + (paginaCorrente + 1) + " di " + pagine.length;
 
     gestisciValidazioneStoria();
@@ -217,7 +217,7 @@ if(datiSessione) {
 }
 // dopo la refactoring document....quell'evento non funzionava piu,perche rendeva parole,pagine tutti indefiniti,quidni devo creare una funzione wrapper
 async function GestisciNuovaSessione() {
-    const risultato = await nuovaSessione(paroleGenerate,numeroParole,pagine,paginaCorrente,paroleMassime,resetStatistiche,pulisciMessaggioPC);
+    const risultato = await nuovaSessione(paroleGenerate,numeroParole,pagine,paginaCorrente,getDifficoltaAttiva().paroleMassime,resetStatistiche,pulisciMessaggioPC);
     if (risultato) {
         numeroParole = risultato.numeroParole;
         paginaCorrente = risultato.paginaCorrente;

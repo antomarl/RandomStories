@@ -5,8 +5,6 @@
 // inferno max 20 parole e 5 minuti di tempo massimi
 // infinita puoi mettere tutte le parole che vuoi e senza tempo
 
-import { paroleMassime, probabilitaRara } from "./costanti";
-
 export const difficolta = {
     facile: {
         paroleMassime : 5,
