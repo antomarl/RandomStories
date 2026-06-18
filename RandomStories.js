@@ -1,18 +1,14 @@
-import { paroleDisponibili, paroleRare } from "./js/parole/paroleLista.js";
 import { paroleMassime, probabilitaRara } from "./js/config/costanti.js"; // ho imporatto le due funzioni che avevo messo in config.js
 import { setAppState } from "./js/stato/statoApp.js"; // ho importato pure questo
 import { typeWriter, mostraMessaggioPc, pulisciMessaggioPC } from "./js/ui/terminale.js"; // e siamo  a tre,lesgo
 import { inizializzaTema, cambiaTema } from "./js/ui/tema.js";
 import { apriIstruzioni, chiudiIstruzioni, toggleIstruzioni } from "./js/ui/istruzioni.js";
 import { mostraConferma } from "./js/ui/modali.js";
-import { attivaGlitchPC } from "./js/effetti/glitch.js";
 import { generaParticelle } from "./js/effetti/particelle.js";
-import { scatenaEffettiRari } from "./js/effetti/flashRaro.js";
 import { MMR } from "./js/ui/messaggi.js";
 import { aggiornaStatistiche, avviaTimerStats, resetStatistiche} from "./js/ui/statistiche.js";
 import { avviaBootScreen } from "./js/ui/bootScreen.js"
 import { salvaSessione, caricaSessione} from "./js/sessione/salvataggio.js";
-import { aggiornaListaParole } from "./js/parole/listaParole.js";
 import { aggiornaContatoreRare } from "./js/parole/contatoreParole.js"
 import { nuovaSessione } from "./js/sessione/nuovaSessione.js";
 import { salvaStoria } from "./js/storia/salvaStoria.js";
