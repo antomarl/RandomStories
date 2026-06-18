@@ -37,4 +37,4 @@ export function  setDifficoltaAttiva(nome) {
 
     localStorage.setItem(chiaveStorage, nome);
     return true;
-}
+}z
