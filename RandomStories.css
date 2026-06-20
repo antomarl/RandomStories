@@ -1156,6 +1156,10 @@ body.state-generating #barraStatistiche {
     cursor: pointer;
     text-align: left;
     transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+
 }
 
 .btn-difficolta:hover {
@@ -1210,6 +1214,45 @@ body.state-generating #barraStatistiche {
 #btnRiprendiSessione:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+}
+
+body.tema-scuro #cardSchermataDifficolta {
+    background: linear-gradient(135deg, #101510 0%, #1a2119 100%);
+    color: #f5f0e8;
+    border-color: rgba(95, 255, 135, 0.12);
+}
+
+body.tema-scuro #cardSchermataDifficolta h2 {
+    color: #f5f0e8;
+}
+
+body.tema-scuro .testo-difficolta {
+    color: #d6d1c9;
+}
+
+body.tema-scuro .eyebrow-difficolta {
+    color: #5fff87;
+}
+
+body.tema-scuro .btn-difficolta {
+    background:rgba(95, 255, 135, 0.05);
+    color: #f5f0e8;
+    border-color: rgba(95, 255, 135, 0.45);
+}
+
+body.tema-scuro .btn-difficolta:hover {
+    background: rgba(95,255,135, 0.11);
+    border-color: rgba(95, 255, 135, 0.45);
+}
+
+body.tema-scuro .meta-diffcolta,
+body.tema-scuro .label-riprendi {
+    color: #cfc8bc;
+}
+
+body.tema-scuro #btnRiprendiSessione {
+    background: linear-gradient(135deg, #5fff87, #3fbf63);
+    color: #0a0e0a;
 }
 
 
