@@ -15,7 +15,7 @@ const righeBootScreen = [
     { testo: "> Starting...",delay: 800}, // ho fatto una modifica qua perchè mi piaceva di più così
 ];
 
-export function avviaBootScreen() {
+export function avviaBootScreen(onBootFinito) {
     const boot = document.getElementById("bootScreen");
     const sezione = document.getElementById("sectionGeneraParole");
     const figli = sezione.children;
@@ -40,6 +40,10 @@ export function avviaBootScreen() {
                     if (figli[i].id !== "bootScreen") {
                         figli[i].style.display = "";
                     }
+                }
+                //avvisa ora il mai che ha finito
+                if(typeof onBootFinito === "function") {
+                    onBootFinito();
                 }
             }, 700);
 

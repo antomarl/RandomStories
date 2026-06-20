@@ -1,7 +1,9 @@
 // questo modulo serve per il salvataggiop dei libro,cioè che quando esco o agggiorno la pagina rimane il testo che ho scrittop
 //mettero la funzione SalvaSessione e caricaSessione()
 
-export function salvaSessione(pagine,paginaCorrente,paroleGenerate,numeroParole)   {
+import { difficolta } from "../config/difficolta.js";
+
+export function salvaSessione(pagine,paginaCorrente,paroleGenerate,numeroParole,nomeDifficolta)   {
     if(pagine[paginaCorrente]) {
         pagine[paginaCorrente].sx = document.getElementById("storyInputSx").value;
         pagine[paginaCorrente].dx = document.getElementById("storyInputDx").value;
@@ -12,7 +14,8 @@ export function salvaSessione(pagine,paginaCorrente,paroleGenerate,numeroParole)
         paroleGenerate: paroleGenerate,
         numeroParole: numeroParole,
         paginaCorrente: paginaCorrente,
-        timestap: Date.now() 
+        difficolta: nomeDifficolta, // così sappiamo che modalita si stava giocando
+        timestamp: Date.now() 
     };
     localStorage.setItem("randomStories_sessione", JSON.stringify(datiSessione));
 }

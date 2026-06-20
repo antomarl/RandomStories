@@ -11,7 +11,7 @@ const difficoltaDefault = "normale";
 
 // restituisco il nome della difficoltà attiva
 // se non c'è ne ,allora quella di default
-export function nomeDIfficoltaAttiva() {
+export function getNomeDifficoltaAttiva() {
     const salvata = localStorage.getItem(chiaveStorage);
 
     //controllo che esiste e che sia una difficoltàb valida
@@ -23,7 +23,7 @@ export function nomeDIfficoltaAttiva() {
 }
 // restituisco l'oggetto completo della difficoltà attiva
 export function getDifficoltaAttiva() {
-    const nome = nomeDIfficoltaAttiva();
+    const nome = getNomeDifficoltaAttiva();
     return difficolta[nome];
 }
 

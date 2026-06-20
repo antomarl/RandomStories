@@ -1,4 +1,4 @@
-import { getDifficoltaAttiva } from "./js/stato/difficoltaAttiva.js";
+import { getDifficoltaAttiva, getNomeDifficoltaAttiva } from "./js/stato/difficoltaAttiva.js";
 import { setAppState } from "./js/stato/statoApp.js"; // ho importato pure questo
 import { typeWriter, mostraMessaggioPc, pulisciMessaggioPC } from "./js/ui/terminale.js"; // e siamo  a tre,lesgo
 import { inizializzaTema, cambiaTema } from "./js/ui/tema.js";
@@ -193,13 +193,18 @@ inizializzaTema();
 document.getElementById("coloreTema").addEventListener("click", cambiaTema)
 //il mio amico Costino mi ha detto di fare in modo che se esco per sbaglio dal sito mentre scrivo la stolria non perdo tutto ciò che avevo scritto,so let's do it!
 //PS(IMPORTANTE): mi ha detto pure di spostare il la scritta centrale dei comandi e metterla di lato che compare se vieddddddddddddddddcswcscscscxssccsscsc
-setInterval(function() {
-    salvaSessione ( pagine,paginaCorrente,paroleGenerate,numeroParole);
-}, 2000);
+//l'autosave non parte più da solo come prima,lo faccio partire solo quando l'utenete ha scelto cosa fare nella schemrtaa difficolya
+//altrimenti potrebbe sovraschivere la funzione vecchia con dati vuori :(
 
-const datiSessione = caricaSessione(); // ho cambiato nome poichè ho cambiato la funzione,ora sotto sistemo 
-
-if(datiSessione) {
+function avviaAutoSalvataggio() {
+    setInterval(function() {
+        salvaSessione(pagine, paginaCorrente, paroleGenerate, numeroParole, getNomeDifficoltaAttiva());
+    })
+}
+function ripristinaSessione() {
+    const datiSessione = caricaSessione(); // ho cambiato nome poichè ho cambiato la funzione,ora sotto sistemo 
+    // stessa cosa di prima,non parte più sola,la chiam osolo quando l'utente clicca "ripderni Sessione"
+    if(!datiSessione) return false;//se non c'è nulla salvato esco subito
     pagine = datiSessione.pagine;
     paroleGenerate = datiSessione.paroleGenerate || [];
     numeroParole = datiSessione.numeroParole || 0;
@@ -213,7 +218,8 @@ if(datiSessione) {
 
     gestisciValidazioneStoria();
 
-    MMR("Sessione ripristinata!")
+    MMR("Sessione ripristinata!");
+    return true; // così si sa se è andatoc tutto bene
 }
 // dopo la refactoring document....quell'evento non funzionava piu,perche rendeva parole,pagine tutti indefiniti,quidni devo creare una funzione wrapper
 async function GestisciNuovaSessione() {
