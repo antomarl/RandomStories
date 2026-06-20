@@ -5,7 +5,7 @@ import {difficolta} from "../config/difficolta.js";
 let schermataInizializzata = false;
 
 //questa funzione prende il nome e mi restituisce l'etichetta("facile " divemta "FACILE")
-function getEtichettaDIfficolta(nome) {
+function getEtichettaDifficolta(nome) {
     return difficolta[nome]?.etichetta || nome.toUpperCase(); // il ? serve a evitare crach se non esiste
 }
 
@@ -22,32 +22,42 @@ function getMetaDifficolta(config) {
         pezzi.push(`${minuti} min`)
     }
 
-    return pezzi.join(" . ") // li unisce cosi con un pallino in mezzo,ci sta dai
+    return pezzi.join(" · ") // li unisce cosi con un pallino in mezzo,ci sta dai
 }
 
 // ora si fa la funzione importante che fa il setup
 //le 2 callback (onSelezioneDifficolta e onRiprendiSessione) le passa il main
-export function inizializzazzioneSchermataDifficolta(onSelezioneDifficolta, onRiprendiSessione) {
+export function inizializzaSchermataDifficolta(onSelezionaDifficolta, onRiprendiSessione) {
     // se ho già fatto il setup esco subito,sennò raddoppio i listener
     if(schermataInizializzata) return;
-    
-    const nome = bottonw.dataset.difficolta;
-    const config = difficolta[nome];
 
-    //non succede,ma se succede che qualcuno dalla console o dall'html mette  metto un nome che non esiste,salto il bottone
-    if (!config) return;
-    const nomeElemento = bottone.querySelector(".nome-difficolta");
-    const metaElemento = bottone.querySelector(".meta-difficolta");
-    
-    //riempio i 2 span dentro al bottone,così non lo scrivo a mano nell'html,e se
-    if (nomeElemento) {
-        nomeElemento.textContent = config.etichetta;
-    }
-    if(metaElemento) {
-        metaElemento.textContent = getMetaDifficolta(config);
-    }
+    //prendo tutti i bottoni con classe btn.difficolta e il bottone riprendi
+    const bottoniDifficolta = document.querySelectorAll(".btn-difficolta");
+    const btnRiprendiSessione = document.getElementById("btnRiprendiSessione");
 
-    //al click callo la callback del main passandogli il nome,poi il main fa il lavoro sporco tipo salvare , nascondere la schermata,ste robe così
+    // per ogni bottone leggo il nome dak data-difficolta e riempio il contenuto
+    bottoniDifficolta.forEach(function(bottone) {
+
+        const nome = bottone.dataset.difficolta;
+        const config = difficolta[nome];
+
+        //non succede,ma se succede che qualcuno dalla console o dall'html mette  metto un nome che non esiste,salto il bottone
+        if (!config) return;
+        const nomeElemento = bottone.querySelector(".nome-difficolta");
+        const metaElemento = bottone.querySelector(".meta-difficolta");
+    
+        //riempio i 2 span dentro al bottone,così non lo scrivo a mano nell'html,e se
+        if (nomeElemento) {
+            nomeElemento.textContent = config.etichetta;
+        }
+        if(metaElemento) {
+            metaElemento.textContent = getMetaDifficolta(config);
+        }
+        //al click callo la callback del main passandogli il nome,poi il main fa il lavoro sporco tipo salvare , nascondere la schermata,ste robe così
+        bottone.addEventListener("click", function() {
+            onSelezionaDifficolta(nome);
+        });
+    }); // il bottone riprendi lo aggancio solo se esiste
     if (btnRiprendiSessione) {
         btnRiprendiSessione.addEventListener("click",function() {
             onRiprendiSessione();
@@ -55,7 +65,7 @@ export function inizializzazzioneSchermataDifficolta(onSelezioneDifficolta, onRi
     }
 
     //questo e come segno che ho gia inizializzato,così la prossima volta esce subito da qua
-    shcermataInizializzata = true;
+    schermataInizializzata = true;
 }
 
 //ora manca la funzione che fa apparire la schermata
@@ -65,13 +75,16 @@ export function mostraSchermataDifficolta(haSessioneSalvata = false,nomeDifficol
     const bloccoRiprendi = document.getElementById("bloccoRiprendiSessione");
     const btnRiprendiSessione = document.getElementById("btnRiprendiSessione");
 
+    // controllo difensivo ,se manca uno dei degli elemneti esco
+    if (!overlay || !bloccoRiprendi || !btnRiprendiSessione) return;
+
     //cosa importante, se c'è una sessione vecchia salvata,faccio comparire il boottone riprendi,per continuare
     if(haSessioneSalvata) {
-        bloccoRiprendiSessione.classList.add("visibile");
-        btnRiprendiSessione.textContent = `Riprendi sessione(${getEtichettaDIfficolta(nomeDifficoltaSessione)})`;
+        bloccoRiprendi.classList.add("visibile");
+        btnRiprendiSessione.textContent = `Riprendi sessione (${getEtichettaDifficolta(nomeDifficoltaSessione)})`;
     } else {
         //altrimenti lo nascondo e svuoto il testo
-        bloccoRiprendi.classList.remove("visibilw");
+        bloccoRiprendi.classList.remove("visibile");
         btnRiprendiSessione.textContent = "";
     }
     overlay.classList.add("visibile");

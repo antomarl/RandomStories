@@ -42,3 +42,8 @@ export function salvaStoria( pagine,paginaCorrente, ValidaStoria , mostraMessagg
     document.body.removeChild(link);
     URL.revokeObjectURL(link.href);
 }
+
+// MA CHE PALLE,se io aggiorno in teoria non dovrei vedere tesgto,perchè ho tolto 
+//il salvataggio automatico,pero me lo salva comunque perchè firefox è una merda ed ha il  recovery!
+//sto scrivendo qua perchè sono capitato qua lol
+//ora provo a bloccarlo manualmente da html

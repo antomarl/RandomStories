@@ -1,4 +1,6 @@
 import { getDifficoltaAttiva, getNomeDifficoltaAttiva } from "./js/stato/difficoltaAttiva.js";
+import { setDifficoltaAttiva } from "./js/stato/difficoltaAttiva.js"
+import { inizializzaSchermataDifficolta, mostraSchermataDifficolta, nascondiSchermataDifficolta } from "./js/ui/schermataDifficolta.js";
 import { setAppState } from "./js/stato/statoApp.js"; // ho importato pure questo
 import { typeWriter, mostraMessaggioPc, pulisciMessaggioPC } from "./js/ui/terminale.js"; // e siamo  a tre,lesgo
 import { inizializzaTema, cambiaTema } from "./js/ui/tema.js";
@@ -154,9 +156,6 @@ textareaDx.addEventListener("keydown", function(event) {
     }
 });
 
-
-
-document.getElementById("contatoreParole").textContent = "Parole generate:" + numeroParole + "/" + getDifficoltaAttiva().paroleMassime;
 gestisciValidazioneStoria();
 
 document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia valida
@@ -199,7 +198,7 @@ document.getElementById("coloreTema").addEventListener("click", cambiaTema)
 function avviaAutoSalvataggio() {
     setInterval(function() {
         salvaSessione(pagine, paginaCorrente, paroleGenerate, numeroParole, getNomeDifficoltaAttiva());
-    })
+    }, 2000);
 }
 function ripristinaSessione() {
     const datiSessione = caricaSessione(); // ho cambiato nome poichè ho cambiato la funzione,ora sotto sistemo 
@@ -259,7 +258,50 @@ document.addEventListener("keydown", function(event) {
         toggleIstruzioni();
     }
 });
-avviaBootScreen();
+
+// questa funzionje viene chiamata dopo che l'utente ha scelto cosa fare nella schermata difficolta
+// si occupa di accendere autosave,aggiornare il contatore e nascondere la schermata
+function iniziaGioco() {
+    //nascondo la schermata difficolta
+    nascondiSchermataDifficolta();
+
+    //aggiorno il contatore parole con il limite della difficolta appena scelto+
+    document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + getDifficoltaAttiva().paroleMassime;
+    // accendo l'autosave ,e poi da qua in poi salva ogni 2 secondi
+    avviaAutoSalvataggio();
+}
+
+//ora serve una chiamata per quando l'utente clicca su una difficolta
+function onSelezionaDifficolta(nomeDifficolta) {
+
+    //salvo la difficolt6a scelta in localStorage,così resta tra le sessione 
+    setDifficoltaAttiva(nomeDifficolta)
+    //questa è una scelta " nuova partita", quindi cancello la sessione vecchia(se rimaneva,al prossimo refresh riprendi motrerebbe ancora la modalità sbaglia6a
+    localStorage.removeItem("randomStories_sessione");
+
+    iniziaGioco();
+}
+//chiamta per quando l'utente clicca su riprendi sessione
+function onRiprendiSessione() {
+    // ripristino i dati salvati nelle variabili e nel DOM
+    ripristinaSessione();
+    iniziaGioco();
+}
+
+//ora quando il boot screen finisce,parte la schermata difficoltà 
+avviaBootScreen(function() {
+    //prima controllo se c'è una sessione salvata da prima
+    const sessioneSalvata = caricaSessione();
+
+    //inizializzo la schermata (cioè riempio i bottoni e attaco i click)
+    inizializzaSchermataDifficolta(onSelezionaDifficolta, onRiprendiSessione);
+    // mostro la schermata,passandoglu info sulla sessione (se esuiste)
+    if(sessioneSalvata) {
+        mostraSchermataDifficolta(true,sessioneSalvata.difficolta || "normale");
+    } else {
+        mostraSchermataDifficolta(false);
+    }
+});
 
 
 textareaSx.addEventListener("input", function() {
