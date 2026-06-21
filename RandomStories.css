@@ -1255,4 +1255,27 @@ body.tema-scuro #btnRiprendiSessione {
     color: #0a0e0a;
 }
 
+#badgeDifficolta {
+    position: fixed;
+    top: 21px;
+    left: 350px;
+    z-index: 20;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #4a2f1f, #6b4a2f);
+    color: #ffd700;
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    user-select: none;
+    transition: all 0.3s ease;
+}
 
+body.tema-scuro #badgeDifficolta {
+    background: linear-gradient(135deg, #0a1f0a, #1a3a1a);
+    color: #5fff87;
+    border-color: rgba(95,255,135,0.4);
+}

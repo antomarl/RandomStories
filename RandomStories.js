@@ -21,6 +21,7 @@ import { mostraParole } from "./js/parole/mostraParole.js";
 import { resetParole } from "./js/parole/resetParole.js";
 import { validaStoria } from "./js/storia/validaStoria.js";
 import { generaParola } from "./js/parole/generaParola.js";
+import { aggiornaBadgeDifficolta } from "./js/ui/badgeDifficolta.js";
 console.log("difficolta caricata: ", getDifficoltaAttiva());
 // ho creato delle parole speciali e voglio metterle rare;
 
@@ -267,6 +268,8 @@ function iniziaGioco() {
 
     //aggiorno il contatore parole con il limite della difficolta appena scelto+
     document.getElementById("contatoreParole").textContent = "Parole generate: " + numeroParole + "/" + getDifficoltaAttiva().paroleMassime;
+    // aggiorno il badge con la modalità attuale
+    aggiornaBadgeDifficolta();
     // accendo l'autosave ,e poi da qua in poi salva ogni 2 secondi
     avviaAutoSalvataggio();
 }
