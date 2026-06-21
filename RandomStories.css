@@ -1272,6 +1272,21 @@ body.tema-scuro #btnRiprendiSessione {
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     user-select: none;
     transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#badgeDifficolta:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    border-color: rgba(255,215,0,0.7);
+}
+
+#badgeDifficolta:active {
+    transform: scale(0.98);
+}
+
+body.tema-scuro #badgeDifficolta:hover {
+    border-color: rgba(95,255,135, 0.7);
 }
 
 body.tema-scuro #badgeDifficolta {

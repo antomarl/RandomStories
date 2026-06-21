@@ -244,6 +244,8 @@ document.getElementById("overlayIstruzioni").addEventListener("click", chiudiIst
 //click sulla x
 document.getElementById("btnChiudiIstruzioni").addEventListener("click", chiudiIstruzioni);
 
+document.getElementById("badgeDifficolta").addEventListener("click", cambiaModalità);
+
 //ora faccio che se si clicca H o ? si si entra,ed esc per chiudere
 document.addEventListener("keydown", function(event) {
     if (event.key == "Escape") {
@@ -272,6 +274,30 @@ function iniziaGioco() {
     aggiornaBadgeDifficolta();
     // accendo l'autosave ,e poi da qua in poi salva ogni 2 secondi
     avviaAutoSalvataggio();
+}
+
+//ora il badge serve per quando l'utente vuole cambiare modalità
+//come su nuova sessione deve mostrare una conferma,senno è troppo facile sbagliare
+async function cambiaModalità() {
+    const conferma = await mostraConferma("Cambiare modalità?", "le parole generate e la storia che stai scrivendo andranno perdute. Sei sicuro?");
+    // se l'utente annulla,esco 
+    if(!conferma) return;
+
+    //sennò,se clicca conferma resetto tutto tutto
+    paroleGenerate = [];
+    numeroParole = 0;
+    pagine = [{ sx: "", dx: ""}];
+    paginaCorrente = 0;
+
+    document.getElementById("storyInputSx").value = "";
+    document.getElementById("storyInputDx").value = "";
+    document.getElementById("listaParole").innerHTML = "";
+    document.getElementById("indicatorePagina").textConten = "Pagina 1";
+
+    localStorage.removeItem("randomStories_sessione");
+
+    //torno alla schermata iniziale passando false(cioè no sessione)
+    mostraSchermataDifficolta(false);
 }
 
 //ora serve una chiamata per quando l'utente clicca su una difficolta
