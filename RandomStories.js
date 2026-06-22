@@ -22,6 +22,7 @@ import { resetParole } from "./js/parole/resetParole.js";
 import { validaStoria } from "./js/storia/validaStoria.js";
 import { generaParola } from "./js/parole/generaParola.js";
 import { aggiornaBadgeDifficolta } from "./js/ui/badgeDifficolta.js";
+import { avviaTimerInferno, fermaTimerInferno, isGameOver } from "./js/effetti/timerInferno.js";
 console.log("difficolta caricata: ", getDifficoltaAttiva());
 // ho creato delle parole speciali e voglio metterle rare;
 
@@ -246,6 +247,8 @@ document.getElementById("btnChiudiIstruzioni").addEventListener("click", chiudiI
 
 document.getElementById("badgeDifficolta").addEventListener("click", cambiaModalità);
 
+document.getElementById("btnGameOverRicomincia").addEventListener("click",resetTotaleEAprimiSchermata);
+
 //ora faccio che se si clicca H o ? si si entra,ed esc per chiudere
 document.addEventListener("keydown", function(event) {
     if (event.key == "Escape") {
@@ -274,6 +277,18 @@ function iniziaGioco() {
     aggiornaBadgeDifficolta();
     // accendo l'autosave ,e poi da qua in poi salva ogni 2 secondi
     avviaAutoSalvataggio();
+
+    // ora,se la modalità è inferno,parte il timer con i secondi della config
+    //altrimenti verifico che il timer sia spento
+    const difficoltaCorrente = getDifficoltaAttiva();
+    if(difficoltaCorrente.timer) {
+        avviaTimerInferno(difficoltaCorrente.timer, function() {
+            //blocchiamo la possibbilità di salvare la storia
+            document.getElementById("btnSalva").disabled = true;
+        });
+    } else {
+        fermaTimerInferno();
+    }
 }
 
 //ora il badge serve per quando l'utente vuole cambiare modalità
@@ -282,7 +297,8 @@ async function cambiaModalità() {
     const conferma = await mostraConferma("Cambiare modalità?", "le parole generate e la storia che stai scrivendo andranno perdute. Sei sicuro?");
     // se l'utente annulla,esco 
     if(!conferma) return;
-
+    // se stavo in modalità inferno,fermo il timer anche
+    fermaTimerInferno();
     //sennò,se clicca conferma resetto tutto tutto
     paroleGenerate = [];
     numeroParole = 0;
@@ -299,7 +315,25 @@ async function cambiaModalità() {
     //torno alla schermata iniziale passando false(cioè no sessione)
     mostraSchermataDifficolta(false);
 }
+//questa è una versione forzata di cambia modalità,perchè mentre la chiede conferma
+// se finisce il tempo hai gia perso,quindi non ti serve la possibilità di scegliere,quindi mi serve  un altra funzione
+function resetTotaleEAprimiSchermata() {
+    fermaTimerInferno();
 
+    paroleGenerate = [];
+    numeroParole = 0;
+    pagine = [{sx: "", dx: ""}];
+    paginaCorrente = 0;
+
+    document.getElementById("storyInputSx").value = "";
+    document.getElementById("storyInputDx").value = "";
+    document.getElementById("listaParole").innerHTML = "";
+    document.getElementById("inidcatorePagina").textContent = "Pagina 1";
+
+    localStorage.removeItem("randomStories_sessione");
+
+    mostraSchermataDifficolta();
+}
 //ora serve una chiamata per quando l'utente clicca su una difficolta
 function onSelezionaDifficolta(nomeDifficolta) {
 

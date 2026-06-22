@@ -23,7 +23,7 @@ export const difficolta = {
     inferno: {
         paroleMassime: 20,
         probabilitaRara: 30, //poichè le parole massime da generare,anche le rare devono essere più difficili da trovare,cioè secondo me sono bilanciatee
-        timer: 300, // 5 minuti
+        timer: 10, // 5 minuti
         etichetta: "INFERNO"
     },
 

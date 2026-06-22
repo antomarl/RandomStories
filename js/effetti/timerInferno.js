@@ -7,7 +7,7 @@ let callbackGameOver = null; // funzione che serve a chiamare il main quando fin
 
 // intanto formattiamo i secondi in mm:ss
 
-function formatTatempo(secondi) {
+function formattaTempo(secondi) {
     const minuti= Math.floor(secondi / 60);
     const sec = secondi % 60;
     // padStart mette un zero davanti al secondo o minuto se serve(per adesso non servirebbe sui minuti,però lo metto perchè ho un idea in futuro)
@@ -19,7 +19,7 @@ function aggiornaUI() {
     const timer = document.getElementById("timerInferno");
     if (!timer) return;
 
-    timer.textContent = `${formatTatempo(secondiRimanenti)}`;
+    timer.textContent = `${formattaTempo(secondiRimanenti)}`;
 
     //pulisco le classi vecchio e metto quelle giuste in base al tempo
     timer.classList.remove("allarme","critico");
@@ -38,17 +38,17 @@ export function avviaTimerInferno(secondiTotali, onGameOver) {
 
     secondiRimanenti = secondiTotali;
     callbackGameOver = onGameOver;
-    gameOverAtttivo = false;
+    gameOverAttivo = false;
 
     const timer = document.getElementById("timerInferno");
     if(!timer) return;
 
-    timer.classLista.add("visibile");
+    timer.classList.add("visibile");
     aggiornaUI();
 
     //qua parte il countdown,ogni secondo decremento e aggiorno
     intervalloTimer = setInterval(function() {
-        aggiornaRimanenti--;
+        secondiRimanenti--;
         aggiornaUI();
 
         //se arriviamo a 0, game over :)
@@ -61,7 +61,7 @@ export function avviaTimerInferno(secondiTotali, onGameOver) {
 // ora creo la funzione che ho nominato prima,per fermare il timer e nascondere l'ui,quando per eeempio cambi modalita
 export function fermaTimerInferno() {
     if( intervalloTimer !== null) {
-        cleanInterval(intervalloTimer);
+        clearInterval(intervalloTimer);
         intervalloTimer = null;
     }
 
@@ -95,7 +95,7 @@ function scatenaGameOver() {
     //ora metto gli effetti glitch e flash sullo shcermo,quelli che avevo gia usato in pratica
     document.body.classList.add("glitch-attivo");
     setTimeout(function() {
-        document.body.classList.remove("glitch.attivo");
+        document.body.classList.remove("glitch-attivo");
     }, 1800);
 
     const flash = document.getElementById("flashRaro");
