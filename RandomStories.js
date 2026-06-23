@@ -268,6 +268,8 @@ document.addEventListener("keydown", function(event) {
 // questa funzionje viene chiamata dopo che l'utente ha scelto cosa fare nella schermata difficolta
 // si occupa di accendere autosave,aggiornare il contatore e nascondere la schermata
 function iniziaGioco() {
+    // console log perchè mi sono accorto di un bug!, quando premo ricomincia dopo aver persoio sulla modalià inferno scompare il timer!
+    console.log("la funzione viene chiamata, la difficolta è :",getDifficoltaAttiva());
     //nascondo la schermata difficolta
     nascondiSchermataDifficolta();
 
@@ -328,7 +330,7 @@ function resetTotaleEAprimiSchermata() {
     document.getElementById("storyInputSx").value = "";
     document.getElementById("storyInputDx").value = "";
     document.getElementById("listaParole").innerHTML = "";
-    document.getElementById("inidcatorePagina").textContent = "Pagina 1";
+    document.getElementById("indicatorePagina").textContent = "Pagina 1";
 
     localStorage.removeItem("randomStories_sessione");
 

@@ -33,6 +33,8 @@ function aggiornaUI() {
 
 //questa funzione invece deve avviare il cuountdown , prendere i secomndi totali e callback per il game over
 export function avviaTimerInferno(secondiTotali, onGameOver) {
+    //metto una console log anche qua per un bug
+    console.log("avviatimerInferno chiamat con ", secondiTotali, " secondi");
     //se ci dovesse essere gia un timer attivo,lo spengo prima per evitare duplicati(la funzione sua la mettero dopo,però intanto gli do un nome originale)
     fermaTimerInferno();
 
