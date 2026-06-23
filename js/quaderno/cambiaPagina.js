@@ -1,17 +1,10 @@
 // questo modulo gestisce il cambio pagina del quaderno (con ctrl -  freccia destra/sinistra)
 //sto impazzendoiooo
 export function cambiaPagina(direzione,pagine,paginaCorrente) {
-    //non sta funzionando un cazzo
-    console.log("cambiaPagina chiamato");
-    console.log("direzione : ", direzione);
-    console.log("paginaCorrente in ingresso: ", paginaCorrente);
-    console.log("pagine in ingresso: ", JSON.parse(JSON.stringify(pagine)));
-
     // prima di tutto salviamo il contenuto attuale della pagina prima di cambiarla
     pagine[paginaCorrente].sx = document.getElementById("storyInputSx").value;
     pagine[paginaCorrente].dx = document.getElementById("storyInputDx").value;
 
-    console.log("dopo salvataggio: ",JSON.parse(JSON.stringify(pagine)));
     //qua sotto c'è tutta la logica della navigazione
     if (direzione === "avanti") {
         paginaCorrente++;
@@ -29,9 +22,6 @@ export function cambiaPagina(direzione,pagine,paginaCorrente) {
         }
     }
 
-    console.log("nuova paginaCorrente: ",paginaCorrente);
-    console.log("pagine[paginaCorrente]: ", pagine[paginaCorrente]);
-    console.log("pagine totali: ", JSON.parse(JSON.stringify(pagine)));
 
     //mostra il contenuto della nuova pagina
     document.getElementById("storyInputSx").value = pagine[paginaCorrente].sx;
@@ -45,8 +35,6 @@ export function cambiaPagina(direzione,pagine,paginaCorrente) {
 
     textareaSx.setSelectionRange(textareaSx.value.length, textareaSx.value.length);
     //rivalida la storia
-    console.log(" FINE cambiaPagina");
-    console.log("pagine alla fine : ", JSON.parse(JSON.stringify(pagine)));
 
     //ritorna la nuova pagina corrente
     return paginaCorrente;

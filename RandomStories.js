@@ -2,11 +2,10 @@ import { getDifficoltaAttiva, getNomeDifficoltaAttiva } from "./js/stato/diffico
 import { setDifficoltaAttiva } from "./js/stato/difficoltaAttiva.js"
 import { inizializzaSchermataDifficolta, mostraSchermataDifficolta, nascondiSchermataDifficolta } from "./js/ui/schermataDifficolta.js";
 import { setAppState } from "./js/stato/statoApp.js"; // ho importato pure questo
-import { typeWriter, mostraMessaggioPc, pulisciMessaggioPC } from "./js/ui/terminale.js"; // e siamo  a tre,lesgo
+import { mostraMessaggioPc, pulisciMessaggioPC } from "./js/ui/terminale.js"; // e siamo  a tre,lesgo
 import { inizializzaTema, cambiaTema } from "./js/ui/tema.js";
-import { apriIstruzioni, chiudiIstruzioni, toggleIstruzioni } from "./js/ui/istruzioni.js";
+import { chiudiIstruzioni, toggleIstruzioni } from "./js/ui/istruzioni.js";
 import { mostraConferma } from "./js/ui/modali.js";
-import { generaParticelle } from "./js/effetti/particelle.js";
 import { MMR } from "./js/ui/messaggi.js";
 import { aggiornaStatistiche, avviaTimerStats, resetStatistiche} from "./js/ui/statistiche.js";
 import { avviaBootScreen } from "./js/ui/bootScreen.js"
@@ -17,13 +16,11 @@ import { salvaStoria } from "./js/storia/salvaStoria.js";
 import { cambiaPagina } from "./js/quaderno/cambiaPagina.js";
 import { aggiornaIndicatorePagina } from "./js/quaderno/aggiornaIndicatorePagina.js";
 import { salvaPaginaCorrente } from "./js/quaderno/salvaPaginaCorrente.js";
-import { mostraParole } from "./js/parole/mostraParole.js";
 import { resetParole } from "./js/parole/resetParole.js";
 import { validaStoria } from "./js/storia/validaStoria.js";
 import { generaParola } from "./js/parole/generaParola.js";
 import { aggiornaBadgeDifficolta } from "./js/ui/badgeDifficolta.js";
-import { avviaTimerInferno, fermaTimerInferno, isGameOver } from "./js/effetti/timerInferno.js";
-console.log("difficolta caricata: ", getDifficoltaAttiva());
+import { avviaTimerInferno, fermaTimerInferno} from "./js/effetti/timerInferno.js";
 // ho creato delle parole speciali e voglio metterle rare;
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -31,22 +28,11 @@ let paroleGenerate = [] ;  // Array per memorizzare le parole generate
 let parolerareTrovate = JSON.parse(localStorage.getItem("randomStories_rareTrovate") || "[]");
 let contatoreRareTotale = parseInt(localStorage.getItem("randomStories_contatoreRare") || "0"); // cosi salva le parole trovate in localStorage,senno poi si perdevano
 
-// non serve più messa qua, rip
-
 let numeroParole = 0; // Variabile per tenere traccia del numero di parole generate
 
-// neanche questa
-
-let pagine = [{sx: "", dx: ""}] // array delle pagine,inizia con 1 vuoto
-window.pagine = pagine;
-
-setInterval(function() {
-    console.log("snapshot pagine: ",JSON.parse(JSON.stringify(pagine)));
-}, 10000);
+let pagine = [{sx: "", dx: ""}] // array delle pagine,inizia con 1 vuot
 
 let paginaCorrente = 0; // indice della pagina che si sta vedendo;
-window.paginaCorrente = paginaCorrente;
-
 // devo modificare un po' di cose nella funzione generaparole
 document.body.classList.add('state-generating');
 
@@ -58,11 +44,11 @@ function gestisciValidazioneStoria() {
 // ora faccio in modo che quando clicco sul pulsante genera parole, venga chiamata la funzione GeneraParola
 document.getElementById("btnGeneraParola").addEventListener("click", function() {
     setAppState('state-generating');
-    gestiscigeneraParola();
+    gestisciGeneraParola();
 });
 // ora devo creare un altra funzione wrapper per generaParola(il modulo modifica i numeri che vivono nel main
 //quuindi devo riassegnarli con quello che mi restituisce)
-function gestiscigeneraParola() {
+function gestisciGeneraParola() {
     const risultato = generaParola(paroleGenerate,numeroParole, parolerareTrovate, contatoreRareTotale,gestisciValidazioneStoria);
     if (risultato) {
         numeroParole = risultato.numeroParole;
@@ -132,15 +118,6 @@ textareaDx.addEventListener("input", function() {
     gestisciValidazioneStoria();
 }); // funzionaq cazzo si,ora pero devo fare in modo che se cnacello il contenuto a destra ritorno a sinistra, perchè mi rompo ad usare il moue
 // ma quanto sono forti i negramaro,mi sto ascoltando attenta mentre ora scirvo quello che ho scritto sopra
-
-// textareaDx.addEventListener("keydown", function(event) {
-//    if (event.key === "Backspace" &&  this.value === "") {
-//        event.preventDefault();
-//       textareaSx.focus();
-//        let lunghezza = textareaSx.value.length;
-//        textareaSx.setSelectionRange(lunghezza, lunghezza); 
-//    }
-// }); , funziona, pero se per esempio il foglio destro a gia qualche scritta non torna indietro
 
 textareaDx.addEventListener("keydown", function(event) {
     if (event.key === "Backspace" &&  this.selectionStart === 0 && this.selectionEnd === 0) {
@@ -244,11 +221,6 @@ document.getElementById("overlayIstruzioni").addEventListener("click", chiudiIst
 
 //click sulla x
 document.getElementById("btnChiudiIstruzioni").addEventListener("click", chiudiIstruzioni);
-
-document.getElementById("badgeDifficolta").addEventListener("click", cambiaModalità);
-
-document.getElementById("btnGameOverRicomincia").addEventListener("click",resetTotaleEAprimiSchermata);
-
 //ora faccio che se si clicca H o ? si si entra,ed esc per chiudere
 document.addEventListener("keydown", function(event) {
     if (event.key == "Escape") {
@@ -268,8 +240,6 @@ document.addEventListener("keydown", function(event) {
 // questa funzionje viene chiamata dopo che l'utente ha scelto cosa fare nella schermata difficolta
 // si occupa di accendere autosave,aggiornare il contatore e nascondere la schermata
 function iniziaGioco() {
-    // console log perchè mi sono accorto di un bug!, quando premo ricomincia dopo aver persoio sulla modalià inferno scompare il timer!
-    console.log("la funzione viene chiamata, la difficolta è :",getDifficoltaAttiva());
     //nascondo la schermata difficolta
     nascondiSchermataDifficolta();
 
@@ -295,7 +265,7 @@ function iniziaGioco() {
 
 //ora il badge serve per quando l'utente vuole cambiare modalità
 //come su nuova sessione deve mostrare una conferma,senno è troppo facile sbagliare
-async function cambiaModalità() {
+async function cambiaModalita() {
     const conferma = await mostraConferma("Cambiare modalità?", "le parole generate e la storia che stai scrivendo andranno perdute. Sei sicuro?");
     // se l'utente annulla,esco 
     if(!conferma) return;
@@ -310,7 +280,7 @@ async function cambiaModalità() {
     document.getElementById("storyInputSx").value = "";
     document.getElementById("storyInputDx").value = "";
     document.getElementById("listaParole").innerHTML = "";
-    document.getElementById("indicatorePagina").textConten = "Pagina 1";
+    document.getElementById("indicatorePagina").textContent = "Pagina 1";
 
     localStorage.removeItem("randomStories_sessione");
 
@@ -319,7 +289,7 @@ async function cambiaModalità() {
 }
 //questa è una versione forzata di cambia modalità,perchè mentre la chiede conferma
 // se finisce il tempo hai gia perso,quindi non ti serve la possibilità di scegliere,quindi mi serve  un altra funzione
-function resetTotaleEAprimiSchermata() {
+function resetTotaleEApriSchermata() {
     fermaTimerInferno();
 
     paroleGenerate = [];
@@ -334,7 +304,7 @@ function resetTotaleEAprimiSchermata() {
 
     localStorage.removeItem("randomStories_sessione");
 
-    mostraSchermataDifficolta();
+    mostraSchermataDifficolta(false);
 }
 //ora serve una chiamata per quando l'utente clicca su una difficolta
 function onSelezionaDifficolta(nomeDifficolta) {
@@ -380,3 +350,7 @@ textareaDx.addEventListener("input", function() {
 });
 
 aggiornaStatistiche(pagine);
+
+document.getElementById("badgeDifficolta").addEventListener("click", cambiaModalita);
+
+document.getElementById("btnGameOverRicomincia").addEventListener("click",resetTotaleEApriSchermata);

@@ -6,7 +6,6 @@ import { MMR } from "../ui/messaggi.js";
  //speriamo bene
 
 export async function nuovaSessione ( paroleGenerate, numeroParole, pagine , paginaCorrente, paroleMassime, resetStatistiche, pulisciMessaggioPC) {
-    console.log(paroleGenerate,numeroParole,pagine,paginaCorrente);
     const conferma = await mostraConferma("Nuova sessione","Sicuro di voler iniziare una nuova sessione? Perderai TUTTO il lavoro attuale!");
 
     if(!conferma) {
