@@ -7,6 +7,8 @@ let callbackGameOver = null; // funzione che serve a chiamare il main quando fin
 
 // intanto formattiamo i secondi in mm:ss
 
+let secondiTotaliPartita = 0; // serve per calcolare il tempo impiegato
+let callbackVittoria = null; // funzione che chiama il main quando si vince
 function formattaTempo(secondi) {
     const minuti= Math.floor(secondi / 60);
     const sec = secondi % 60;

@@ -1424,3 +1424,136 @@ body.game-over .storyInput {
     opacity: 0.6;
     pointer-events: none;
 }
+
+.testo-rosso {
+    color: #c10000;
+}
+
+#overlayVittoria {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, rgba(0,40,10,0.92) 0%, rgba(0,0,0,0.97) 100%);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: apparizzioneVittoria 0.6s ease-out;
+}
+
+#overlayVittoria.visibile {
+    display: flex;
+}
+
+@keyframes apparizioneVittoria {
+    0% {opacity: 0;}
+    100% { opacity: 1;}
+}
+
+#contenutoVittoria {
+    text-align: center;
+    color: #5fff87;
+    padding: 40px 50px;
+    border: 1px solid rgba(95,255, 135, 0.4);
+    border-radius: 8px;
+    background: rgba(10,20,10,0.6);
+    box-shadow: 0 0 40px rgba(95, 255, 135, 0.3);
+    max-width: 540px;
+    font-family: 'Courier New', monospace;
+}
+
+#titoloVittoria {
+    font-size: 2.4rem;
+    color: #5fff87;
+    margin: 0 0 12px;
+    letter-spacing: 6px;
+    text-shadow: 0 0 20px rgba(95, 255, 135, 0.8);
+    min-height: 2.4rem;
+}
+
+titoloVittoria.scrivendo::after {
+    content: "_";
+    animation: lampeggiCursuoreVittoria 0.5s steps(1) infinite;
+}
+
+@keyframes lampeggiaCursoreVittoria {
+    0%, 50% { opacity: 1;}
+    51%, 100% {opacity: 0;}
+}
+
+#sottotitoloVittoria {
+    font-size: 0.95rem;
+    color: #a0ffb0;
+    margin: 0 0 28px;
+    letter-spacing: 2px;
+    opacity: 0;
+    animation: apparizioneRitardata 0.5s ease-out 2.5s forwards;
+}
+
+@keyframes apparizioneRitardata {
+    to { opacity: 1;}
+}
+
+#statisticheVittoria {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 0 0 28px;
+    opacity: 0;
+    animation: apparizioneRitardata 0.5s ease-out 2.8s forwards;
+}
+
+.stat-vittoria {
+    padding: 12px 14px;
+    background: rgba(95, 255, 135, 0.05);
+    border: 1px solid rgba(95, 255, 135, 0.25);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: #a0ffb0;
+    letter-spacing: 1.5px;
+}
+
+.stat-valore {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #5fff87;
+    text-shadow: 0 0 8px rgba(95, 255, 135, 0.5);
+}
+
+.bottoni-vittoria {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: apparizioneRitardata 0.5s ease-out 3.1s forwards;
+}
+
+.bottoni-vittoria button {
+    padding: 14px 24px;
+    background: transparent;
+    color: #5fff87;
+    border: 2px solid #5fff87;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 2px; 
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+.bottoni-vittoria button:hover {
+    background: #5fff87;
+    color: #000;
+    box-shadow: 0 0 20px rgba(95, 255, 135,0.7);
+    transform: translateY(-2px);
+}
