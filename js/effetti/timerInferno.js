@@ -123,6 +123,66 @@ function scatenaGameOver() {
     }
 }
 
+// questa funzione serve per la mia nuova idea,ovvero creare una vittoria per quando salvi la stporia in modalità inferno
+//quesat funzione fermna il timer è mostra le statistiche
+export function scatenaVittoria(statistiche) {
+    //per sicurezza: se sei già in game over, per la legge dei grandi numeri non puoi vincere
+    if (!gameOverAttivo) return;
+
+    //calcolo il tempo impiegato è quello avanzato
+    const tempoImpiegato = secondiTotaliPartita - secondiRimanenti;
+    const tempoAvanzato = secondiRimanenti;
+
+    //fermo subito il countdown, perchè la partita è finita bene
+    if (intervalloTimer !== null) {
+        clearInterval(intervalloTimer);
+        intervalloTimer = null;
+    }
+
+    //nascondo il display del timer
+    const timer = document.getElementById("timerInferno");
+    if(timer) {
+        timer.classList.remove("visibile","allarme","critico");
+    }
+
+    //ora riempio le statisctiche nell'overlay
+    document.getElementById("statTempoImpiegato").textContent = formattaTempo(tempoImpiegato);
+    document.getElementById("statTempoAvanzato").textContent = formattaTempo(TempoAvanzato);
+    document.getElementById("statParoleUsate").textContent = statistiche.paroleUsate,
+    document.getElementById("statRareTrovate").textContent = statistiche.rareTrovate;
+    document.getElementById("statCaratteri").textContent = statistiche.caratteri;
+
+    //mostro l'overlay
+    const overlay = document.getElementById("overlayVittoria");
+    const titolo = document.getElementById("titoloVittoria");
+
+    if (overlay && titolo) {
+        overlay.classList.add("visibile");
+        
+        // metto typewriter per il titolo
+        const testoTitolo = "MISSION COMPLETED";
+        titolo.textContent = "";
+        titolo.classList.add("scrivendo");
+
+        let i=0;
+        const intervalloScrittura = setInterval(function () {
+            titolo.textContent += testoTitolo.charAt(i);
+            i++;
+            if (i >= testoTitolo.length) {
+                clearInterval(intervalloScrittura);
+                setTimeout(function() {
+                    titolo.classList.remove("scrivendo");
+                }, 500);
+            }
+        }, 120);
+    }
+
+    // avviso il main che ho mostrato la vittoria
+    if ( typeof callbackVittoria === "function") {
+        callbackVittoria();
+    }
+}
+
 // questo serve ad evitare di salvare la sessione durante il game over
 export function isGameOver() {
     return gameOverAttivo;

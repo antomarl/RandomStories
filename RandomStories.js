@@ -20,7 +20,7 @@ import { resetParole } from "./js/parole/resetParole.js";
 import { validaStoria } from "./js/storia/validaStoria.js";
 import { generaParola } from "./js/parole/generaParola.js";
 import { aggiornaBadgeDifficolta } from "./js/ui/badgeDifficolta.js";
-import { avviaTimerInferno, fermaTimerInferno} from "./js/effetti/timerInferno.js";
+import { avviaTimerInferno, fermaTimerInferno, scatenaVittoria } from "./js/effetti/timerInferno.js";
 // ho creato delle parole speciali e voglio metterle rare;
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
@@ -69,7 +69,8 @@ document.getElementById("btnResetParole").addEventListener("click",function() {
 })
 
 document.getElementById("btnSalva").addEventListener("click", function() {
-    salvaStoria( pagine, paginaCorrente, gestisciValidazioneStoria , mostraMessaggioPc);
+    // calcolo le stats prima del salvataggio,perchè dopo il reset si perdono
+    const stats = calcolaStatistichePartita();
 });
 // le due textarea le metto in 2 variabili perchè è più comodo 
 const textareaSx = document.getElementById("storyInputSx");
@@ -257,12 +258,41 @@ function iniziaGioco() {
         avviaTimerInferno(difficoltaCorrente.timer, function() {
             //blocchiamo la possibbilità di salvare la storia
             document.getElementById("btnSalva").disabled = true;
-        });
+        },
+        function () {
+            
+        }
+    );
     } else {
         fermaTimerInferno();
     }
 }
 
+// helper che calcola le statistiche della partita corrente
+function calcolaStatistichePartita() {
+    // unisco tutto il testo di tutte le pagine
+    let testoTotale = "";
+    pagine.forEach(function (pagina) {
+        testoTotale += (pagina.sx || "") + " " + (pagina.dx || " ")+ " "
+    });
+
+    //  conto le parole (split su spazi., filtro le stringhe vuote)
+    const paroleUsate = testoTotale.split(/\s+/).filter(p => p.length > 0).length;
+
+    //conto le parole rare trovate in questa sessione,non in totale
+    let rareTrovate = 0;
+    paroleGenerate.forEach(function (parola) {
+        if (parolerareTrovate.includes(parola)) {
+            rareTrovate++;
+        }
+    });
+    
+    return {
+        paroleUsate: paroleUsate,
+        rareTrovate: rareTrovate,
+        caratteri: testoTotale.length
+    };
+}
 //ora il badge serve per quando l'utente vuole cambiare modalità
 //come su nuova sessione deve mostrare una conferma,senno è troppo facile sbagliare
 async function cambiaModalita() {
