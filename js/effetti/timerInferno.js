@@ -34,13 +34,15 @@ function aggiornaUI() {
 }
 
 //questa funzione invece deve avviare il cuountdown , prendere i secomndi totali e callback per il game over
-export function avviaTimerInferno(secondiTotali, onGameOver) {
+export function avviaTimerInferno(secondiTotali, onGameOver, onVittoria) {
     //se ci dovesse essere gia un timer attivo,lo spengo prima per evitare duplicati(la funzione sua la mettero dopo,però intanto gli do un nome originale)
     fermaTimerInferno();
 
     secondiRimanenti = secondiTotali;
     callbackGameOver = onGameOver;
+    callbackVittoria = onVittoria;
     gameOverAttivo = false;
+    secondiTotaliPartita = secondiTotali;
 
     const timer = document.getElementById("timerInferno");
     if(!timer) return;
@@ -127,7 +129,7 @@ function scatenaGameOver() {
 //quesat funzione fermna il timer è mostra le statistiche
 export function scatenaVittoria(statistiche) {
     //per sicurezza: se sei già in game over, per la legge dei grandi numeri non puoi vincere
-    if (!gameOverAttivo) return;
+    if (gameOverAttivo) return;
 
     //calcolo il tempo impiegato è quello avanzato
     const tempoImpiegato = secondiTotaliPartita - secondiRimanenti;
@@ -147,8 +149,8 @@ export function scatenaVittoria(statistiche) {
 
     //ora riempio le statisctiche nell'overlay
     document.getElementById("statTempoImpiegato").textContent = formattaTempo(tempoImpiegato);
-    document.getElementById("statTempoAvanzato").textContent = formattaTempo(TempoAvanzato);
-    document.getElementById("statParoleUsate").textContent = statistiche.paroleUsate,
+    document.getElementById("statTempoAvanzato").textContent = formattaTempo(tempoAvanzato);
+    document.getElementById("statParoleUsate").textContent = statistiche.paroleUsate;
     document.getElementById("statRareTrovate").textContent = statistiche.rareTrovate;
     document.getElementById("statCaratteri").textContent = statistiche.caratteri;
 

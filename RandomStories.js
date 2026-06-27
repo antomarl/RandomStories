@@ -71,6 +71,27 @@ document.getElementById("btnResetParole").addEventListener("click",function() {
 document.getElementById("btnSalva").addEventListener("click", function() {
     // calcolo le stats prima del salvataggio,perchè dopo il reset si perdono
     const stats = calcolaStatistichePartita();
+
+    //ora controllo che òa storia sià valida
+    const eraValida= gestisciValidazioneStoria();
+
+    console.log("eraValida:", eraValida);
+    console.log("timer modalità:", getDifficoltaAttiva().timer);
+    console.log("stats: ", stats);
+
+    //salvo la storia
+    salvaStoria(pagine, paginaCorrente, gestisciValidazioneStoria, mostraMessaggioPc);
+
+    // se siamo in modalità inferno e la storia e valida facciamo partire la vittoria
+    //NOTA BENE, ora alle 23: 50 sto pensando che dopo potrei aggiungere la vittorio di defauklt in ogni modalità,solo che al posto di vittoria magari la chiamo "storia completate"
+    //e metto le stesse statistiche di questo,tranne il tempo rimanente
+    const difficoltaCorrente = getDifficoltaAttiva();
+    if (difficoltaCorrente.timer && eraValida) {
+        console.log("scateno vittoria!");
+        scatenaVittoria(stats)
+    } else {
+        console.log("NON scateno vittoria. timer:",difficoltaCorrente.timer, "eraValida:",eraValida);
+    }
 });
 // le due textarea le metto in 2 variabili perchè è più comodo 
 const textareaSx = document.getElementById("storyInputSx");
@@ -136,6 +157,22 @@ textareaDx.addEventListener("keydown", function(event) {
     }
 });
 
+// funzione di reset che non apre la schermata di difficolta,per quando si clicca il bottone ricomincia inferno
+function resetSessione() {
+    fermaTimerInferno();
+
+    paroleGenerate = [];
+    numeroParole = 0;
+    pagine = [{ sx: "", dx: ""}];
+    paginaCorrente = 0;
+
+    document.getElementById("storyInputSx").value = "";
+    document.getElementById("storyInputDx").value = "";
+    document.getElementById("listaParole").innerHTML = "";
+    document.getElementById("indicatorePagina").textContent = "Pagina 1";
+
+    localStorage.removeItem("randomStories_sessione");
+}
 gestisciValidazioneStoria();
 
 document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia valida
@@ -299,41 +336,13 @@ async function cambiaModalita() {
     const conferma = await mostraConferma("Cambiare modalità?", "le parole generate e la storia che stai scrivendo andranno perdute. Sei sicuro?");
     // se l'utente annulla,esco 
     if(!conferma) return;
-    // se stavo in modalità inferno,fermo il timer anche
-    fermaTimerInferno();
-    //sennò,se clicca conferma resetto tutto tutto
-    paroleGenerate = [];
-    numeroParole = 0;
-    pagine = [{ sx: "", dx: ""}];
-    paginaCorrente = 0;
-
-    document.getElementById("storyInputSx").value = "";
-    document.getElementById("storyInputDx").value = "";
-    document.getElementById("listaParole").innerHTML = "";
-    document.getElementById("indicatorePagina").textContent = "Pagina 1";
-
-    localStorage.removeItem("randomStories_sessione");
-
-    //torno alla schermata iniziale passando false(cioè no sessione)
+    resetSessione();
     mostraSchermataDifficolta(false);
 }
 //questa è una versione forzata di cambia modalità,perchè mentre la chiede conferma
 // se finisce il tempo hai gia perso,quindi non ti serve la possibilità di scegliere,quindi mi serve  un altra funzione
 function resetTotaleEApriSchermata() {
-    fermaTimerInferno();
-
-    paroleGenerate = [];
-    numeroParole = 0;
-    pagine = [{sx: "", dx: ""}];
-    paginaCorrente = 0;
-
-    document.getElementById("storyInputSx").value = "";
-    document.getElementById("storyInputDx").value = "";
-    document.getElementById("listaParole").innerHTML = "";
-    document.getElementById("indicatorePagina").textContent = "Pagina 1";
-
-    localStorage.removeItem("randomStories_sessione");
-
+    resetSessione();
     mostraSchermataDifficolta(false);
 }
 //ora serve una chiamata per quando l'utente clicca su una difficolta
@@ -384,3 +393,14 @@ aggiornaStatistiche(pagine);
 document.getElementById("badgeDifficolta").addEventListener("click", cambiaModalita);
 
 document.getElementById("btnGameOverRicomincia").addEventListener("click",resetTotaleEApriSchermata);
+
+document.getElementById("btnVittoriaRicomincia").addEventListener("click", function () {
+    document.getElementById("overlayVittoria").classList.remove("visibile");
+    resetSessione();
+    iniziaGioco();
+})
+
+document.getElementById("btnVittoriaModalita").addEventListener("click", function() {
+    document.getElementById("overlayVittoria").classList.remove("visibile");
+    resetTotaleEApriSchermata();
+})
