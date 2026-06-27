@@ -52,3 +52,12 @@ colpetato il modulo salvataggio.js,lesgo
 
 oggi ho fatto pure  il modulo listaParole.js,che serviva per le parole rare,senza errori,acnhe se ormai ho imparato bene a corregerli grazie alla console
 penso che il modulo più difficile fino ad pra sia stato nuovasessione.js,ci ho messo circa un ora,mi ha fatto impazzire,però ho imparato molte cose,come imporatre funzioni di un modulo dentro un altro modulo,come creare un afunzione wrapper ed altro,ora sono ad 1:55h,non so se farne un altro o concludere qui per oggi,vediamo
+
+diario 27/06/2026:
+purtroppo ho un po' perso il diario di vista, perchè poi mi sono un po' stancato,vabbè comunque poi ho finitò la refactoring, sennò il main ora sarbbe di +1000 righe ,invce così è tutto più schematizzato è semplice-
+ho aggiunto anche delle cose nuove,come le difficolta(ho modalità,ancora non so bene come chiamarle) che sono: facile,normale,inferno e libera
+nell'inferno mi sono impegnato di più di tutte,perchè ci ho messo il timer(che sarà di 5 minuti ma per adesso e di uno per i test che devo fare),poi ho aggiunto una schermata per quando perdi,ovvero quando il timer arriva a 00:00,molto bella,l'ho fatta vedere al mio amico seby e gli è piaciuta,e onestamente piace anche a me,soprattuto la scritta che ho messo: Purtroppo,nonostante l'impegno,la storia è rimasta incompleta...ma nella vita si può sempre riprovare!; è una frase stupida,però è reale: nella vita,per quanto uno si possa impegnare, non sempre le cose andranno a finire come hai rpogrammato,potrai non arrivarci in tempo,potrai sbagliare..ma la cosa che non bisogna mai dimenticare, e che si può sempre riprovare. Non è detto che ci riuscirai alla seconda volta. Neanche alla terza. Ma con la determinazione ci riuscirai!
+
+scrivendo questo mi sono dimenticato che ora voglio scrivere pure qualche futura idea per il progetto:
+prima di tutto voglio mettere la "vittoria"(anche se sarebbe più un "storia completata") anche nelle altre modalià,ovviamente togliendo la scritta "hai battuto l'inferno" ed il timer dei minuti rimanenti,solo quello dei minuti spesi.
+poi voglio inserire nella modalita
