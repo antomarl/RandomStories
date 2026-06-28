@@ -30,7 +30,7 @@ poi ho creato una costante chiamata bottone invece di chiamare getElementById og
 diario 8/6/2026:
 
 oggi ho creato il modulo istruzioni,che contiene le istruzioni per nuova sessione,che l'avevo creata per rimuovere gli alert (che facevano schifo)
-un mio amico mi ha consigliato stamattina a scuola di mettere un ia che ti mette le parole per campi semantici ,ma è una spacchinata,vediamo se prima o poi la farò
+un mio amico mi ha consigliato stamattina a scuola di mettere un ia che ti mette le parole per campi semantici ,ma ï¿½ una spacchinata,vediamo se prima o poi la farï¿½
 
 diario 9/6/2026:
 
@@ -38,26 +38,29 @@ ciao, oggi ho aggiunto il modulo particelle.js,che serviva per far comparire le 
 pure messaggi.js(sarebbe quello dove compare il messagio "nuova sessione iniziata" o "sessione Ripristinata" qunado clicci il bottone Nuova Sessione) non ha errori!!!,lesgo subwoofer
 
 diario 10/6/2026:
-iero ho fatto lìsolo un ora :( ,oggi ho finito statisctiche.js in una mezzoretta, poi circa 40 minuti per bootScreen.js(che sarebbe lo stile che quando avvi il sito il pc genera come se si stesse bootando,tipo il bios) ed ora sto facendo salvbataggio.js,che serve per auando esci dal sito o aggiiorni la pagina,così non perdi il lavoro che stavi scrivendo
+iero ho fatto lï¿½solo un ora :( ,oggi ho finito statisctiche.js in una mezzoretta, poi circa 40 minuti per bootScreen.js(che sarebbe lo stile che quando avvi il sito il pc genera come se si stesse bootando,tipo il bios) ed ora sto facendo salvbataggio.js,che serve per auando esci dal sito o aggiiorni la pagina,cosï¿½ non perdi il lavoro che stavi scrivendo
 
 ho creato pure la funzione moduli per rimuovere gli alert fastidiosi,ho avuto qualche problema di debugging(come al solito...) nei nomi come btnOK, btnOk e quindi non funzionava nulla
 
 come ultimo della giornata voglio fare quello per l'easter egg di elektrowindows(che sarebbe un mio amico)
 
-ho fatto anche per metà il modulo salvasessione,pero devo imnserire anche la funzione carica sessione,lo farò domani.
+ho fatto anche per metï¿½ il modulo salvasessione,pero devo imnserire anche la funzione carica sessione,lo farï¿½ domani.
 
 diario 11/6/2026:
 oggi voglio completare il modulo di ieri e farne altri.
 colpetato il modulo salvataggio.js,lesgo
 
 oggi ho fatto pure  il modulo listaParole.js,che serviva per le parole rare,senza errori,acnhe se ormai ho imparato bene a corregerli grazie alla console
-penso che il modulo più difficile fino ad pra sia stato nuovasessione.js,ci ho messo circa un ora,mi ha fatto impazzire,però ho imparato molte cose,come imporatre funzioni di un modulo dentro un altro modulo,come creare un afunzione wrapper ed altro,ora sono ad 1:55h,non so se farne un altro o concludere qui per oggi,vediamo
+penso che il modulo piï¿½ difficile fino ad pra sia stato nuovasessione.js,ci ho messo circa un ora,mi ha fatto impazzire,perï¿½ ho imparato molte cose,come imporatre funzioni di un modulo dentro un altro modulo,come creare un afunzione wrapper ed altro,ora sono ad 1:55h,non so se farne un altro o concludere qui per oggi,vediamo
 
 diario 27/06/2026:
-purtroppo ho un po' perso il diario di vista, perchè poi mi sono un po' stancato,vabbè comunque poi ho finitò la refactoring, sennò il main ora sarbbe di +1000 righe ,invce così è tutto più schematizzato è semplice-
-ho aggiunto anche delle cose nuove,come le difficolta(ho modalità,ancora non so bene come chiamarle) che sono: facile,normale,inferno e libera
-nell'inferno mi sono impegnato di più di tutte,perchè ci ho messo il timer(che sarà di 5 minuti ma per adesso e di uno per i test che devo fare),poi ho aggiunto una schermata per quando perdi,ovvero quando il timer arriva a 00:00,molto bella,l'ho fatta vedere al mio amico seby e gli è piaciuta,e onestamente piace anche a me,soprattuto la scritta che ho messo: Purtroppo,nonostante l'impegno,la storia è rimasta incompleta...ma nella vita si può sempre riprovare!; è una frase stupida,però è reale: nella vita,per quanto uno si possa impegnare, non sempre le cose andranno a finire come hai rpogrammato,potrai non arrivarci in tempo,potrai sbagliare..ma la cosa che non bisogna mai dimenticare, e che si può sempre riprovare. Non è detto che ci riuscirai alla seconda volta. Neanche alla terza. Ma con la determinazione ci riuscirai!
+purtroppo ho un po' perso il diario di vista, perchï¿½ poi mi sono un po' stancato,vabbï¿½ comunque poi ho finitï¿½ la refactoring, sennï¿½ il main ora sarbbe di +1000 righe ,invce cosï¿½ ï¿½ tutto piï¿½ schematizzato ï¿½ semplice-
+ho aggiunto anche delle cose nuove,come le difficolta(ho modalitï¿½,ancora non so bene come chiamarle) che sono: facile,normale,inferno e libera
+nell'inferno mi sono impegnato di piï¿½ di tutte,perchï¿½ ci ho messo il timer(che sarï¿½ di 5 minuti ma per adesso e di uno per i test che devo fare),poi ho aggiunto una schermata per quando perdi,ovvero quando il timer arriva a 00:00,molto bella,l'ho fatta vedere al mio amico seby e gli ï¿½ piaciuta,e onestamente piace anche a me,soprattuto la scritta che ho messo: Purtroppo,nonostante l'impegno,la storia ï¿½ rimasta incompleta...ma nella vita si puï¿½ sempre riprovare!; ï¿½ una frase stupida,perï¿½ ï¿½ reale: nella vita,per quanto uno si possa impegnare, non sempre le cose andranno a finire come hai rpogrammato,potrai non arrivarci in tempo,potrai sbagliare..ma la cosa che non bisogna mai dimenticare, e che si puï¿½ sempre riprovare. Non ï¿½ detto che ci riuscirai alla seconda volta. Neanche alla terza. Ma con la determinazione ci riuscirai!
 
 scrivendo questo mi sono dimenticato che ora voglio scrivere pure qualche futura idea per il progetto:
-prima di tutto voglio mettere la "vittoria"(anche se sarebbe più un "storia completata") anche nelle altre modalià,ovviamente togliendo la scritta "hai battuto l'inferno" ed il timer dei minuti rimanenti,solo quello dei minuti spesi.
-poi voglio inserire nella modalita
+prima di tutto voglio mettere la "vittoria"(anche se sarebbe piï¿½ un "storia completata") anche nelle altre modaliï¿½,ovviamente togliendo la scritta "hai battuto l'inferno" ed il timer dei minuti rimanenti,solo quello dei minuti spesi.
+poi voglio inserire nella modalitÃ  libera la possibilitÃ  di inerire un timer personalizzato(cosÃ¬ l'utente sara libero di scegliere di quanto lungo voglia il timer,perÃ² spero che se qualcuno utilizzera il mio sito(cosa difficile),utilizzi anche le altre modaliÃ ,perche mi sono impeganto un sacco a fare tutto)
+PS: se nella riga di prima non ci sono i punti interrogativi nelle accentate e perchÃ¨ ora sto scrivendo da vscode mentre prima usavo notepad di wine e non so perchÃ¨ non si vedono gli accenti
+poi voglio aggiungere in futuro anche gli acheviments tipo steam,cioÃ¨ tipo "si inizia..(e poi scritto sotto: genera la tua rpiam parola)", oppure " e vissero tutti...(e sempre sotto: salva la tua prima storia)",cioÃ¨ secondo me se c'Ã¨ la faccio puÃ² venire carini 
+

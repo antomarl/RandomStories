@@ -21,7 +21,7 @@ import { validaStoria } from "./js/storia/validaStoria.js";
 import { generaParola } from "./js/parole/generaParola.js";
 import { aggiornaBadgeDifficolta } from "./js/ui/badgeDifficolta.js";
 import { avviaTimerInferno, fermaTimerInferno, scatenaVittoria } from "./js/effetti/timerInferno.js";
-// ho creato delle parole speciali e voglio metterle rare;
+import { inizializzaTextarea } from "./js/quaderno/gestioneTextarea.js";
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
 
@@ -75,10 +75,6 @@ document.getElementById("btnSalva").addEventListener("click", function() {
     //ora controllo che òa storia sià valida
     const eraValida= gestisciValidazioneStoria();
 
-    console.log("eraValida:", eraValida);
-    console.log("timer modalità:", getDifficoltaAttiva().timer);
-    console.log("stats: ", stats);
-
     //salvo la storia
     salvaStoria(pagine, paginaCorrente, gestisciValidazioneStoria, mostraMessaggioPc);
 
@@ -95,7 +91,20 @@ document.getElementById("btnSalva").addEventListener("click", function() {
 });
 // le due textarea le metto in 2 variabili perchè è più comodo 
 const textareaSx = document.getElementById("storyInputSx");
-const textareaDx = document.getElementById('storyInputDx')
+const textareaDx = document.getElementById('storyInputDx');
+
+inizializzaTextarea({
+    textareaSx,
+    textareaDx,pagine,
+    getPaginaCorrente : () => paginaCorrente,
+    setPaginaCorrente: (nuovaPagina) => {
+        paginaCorrente = nuovaPagina;
+    },
+
+    salvaPaginaCorrente,
+    aggiornaIndicatorePagina,
+    gestisciValidazioneStoria
+});
 
 textareaSx.addEventListener("focus", function () {
     setAppState("state-writing");
@@ -103,25 +112,6 @@ textareaSx.addEventListener("focus", function () {
    // o siamo a de3stra o sinistra comunque si mette in staste writing
 textareaDx.addEventListener("focus", function () {
     setAppState('state-writing');
-});
-
-// ora sistemo la crittura sulla sinistra
-textareaSx.addEventListener("input", function() {
-    if(this.scrollHeight > this.clientHeight) {
-        let testoExtra = ""; //dato che potrebbero esserci frasi lunghe,taglio,cosi va a destrsa
-
-        while(this.scrollHeight > this.clientHeight && this.value.length > 0 ) {
-            testoExtra = this.value.charAt ( this.value.length - 1) + testoExtra;
-            this.value = this.value.substring(0, this.value.length - 1);
-        }
-        textareaDx.value = testoExtra + textareaDx.value;
-
-        textareaDx.focus();
-        textareaDx.setSelectionRange(testoExtra.length, testoExtra.length);
-    }
-    salvaPaginaCorrente(pagine, paginaCorrente);
-    aggiornaIndicatorePagina(paginaCorrente, pagine);
-    gestisciValidazioneStoria();
 });
 
 textareaDx.addEventListener("input", function() {
