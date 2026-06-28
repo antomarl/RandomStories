@@ -93,11 +93,14 @@ document.getElementById("btnSalva").addEventListener("click", function() {
 const textareaSx = document.getElementById("storyInputSx");
 const textareaDx = document.getElementById('storyInputDx');
 
+const indicatorePagina = document.getElementById("indicatorePagina");
+
 inizializzaTextarea({
     textareaSx,
     textareaDx,pagine,
+    indicatorePagina,
     getPaginaCorrente : () => paginaCorrente,
-    setPaginaCorrente: (nuovaPagina) => {
+    setPaginaCorrente: (nuovaPagina) => { // questa è un arrow function,più pulito
         paginaCorrente = nuovaPagina;
     },
 
@@ -105,48 +108,6 @@ inizializzaTextarea({
     aggiornaIndicatorePagina,
     gestisciValidazioneStoria
 });
-
-textareaSx.addEventListener("focus", function () {
-    setAppState("state-writing");
-});
-   // o siamo a de3stra o sinistra comunque si mette in staste writing
-textareaDx.addEventListener("focus", function () {
-    setAppState('state-writing');
-});
-
-textareaDx.addEventListener("input", function() {
-    //ora se si trabococca bisogna cangiari pagina
-    if (this.scrollHeight > this.clientHeight) {
-        while (this.scrollHeight > this.clientHeight && this.value.length > 0) {
-            this.value = this.value.substring(0, this.value.length - 1);
-        }
-        document.getElementById("indicatorePagina").textContent =  "Pagina " + (paginaCorrente + 1) + " - Piena! Premi ctrl + freccia destra per continuare";
-        document.getElementById("indicatorePagina").style.color = "red";
-    } else {
-        aggiornaIndicatorePagina(paginaCorrente,pagine);
-    }
-
-    salvaPaginaCorrente(pagine, paginaCorrente);
-    gestisciValidazioneStoria();
-}); // funzionaq cazzo si,ora pero devo fare in modo che se cnacello il contenuto a destra ritorno a sinistra, perchè mi rompo ad usare il moue
-// ma quanto sono forti i negramaro,mi sto ascoltando attenta mentre ora scirvo quello che ho scritto sopra
-
-textareaDx.addEventListener("keydown", function(event) {
-    if (event.key === "Backspace" &&  this.selectionStart === 0 && this.selectionEnd === 0) {
-        event.preventDefault();
-
-        if (this.value.length > 0 ) {
-            textareaSx.value =textareaSx.value + this.value;
-            this.value = "";
-            salvaPaginaCorrente(pagine, paginaCorrente);
-        }
-        textareaSx.focus();
-        let lunghezza = textareaSx.value.length;
-        textareaSx.setSelectionRange(lunghezza, lunghezza);
-
-    }
-});
-
 // funzione di reset che non apre la schermata di difficolta,per quando si clicca il bottone ricomincia inferno
 function resetSessione() {
     fermaTimerInferno();
