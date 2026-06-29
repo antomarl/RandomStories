@@ -1,5 +1,7 @@
 // questo modulo gestisce il comportamento della textarea: overflow del testo,salvataggio pagina,cambio pagina ecc
 
+import { setAppState } from "../stato/statoApp.js";
+
 export function inizializzaTextarea(config) {
     const {
         textareaSx,
@@ -15,13 +17,11 @@ export function inizializzaTextarea(config) {
 
     //quando clicco nella textarea di sinistra, l'app capisce che sto scrivendo
     textareaSx.addEventListener("focus", function() {
-        document.body.classList.remove("state-generating");
-        document.body.classList.add("state-writing");
+        setAppState("state-writing");
     });
 
     textareaDx.addEventListener("focus",function() {
-        document.body.classList.remove("state-generating");
-        document.body.classList.add("state-writing");
+        setAppState("state-writing");
     });
 
     textareaSx.addEventListener("input", function() {

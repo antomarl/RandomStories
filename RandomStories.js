@@ -22,6 +22,7 @@ import { generaParola } from "./js/parole/generaParola.js";
 import { aggiornaBadgeDifficolta } from "./js/ui/badgeDifficolta.js";
 import { avviaTimerInferno, fermaTimerInferno, scatenaVittoria } from "./js/effetti/timerInferno.js";
 import { inizializzaTextarea } from "./js/quaderno/gestioneTextarea.js";
+import { inizializzaScorciatoie } from "./js/ui/gestioneScorciatoie.js";
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
 
@@ -127,34 +128,6 @@ function resetSessione() {
 gestisciValidazioneStoria();
 
 document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia valida
-
-document.addEventListener("keydown", function(event) {
-    if (event.key === "F3")  {
-        event.preventDefault();
-        if (document.body.classList.contains("state-generating")) {
-            setAppState("state-writing");
-        } else {
-            setAppState("state-generating");
-        }
-    }
-    
-    //ora devo fare le frecci per cambiare da una pagina all'altra
-    if (document.body.classList.contains("state-writing")) {
-        if (event.ctrlKey && event.key === "ArrowRight") {
-                event.preventDefault();
-                paginaCorrente = cambiaPagina("avanti",pagine,paginaCorrente);
-                gestisciValidazioneStoria();
-                
-        } else if (event.ctrlKey && event.key === "ArrowLeft") {
-                event.preventDefault();
-                paginaCorrente = cambiaPagina("indietro",pagine,paginaCorrente);
-                gestisciValidazioneStoria();
-            
-        }
-    }
-
-});
-//all'avvio applioco il tema salvato dall'utente(se era gia entrato una volta)
 inizializzaTema();
 //e aggangio il cambio tema al click sul bottone
 document.getElementById("coloreTema").addEventListener("click", cambiaTema)
@@ -197,6 +170,15 @@ async function GestisciNuovaSessione() {
     }
 }
 
+inizializzaScorciatoie({
+    pagine, getPaginaCorrente : () => paginaCorrente,
+    setPaginaCorrente: (nuovaPagina) => {
+        paginaCorrente = nuovaPagina;
+    },
+    cambiaPagina, gestisciValidazioneStoria,
+    chiudiIstruzioni, toggleIstruzioni
+});
+
 document.getElementById("btNuovaSessione").addEventListener("click",GestisciNuovaSessione);
 aggiornaContatoreRare(contatoreRareTotale);
 
@@ -210,22 +192,6 @@ document.getElementById("overlayIstruzioni").addEventListener("click", chiudiIst
 
 //click sulla x
 document.getElementById("btnChiudiIstruzioni").addEventListener("click", chiudiIstruzioni);
-//ora faccio che se si clicca H o ? si si entra,ed esc per chiudere
-document.addEventListener("keydown", function(event) {
-    if (event.key == "Escape") {
-        chiudiIstruzioni();
-        return;
-    }
-
-    //devo fare pero che se clicco H o ? mentre sto scrivendo non si apra il pannello,senno non potrei scfrivere molte parole
-
-    const stoScrivendo = document.activeElement.tagName === "TEXTAREA";
-    if (!stoScrivendo && (event.key === "h" || event.key === "H" || event.key === "?")) {
-        event.preventDefault();
-        toggleIstruzioni();
-    }
-});
-
 // questa funzionje viene chiamata dopo che l'utente ha scelto cosa fare nella schermata difficolta
 // si occupa di accendere autosave,aggiornare il contatore e nascondere la schermata
 function iniziaGioco() {
