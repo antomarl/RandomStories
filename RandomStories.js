@@ -23,6 +23,7 @@ import { aggiornaBadgeDifficolta } from "./js/ui/badgeDifficolta.js";
 import { avviaTimerInferno, fermaTimerInferno, scatenaVittoria } from "./js/effetti/timerInferno.js";
 import { inizializzaTextarea } from "./js/quaderno/gestioneTextarea.js";
 import { inizializzaScorciatoie } from "./js/ui/gestioneScorciatoie.js";
+import { inizializzaBottoniUI } from "./js/ui/gestioneBottoniUI.js";
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
 
@@ -96,6 +97,16 @@ const textareaDx = document.getElementById('storyInputDx');
 
 const indicatorePagina = document.getElementById("indicatorePagina");
 
+const btnIstruzioni = document.getElementById("btnIstruzioni");
+const overlayIstruzioni = document.getElementById("overlayIstruzioni");
+const btnChiudiIstruzioni = document.getElementById("btnChiudiIstruzioni");
+const coloreTema = document.getElementById("coloreTema");
+const badgeDifficolta = document.getElementById("badgeDifficolta");
+const btnGameOverRicomincia = document.getElementById("btnGameOverRicomincia");
+const btnVittoriaModalita = document.getElementById("btnVittoriaModalita");
+const btnVittoriaRicomincia = document.getElementById("btnVittoriaRicomincia");
+const overlayVittoria = document.getElementById("overlayVittoria");
+
 inizializzaTextarea({
     textareaSx,
     textareaDx,pagine,
@@ -129,8 +140,6 @@ gestisciValidazioneStoria();
 
 document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia valida
 inizializzaTema();
-//e aggangio il cambio tema al click sul bottone
-document.getElementById("coloreTema").addEventListener("click", cambiaTema)
 //il mio amico Costino mi ha detto di fare in modo che se esco per sbaglio dal sito mentre scrivo la stolria non perdo tutto ciò che avevo scritto,so let's do it!
 //PS(IMPORTANTE): mi ha detto pure di spostare il la scritta centrale dei comandi e metterla di lato che compare se vieddddddddddddddddcswcscscscxssccsscsc
 //l'autosave non parte più da solo come prima,lo faccio partire solo quando l'utenete ha scelto cosa fare nella schemrtaa difficolya
@@ -181,17 +190,6 @@ inizializzaScorciatoie({
 
 document.getElementById("btNuovaSessione").addEventListener("click",GestisciNuovaSessione);
 aggiornaContatoreRare(contatoreRareTotale);
-
-
-//ora faccio il click per il pulasnte ?
-document.getElementById("btnIstruzioni").addEventListener("click", toggleIstruzioni);
-
-
-// se l'utennte clicca fuori dal pannelo si chiude
-document.getElementById("overlayIstruzioni").addEventListener("click", chiudiIstruzioni);
-
-//click sulla x
-document.getElementById("btnChiudiIstruzioni").addEventListener("click", chiudiIstruzioni);
 // questa funzionje viene chiamata dopo che l'utente ha scelto cosa fare nella schermata difficolta
 // si occupa di accendere autosave,aggiornare il contatore e nascondere la schermata
 function iniziaGioco() {
@@ -306,18 +304,8 @@ textareaDx.addEventListener("input", function() {
 });
 
 aggiornaStatistiche(pagine);
-
-document.getElementById("badgeDifficolta").addEventListener("click", cambiaModalita);
-
-document.getElementById("btnGameOverRicomincia").addEventListener("click",resetTotaleEApriSchermata);
-
-document.getElementById("btnVittoriaRicomincia").addEventListener("click", function () {
-    document.getElementById("overlayVittoria").classList.remove("visibile");
-    resetSessione();
-    iniziaGioco();
-})
-
-document.getElementById("btnVittoriaModalita").addEventListener("click", function() {
-    document.getElementById("overlayVittoria").classList.remove("visibile");
-    resetTotaleEApriSchermata();
-})
+inizializzaBottoniUI({
+    btnIstruzioni,overlayIstruzioni,btnChiudiIstruzioni,coloreTema,badgeDifficolta,btnGameOverRicomincia,
+    btnVittoriaModalita,btnVittoriaRicomincia,overlayVittoria,toggleIstruzioni,
+    chiudiIstruzioni,cambiaTema,cambiaModalita,resetTotaleEApriSchermata,resetSessione,iniziaGioco
+});

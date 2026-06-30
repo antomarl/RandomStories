@@ -23,8 +23,8 @@ export function inizializzaScorciatoie(config) {
 
         // poi ctrl + freccia serve a cambiare pagina(destra per crearne nuove od mandare avanti
         //, sinistra per tornare indetro)
-        if(document.bofy.classlist.contains("state-writing")) {
-            if ( event.ctrlKey && event.key === "ArrowRigth") {
+        if(document.body.classList.contains("state-writing")) {
+            if ( event.ctrlKey && event.key === "ArrowRight") {
                 event.preventDefault();
 
                 //cambiaPagina restituisce il nuovo numero della pagina corrente
@@ -38,13 +38,13 @@ export function inizializzaScorciatoie(config) {
                 return;
             }
 
-            if (event.ctrlKey && event.key === "arrowLeft") {
+            if (event.ctrlKey && event.key === "ArrowLeft") {
                 event.preventDefault();
                 
                 //stessa cosa di prima,ma andando indetreo
                 const nuovaPagina = cambiaPagina("indietro", pagine,getPaginaCorrente());
 
-                setPaginaCorrente();
+                setPaginaCorrente(nuovaPagina);
                 gestisciValidazioneStoria();
                 return;
             }
