@@ -24,6 +24,8 @@ import { avviaTimerInferno, fermaTimerInferno, scatenaVittoria } from "./js/effe
 import { inizializzaTextarea } from "./js/quaderno/gestioneTextarea.js";
 import { inizializzaScorciatoie } from "./js/ui/gestioneScorciatoie.js";
 import { inizializzaBottoniUI } from "./js/ui/gestioneBottoniUI.js";
+import { inizializzaStatisticheLive } from "./js/ui/statisticheLive.js";
+import { inizializzaAzioniPartita } from "./js/sessione/gestioneAzioniPartita.js";
 
 let paroleGenerate = [] ;  // Array per memorizzare le parole generate
 
@@ -106,6 +108,11 @@ const btnGameOverRicomincia = document.getElementById("btnGameOverRicomincia");
 const btnVittoriaModalita = document.getElementById("btnVittoriaModalita");
 const btnVittoriaRicomincia = document.getElementById("btnVittoriaRicomincia");
 const overlayVittoria = document.getElementById("overlayVittoria");
+
+const btnGeneraParola = document.getElementById("btnGeneraParola");
+const btnResetParole = Document.getElementById("btnResetParole");
+const btnSalva = document.getElementById("btnSalva");
+const btNuovaSessione = document.getElementById("btNuovaSessione");
 
 inizializzaTextarea({
     textareaSx,
@@ -245,6 +252,7 @@ function calcolaStatistichePartita() {
         caratteri: testoTotale.length
     };
 }
+
 //ora il badge serve per quando l'utente vuole cambiare modalità
 //come su nuova sessione deve mostrare una conferma,senno è troppo facile sbagliare
 async function cambiaModalita() {
@@ -291,18 +299,13 @@ avviaBootScreen(function() {
         mostraSchermataDifficolta(false);
     }
 });
-
-
-textareaSx.addEventListener("input", function() {
-    avviaTimerStats(pagine);
-    aggiornaStatistiche(pagine);
+inizializzaStatisticheLive({
+    textareaSx,
+    textareaDx,
+    pagine,
+    avviaTimerStats,
+    aggiornaStatistiche
 });
-
-textareaDx.addEventListener("input", function() {
-    avviaTimerStats(pagine);
-    aggiornaStatistiche(pagine);
-});
-
 aggiornaStatistiche(pagine);
 inizializzaBottoniUI({
     btnIstruzioni,overlayIstruzioni,btnChiudiIstruzioni,coloreTema,badgeDifficolta,btnGameOverRicomincia,
