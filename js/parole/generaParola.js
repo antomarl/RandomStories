@@ -11,7 +11,7 @@ import { attivaGlitchPC } from "../effetti/glitch.js";
 import { aggiornaListaParole } from "./listaParole.js";
 import { aggiornaContatoreRare } from "./contatoreParole.js";
 
-export function generaParola(paroleGenerate, numeroParole, parolerareTrovate,contatoreRareTotale, validaStoria) {
+export function generaParola(paroleGenerate, numeroParole, parolerareTrovate,contatoreRareTotale, validaStoriaCallback) {
     // leggo la difficoltà messa ad ogni chiamata
     // in questo modo,se l'utente cambia modalità a metà partita,cambia instant(big brain)
     const { paroleMassime, probabilitaRara } = getDifficoltaAttiva();
@@ -44,7 +44,7 @@ export function generaParola(paroleGenerate, numeroParole, parolerareTrovate,con
 
     // se la parola è gia stata generata in questa sessione,eseguo una chiamata ricorsiva(la funzione richiama se stessa)
     if (paroleGenerate.includes(parolaGenerata)) {
-        return generaParola(paroleGenerate, numeroParole, parolerareTrovate, contatoreRareTotale, validaStoria);
+        return generaParola(paroleGenerate, numeroParole, parolerareTrovate, contatoreRareTotale, gestisciValidazioneStoria);
     }
 
     // ora aggiungo la parola alla lista( modifico array per riferimento,così il main lo vede)
@@ -84,7 +84,7 @@ export function generaParola(paroleGenerate, numeroParole, parolerareTrovate,con
     }
 
     // dopo aver aggiunto la parola,ovviamente bisogna essere di nuovo validata
-    validaStoria();
+    validaStoriaCallback();
 
     //restituisco i valori aggiornati(l'array no perchè si aggiorna da solo per riferimento)
     return { numeroParole, contatoreRareTotale};

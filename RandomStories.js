@@ -44,55 +44,6 @@ document.body.classList.add('state-generating');
 function gestisciValidazioneStoria() {
     return validaStoria(pagine, paginaCorrente, paroleGenerate);
 }
-
-// ora faccio in modo che quando clicco sul pulsante genera parole, venga chiamata la funzione GeneraParola
-document.getElementById("btnGeneraParola").addEventListener("click", function() {
-    setAppState('state-generating');
-    gestisciGeneraParola();
-});
-// ora devo creare un altra funzione wrapper per generaParola(il modulo modifica i numeri che vivono nel main
-//quuindi devo riassegnarli con quello che mi restituisce)
-function gestisciGeneraParola() {
-    const risultato = generaParola(paroleGenerate,numeroParole, parolerareTrovate, contatoreRareTotale,gestisciValidazioneStoria);
-    if (risultato) {
-        numeroParole = risultato.numeroParole;
-        contatoreRareTotale = risultato.contatoreRareTotale;
-    }
-}
-function gestisciResetParole() {
-    const risultato = resetParole(paroleGenerate, getDifficoltaAttiva().paroleMassime, gestisciValidazioneStoria);
-
-    if (risultato) {
-        numeroParole = risultato.numeroParole;
-    }
-}
-
-document.getElementById("btnResetParole").addEventListener("click",function() {
-    setAppState('state-generating');
-    gestisciResetParole();
-})
-
-document.getElementById("btnSalva").addEventListener("click", function() {
-    // calcolo le stats prima del salvataggio,perchè dopo il reset si perdono
-    const stats = calcolaStatistichePartita();
-
-    //ora controllo che òa storia sià valida
-    const eraValida= gestisciValidazioneStoria();
-
-    //salvo la storia
-    salvaStoria(pagine, paginaCorrente, gestisciValidazioneStoria, mostraMessaggioPc);
-
-    // se siamo in modalità inferno e la storia e valida facciamo partire la vittoria
-    //NOTA BENE, ora alle 23: 50 sto pensando che dopo potrei aggiungere la vittorio di defauklt in ogni modalità,solo che al posto di vittoria magari la chiamo "storia completate"
-    //e metto le stesse statistiche di questo,tranne il tempo rimanente
-    const difficoltaCorrente = getDifficoltaAttiva();
-    if (difficoltaCorrente.timer && eraValida) {
-        console.log("scateno vittoria!");
-        scatenaVittoria(stats)
-    } else {
-        console.log("NON scateno vittoria. timer:",difficoltaCorrente.timer, "eraValida:",eraValida);
-    }
-});
 // le due textarea le metto in 2 variabili perchè è più comodo 
 const textareaSx = document.getElementById("storyInputSx");
 const textareaDx = document.getElementById('storyInputDx');
@@ -110,7 +61,7 @@ const btnVittoriaRicomincia = document.getElementById("btnVittoriaRicomincia");
 const overlayVittoria = document.getElementById("overlayVittoria");
 
 const btnGeneraParola = document.getElementById("btnGeneraParola");
-const btnResetParole = Document.getElementById("btnResetParole");
+const btnResetParole = document.getElementById("btnResetParole");
 const btnSalva = document.getElementById("btnSalva");
 const btNuovaSessione = document.getElementById("btNuovaSessione");
 
@@ -177,14 +128,6 @@ function ripristinaSessione() {
     MMR("Sessione ripristinata!");
     return true; // così si sa se è andatoc tutto bene
 }
-// dopo la refactoring document....quell'evento non funzionava piu,perche rendeva parole,pagine tutti indefiniti,quidni devo creare una funzione wrapper
-async function GestisciNuovaSessione() {
-    const risultato = await nuovaSessione(paroleGenerate,numeroParole,pagine,paginaCorrente,getDifficoltaAttiva().paroleMassime,resetStatistiche,pulisciMessaggioPC);
-    if (risultato) {
-        numeroParole = risultato.numeroParole;
-        paginaCorrente = risultato.paginaCorrente;
-    }
-}
 
 inizializzaScorciatoie({
     pagine, getPaginaCorrente : () => paginaCorrente,
@@ -194,9 +137,6 @@ inizializzaScorciatoie({
     cambiaPagina, gestisciValidazioneStoria,
     chiudiIstruzioni, toggleIstruzioni
 });
-
-document.getElementById("btNuovaSessione").addEventListener("click",GestisciNuovaSessione);
-aggiornaContatoreRare(contatoreRareTotale);
 // questa funzionje viene chiamata dopo che l'utente ha scelto cosa fare nella schermata difficolta
 // si occupa di accendere autosave,aggiornare il contatore e nascondere la schermata
 function iniziaGioco() {
@@ -252,7 +192,42 @@ function calcolaStatistichePartita() {
         caratteri: testoTotale.length
     };
 }
+inizializzaAzioniPartita({
+    btnGeneraParola,
+    btnResetParole,
+    btnSalva,
+    btNuovaSessione,
+    getPagine: () => pagine,
+    getPaginaCorrente: () => paginaCorrente,
+    getParoleGenerate: () => paroleGenerate,
+    getNumeroParole: () => numeroParole,
+    getParoleRareTrovate: () => parolerareTrovate,
+    getContatoreRareTotale: () => contatoreRareTotale,
 
+    setNumeroParole: (nuovoNumero) => {
+        numeroParole = nuovoNumero;
+    },
+
+    setContatoreRareTotale: (nuovoTotale) => {
+        contatoreRareTotale = nuovoTotale;
+    },
+
+    setPaginaCorrente: (nuovaPagina) => {
+        paginaCorrente = nuovaPagina;
+    },
+
+    gestisciValidazioneStoria,
+    calcolaStatistichePartita,
+
+    generaParola,
+    resetParole,
+    salvaStoria,
+    nuovaSessione,
+    mostraMessaggioPc,
+    resetStatistiche,
+    pulisciMessaggioPC,
+    scatenaVittoria,
+});
 //ora il badge serve per quando l'utente vuole cambiare modalità
 //come su nuova sessione deve mostrare una conferma,senno è troppo facile sbagliare
 async function cambiaModalita() {

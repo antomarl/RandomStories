@@ -2,7 +2,7 @@
 // quindi considero genera parola, reset parole , salva storia e nuova sessione
 
 import { setAppState } from "../stato/statoApp.js";
-import { getDifficoltaAttiva } from "../stato/difficoltaAttiva.js.js";
+import { getDifficoltaAttiva } from "../stato/difficoltaAttiva.js";
 
 export function inizializzaAzioniPartita(config) {
     // utilizzo sempre config 
@@ -21,12 +21,12 @@ export function inizializzaAzioniPartita(config) {
         setContatoreRareTotale,
         setPaginaCorrente,
         gestisciValidazioneStoria,
-        calcoloStatistichePartita,
+        calcolaStatistichePartita,
         generaParola,
         resetParole,
         salvaStoria,
         nuovaSessione,
-        mostraMessaggiPc,
+        mostraMessaggioPc,
         resetStatistiche,
         pulisciMessaggioPC,
         scatenaVittoria
@@ -42,7 +42,7 @@ export function inizializzaAzioniPartita(config) {
             getNumeroParole(),
             getParoleRareTrovate(),
             getContatoreRareTotale(),
-            gestisciValidazioneStoria()
+            gestisciValidazioneStoria
         );
 
         // se il modulo generaParola mi restituisce dei dati nuovi,aggirono il main
@@ -59,8 +59,8 @@ export function inizializzaAzioniPartita(config) {
 
         const risultato = resetParole(
             getParoleGenerate(),
-            getDifficoltaAttiva(),
-            gestisciValidazioneStoria()
+            getDifficoltaAttiva().paroleMassime,
+            gestisciValidazioneStoria
         )
         //giustamente restituisce il nuvo numero di parole
         if ( risultato) {
@@ -71,7 +71,7 @@ export function inizializzaAzioniPartita(config) {
     //ora il bottone per salvare la storia
     btnSalva.addEventListener("click", function() {
         //calcolo le statistiche prima del salvataggio
-        const stats = calcoloStatistichePartita();
+        const stats = calcolaStatistichePartita();
 
         //controllo se la storia era valida al momento del click
         const eraValida = gestisciValidazioneStoria();
@@ -81,7 +81,7 @@ export function inizializzaAzioniPartita(config) {
             getPagine(),
             getPaginaCorrente(),
             gestisciValidazioneStoria,
-            mostraMessaggiPc
+            mostraMessaggioPc
         );
 
         //se sono in modalità col timer e la storia è valida,devo far partire la vittoria
