@@ -313,6 +313,22 @@ body.tema-scuro #SectionStoria h2 {
     overflow: hidden;
 }
 
+#coloreTema,
+#btNuovaSessione,
+#badgeDifficolta,
+#contatoreRare,
+#btnistruzioni {
+    position: fixed;
+    z-index: 20;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing:  0.4px;
+    border: 1px solid rgba(44, 24, 16, 0.35);
+    box-shadow: 2px 3px 0 rgba(0,0,0,0.28);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
 .story-input {
     flex: 1;   
     width: 50%;
@@ -443,20 +459,11 @@ body.state-generating #indicatorePagina {
 /* ho spostato il pulsatne sotto,ora si starta!*/
 
 #coloreTema {
-    position: fixed;
     top: 20px;
     left: 50px;
-    z-index: 20;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 20px;
+    padding: 8px 14px;
     background: #2c1810;
-    color: #fff;
-    font-size: 0.91rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    pointer-events:all
+    color: #f8f3eb;
 }
 
 
@@ -482,11 +489,7 @@ body.tema-scuro #coloreTema {
     color: #0a0e0a;
 }
 
-/* bottone molto minimale per adesso,però vabbe ci sta dai, ora devo pero fare tutta l'interfaccia un po' al contrario,per chi vuole usarla di notte o a paura della luce*/
-#coloreTema:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
+
 
 /* facciamo l'easter egg per il bro,dato che è uno smanettone facciamo a mo di glitch*/
 
@@ -505,25 +508,13 @@ body.tema-scuro #coloreTema {
 
 
 #btNuovaSessione {
-    position: fixed;
     top: 20px;
-    left: 200px;
-    z-index: 20;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 20px;
-    background: #000000;
+    left: 195px;
+    padding: 8px 14px;
+    background: #111;
     color: #fff;
-    font-size: 0.91rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.4s ease;
 }
 
-#btNuovaSessione:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
 
 
 #messaggioRipristino {
@@ -551,19 +542,12 @@ body.tema-scuro #coloreTema {
 }
 
 #contatoreRare {
-    position: fixed;
-    top: 15px;
-    right: 20px;
-    z-index: 20;
-    padding: 8px 16px;
-    background: linear-gradient(135deg, #2c1810, #4a2f1f);
-    color: #ffd700;
-    border: 1px solid #ffd700;
-    border-radius: 20px;
-    font-family: 'Courier New', monospace;
-    font-size:0.9rem;
-    font-weight: 700;
-    box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+    top: 20px;
+    right: 25;
+    padding: 8px 14px;
+    background : #3a2518;
+    color: #f2c94c;
+    border-color: rgba(242, 201, 76, 0.65);
 }
 
 .parola-rara {
@@ -654,29 +638,16 @@ body.tema-scuro #coloreTema {
 }
 
 #btnIstruzioni {
-    position: fixed;
-    top: 15px;
-    right: 130px; 
-    z-index: 20;
-    width: 36px;
-    height: 36px;
-    border: none;
-    border-radius: 50%; /* cosi il pulsante è tondo*/
+    top: 20px;
+    right: 130px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
     background: #2c1810;
     color: #fff;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor:pointer;
-    justify-content: center;
-    transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-#btnIstruzioni:hover {
-    transform: scale(1.15) rotate(360deg); /* per dare l'effetto che gira un pochino,cosi,per renderlo figo*/
-    box-shadow: 0 4px 12px rgba(0,0,0, 0.4);
+    justify-content: center;
 }
 
 body.tema-scuro #btnIstruzioni {
@@ -896,7 +867,22 @@ body.tema-scuro #btNuovaSessione {
     pointer-events: none;
     transition: opacity 0.3s ease;
 }
+#coloreTema:hover,
+#btNuovaSessione:hover,
+#badgeDifficolta:hover,
+#contatoreRare:hover,
+#btnIstruzioni:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 2px 0 rgba(0,0,0,0.35);
+}
 
+#coloreTema:active,
+#btNuovaSessione:active,
+#badgeDifficolta:active,
+#btnIstruzioni:active {
+    transform: translate(2px, 3px);
+    box-shadow: none;
+}
 #modalConferma {
     position: fixed;
     top: 50%;
@@ -1177,7 +1163,19 @@ body.state-generating #barraStatistiche {
 
 .meta-diffcolta {
     font-size: 0.88rem;
-    line-height: 1,5;
+    line-height: 1,5;    position: fixed;
+    top: 15px;
+    right: 20px;
+    z-index: 20;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #2c1810, #4a2f1f);
+    color: #ffd700;
+    border: 1px solid #ffd700;
+    border-radius: 20px;
+    font-family: 'Courier New', monospace;
+    font-size:0.9rem;
+    font-weight: 700;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
     color: #5a4030;
     font-family: 'Courier New', monospace;
 }
@@ -1256,33 +1254,12 @@ body.tema-scuro #btnRiprendiSessione {
 }
 
 #badgeDifficolta {
-    position: fixed;
-    top: 21px;
-    left: 350px;
-    z-index: 20;
-    padding: 8px 16px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #4a2f1f, #6b4a2f);
-    color: #ffd700;
-    border: 1px solid rgba(255, 215, 0, 0.4);
-    font-family: 'Courier New', monospace;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    user-select: none;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-#badgeDifficolta:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
-    border-color: rgba(255,215,0,0.7);
-}
-
-#badgeDifficolta:active {
-    transform: scale(0.98);
+    top: 20px;
+    left: 345px;
+    padding: 8px 14px;
+    background: #3a2518;
+    color: #f2c94c;
+    border-color: rgba(242, 201, 76, 0.55);
 }
 
 body.tema-scuro #badgeDifficolta:hover {
@@ -1429,6 +1406,7 @@ body.game-over .storyInput {
     color: #c10000;
 }
 
+colore
 #overlayVittoria {
     position: fixed;
     inset: 0;

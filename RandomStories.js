@@ -39,6 +39,7 @@ let pagine = [{sx: "", dx: ""}] // array delle pagine,inizia con 1 vuot
 let paginaCorrente = 0; // indice della pagina che si sta vedendo;
 let secondiTimerRipristinati = null;
 let timerInfernoRipristinato = false; // questi servono quando riprendo una sessione inferno salvata,così il timer non riparte da capo 
+let intervalloAutosave = null; // e per sicurezza,per non creare 300 autosave insieme
 // devo modificare un po' di cose nella funzione generaparole
 document.body.classList.add('state-generating');
 
@@ -106,7 +107,12 @@ inizializzaTema();
 //altrimenti potrebbe sovraschivere la funzione vecchia con dati vuori :(
 
 function avviaAutoSalvataggio() {
-    setInterval(function () {
+    // se c'è gia un autosave attivo,lo fermo prima,così evito di creare più setInterval insiemeù
+    if (intervalloAutosave !== null){
+        clearInterval(intervalloAutosave);
+        intervalloAutosave = null;
+    }
+    intervalloAutosave = setInterval(function () {
         const difficoltaCorrente = getDifficoltaAttiva();
 
         // di default non salvo dati timer
@@ -134,6 +140,10 @@ function ripristinaSessione() {
     const datiSessione = caricaSessione(); // ho cambiato nome poichè ho cambiato la funzione,ora sotto sistemo 
     // stessa cosa di prima,non parte più sola,la chiam osolo quando l'utente clicca "ripderni Sessione"
     if(!datiSessione) return false;//se non c'è nulla salvato esco subito
+    // quando riprendo una sessione,rimetto anche la difficolta salvata, altrimenti il giooco può partere con la difficoltà sabgaliata(non sta funzionando il timer
+    if(datiSessione.difficolta) {
+        setDifficoltaAttiva(datiSessione.difficolta)
+    }
     pagine = datiSessione.pagine;
     paroleGenerate = datiSessione.paroleGenerate || [];
     numeroParole = datiSessione.numeroParole || 0;
