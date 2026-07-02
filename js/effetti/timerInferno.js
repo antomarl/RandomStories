@@ -34,11 +34,11 @@ function aggiornaUI() {
 }
 
 //questa funzione invece deve avviare il cuountdown , prendere i secomndi totali e callback per il game over
-export function avviaTimerInferno(secondiTotali, onGameOver, onVittoria) {
+export function avviaTimerInferno(secondiTotali, onGameOver, onVittoria, secondiDaCuiPartire = secondiTotali) {
     //se ci dovesse essere gia un timer attivo,lo spengo prima per evitare duplicati(la funzione sua la mettero dopo,però intanto gli do un nome originale)
     fermaTimerInferno();
 
-    secondiRimanenti = secondiTotali;
+    secondiRimanenti = secondiDaCuiPartire;
     callbackGameOver = onGameOver;
     callbackVittoria = onVittoria;
     gameOverAttivo = false;
@@ -188,4 +188,9 @@ export function scatenaVittoria(statistiche) {
 // questo serve ad evitare di salvare la sessione durante il game over
 export function isGameOver() {
     return gameOverAttivo;
+}
+
+//ho notato una cosa, se l'utente mette la modalita inferno,il tempo scorre e lui riaggiorna la pagina e rimette la sessione corrente,ha sia le parole generate che il testo però il timer ricomincia da capo,e non è giusto,dovrebbe ricominciare dal punto che era prima che aggiornasse
+export function getSecondiRimanentiInferno() {
+    return secondiRimanenti;
 }

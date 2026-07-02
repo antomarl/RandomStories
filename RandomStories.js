@@ -20,7 +20,7 @@ import { resetParole } from "./js/parole/resetParole.js";
 import { validaStoria } from "./js/storia/validaStoria.js";
 import { generaParola } from "./js/parole/generaParola.js";
 import { aggiornaBadgeDifficolta } from "./js/ui/badgeDifficolta.js";
-import { avviaTimerInferno, fermaTimerInferno, scatenaVittoria } from "./js/effetti/timerInferno.js";
+import { avviaTimerInferno, fermaTimerInferno, scatenaVittoria, getSecondiRimanentiInferno } from "./js/effetti/timerInferno.js";
 import { inizializzaTextarea } from "./js/quaderno/gestioneTextarea.js";
 import { inizializzaScorciatoie } from "./js/ui/gestioneScorciatoie.js";
 import { inizializzaBottoniUI } from "./js/ui/gestioneBottoniUI.js";
@@ -37,6 +37,8 @@ let numeroParole = 0; // Variabile per tenere traccia del numero di parole gener
 let pagine = [{sx: "", dx: ""}] // array delle pagine,inizia con 1 vuot
 
 let paginaCorrente = 0; // indice della pagina che si sta vedendo;
+let secondiTimerRipristinati = null;
+let timerInfernoRipristinato = false; // questi servono quando riprendo una sessione inferno salvata,così il timer non riparte da capo 
 // devo modificare un po' di cose nella funzione generaparole
 document.body.classList.add('state-generating');
 
@@ -104,8 +106,28 @@ inizializzaTema();
 //altrimenti potrebbe sovraschivere la funzione vecchia con dati vuori :(
 
 function avviaAutoSalvataggio() {
-    setInterval(function() {
-        salvaSessione(pagine, paginaCorrente, paroleGenerate, numeroParole, getNomeDifficoltaAttiva());
+    setInterval(function () {
+        const difficoltaCorrente = getDifficoltaAttiva();
+
+        // di default non salvo dati timer
+        let datiTimerInferno = null;
+
+        // se la modalità ha il timer, salvo anche secondi rimasti e orario reale
+        if (difficoltaCorrente.timer) {
+            datiTimerInferno = {
+                secondiRimanenti: getSecondiRimanentiInferno(),
+                salvatoAlle: Date.now()
+            };
+        }
+
+        salvaSessione(
+            pagine,
+            paginaCorrente,
+            paroleGenerate,
+            numeroParole,
+            getNomeDifficoltaAttiva(),
+            datiTimerInferno
+        );
     }, 2000);
 }
 function ripristinaSessione() {
@@ -116,6 +138,27 @@ function ripristinaSessione() {
     paroleGenerate = datiSessione.paroleGenerate || [];
     numeroParole = datiSessione.numeroParole || 0;
     paginaCorrente = datiSessione.paginaCorrente || 0;
+
+    secondiTimerRipristinati = null;
+    timerInfernoRipristinato = false;
+
+    //se nella sessione salvata c'erano i dati del timer inferno,li recupero
+    if (datiSessione.timerInferno) {
+        const secondiSalvati = datiSessione.timerInferno.secondiRimanenti;
+        const salvatoAlle = datiSessione.timerInferno.salvatoAlle;
+
+        //questpo è un conrollo per verificare che i dati siano numeri veri,non roba rotta
+        if (typeof secondiSalvati === "number" && typeof salvatoAlle === "number") {
+            const secondiPassati = Math.floor((Date.now() - salvatoAlle) / 1000);
+
+            //voglio essere cattivo,voglio che il timer passi anche se l'utente esce o aggiorna la pagina
+            secondiTimerRipristinati = Math.max(0, secondiSalvati - secondiPassati );
+            timerInfernoRipristinato = true;
+
+            mostraMessaggioPc("> Pnesavi fosse così semplice ingannare il timer? Ho contato anche il tempo fuori dalla pagina","avviso");
+        }
+    }
+
 
     document.getElementById("storyInputSx").value = pagine[paginaCorrente].sx || "";
     document.getElementById("storyInputDx").value = pagine[paginaCorrente].dx || "";
@@ -154,14 +197,27 @@ function iniziaGioco() {
     //altrimenti verifico che il timer sia spento
     const difficoltaCorrente = getDifficoltaAttiva();
     if(difficoltaCorrente.timer) {
-        avviaTimerInferno(difficoltaCorrente.timer, function() {
-            //blocchiamo la possibbilità di salvare la storia
-            document.getElementById("btnSalva").disabled = true;
-        },
-        function () {
-            
+        // normalmente parto dal tempo completo della difficolta
+        let secondiDiPartenza = difficoltaCorrente.timer;
+        //se sto riprentendo una funzione infernio, parto dai secondi rimasti veri
+        if (timerInfernoRipristinato && secondiTimerRipristinati !== null) {
+            secondiDiPartenza = secondiTimerRipristinati;
+
+            // e poi resetto subito,così non influenzo le prossime partite
+            timerInfernoRipristinato = false;
+            secondiTimerRipristinati = null;
         }
-    );
+
+        avviaTimerInferno(
+            difficoltaCorrente.timer, function () {
+                document.getElementById("btnSalva").disabled = true;
+            },
+            function () {
+
+            },
+
+            secondiDiPartenza
+        );
     } else {
         fermaTimerInferno();
     }

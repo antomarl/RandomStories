@@ -3,7 +3,7 @@
 
 import { difficolta } from "../config/difficolta.js";
 
-export function salvaSessione(pagine,paginaCorrente,paroleGenerate,numeroParole,nomeDifficolta)   {
+export function salvaSessione(pagine,paginaCorrente,paroleGenerate,numeroParole,nomeDifficolta, datiTimerInferno = null)   {
     if(pagine[paginaCorrente]) {
         pagine[paginaCorrente].sx = document.getElementById("storyInputSx").value;
         pagine[paginaCorrente].dx = document.getElementById("storyInputDx").value;
@@ -15,7 +15,8 @@ export function salvaSessione(pagine,paginaCorrente,paroleGenerate,numeroParole,
         numeroParole: numeroParole,
         paginaCorrente: paginaCorrente,
         difficolta: nomeDifficolta, // così sappiamo che modalita si stava giocando
-        timestamp: Date.now() 
+        timestamp: Date.now() ,
+        timerInferno : datiTimerInferno
     };
     localStorage.setItem("randomStories_sessione", JSON.stringify(datiSessione));
 }
