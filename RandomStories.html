@@ -7,11 +7,18 @@
     <link rel="stylesheet" href="RandomStories.css">
   </head>
   <body class="state-generating">
-    <button id="coloreTema"> Cambia tema</button>
-    <button id="btNuovaSessione"> Nuova sessione</button>
-    <div id="badgeDifficolta">Modalità: --</div>
-    <div id="contatoreRare"> Rare: 0</div>
-    <div id="timerInferno"> 05:00</div>
+    <div id="topBar">
+      <div class="topBar-left">
+        <button id="coloreTema">Cambia tema</button>
+        <button id="btNuovaSessione">Nuova sessione</button>
+        <div id="badgeDifficolta">Modalità: --</div>
+      </div>
+      <div class="topBar-right">
+        <button id="btnIstruzioni" title="Istruzioni (H)">?</button>
+        <div id="timerInferno">05:00</div>
+        <div id="contatoreRare">Rare: 0</div>
+      </div>
+    </div>
     <div id="overlayGameOver">
       <div id="contenutoGameOver">
         <h1>TEMPO SCADUTO!</h1>
@@ -28,7 +35,7 @@
             <span class="stat-label">TEMPO IMPIEGATO</span>
             <span class="stat-valore" id="statTempoImpiegato">--</span>
           </div>
-          <div class="stat.vittoria">
+          <div class="stat-vittoria">
             <span class="stat-label">SECONDI AVANZATI</span>
             <span class="stat-valore" id="statTempoAvanzato">--</span>
           </div>
@@ -51,7 +58,6 @@
         </div>
       </div>
     </div>
-    <button id="btnIstruzioni" title="Istruzioni (H) ">?</button> <!-- ho creato il pulsannte con emoji ? per le istruzioni-->
     <div id="overlayIstruzioni"></div> <!-- serve ad oscurare il resto se le istruzioni vengono aperte-->
     <div id="pannelloIstruzioni">
       <button id="btnChiudiIstruzioni"title="Chiudi (ESC)">✕</button> <!-- questa x lo preso da google-->

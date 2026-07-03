@@ -1,5 +1,7 @@
 //modulo  del timer per la modalità inferno, gestisce countdown.colori di pericolo timer e game over
 
+import { scatenaEffettiRari } from "./flashRaro.js";
+
 let intervalloTimer = null; // id dell'intervallo, serve per fermarlo dopo
 let secondiRimanenti = 0;
 let gameOverAttivo = false;
@@ -49,6 +51,12 @@ export function avviaTimerInferno(secondiTotali, onGameOver, onVittoria, secondi
 
     timer.classList.add("visibile");
     aggiornaUI();
+
+    //se riprendo una sessione e il tempo è già finitp,faccio partire subito il game over
+    if (secondiRimanenti <=0) {
+        scatenaGameOver();
+        return;
+    }
 
     //qua parte il countdown,ogni secondo decremento e aggiorno
     intervalloTimer = setInterval(function() {

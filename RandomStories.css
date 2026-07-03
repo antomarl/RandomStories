@@ -312,23 +312,6 @@ body.tema-scuro #SectionStoria h2 {
     width: 100%;
     overflow: hidden;
 }
-
-#coloreTema,
-#btNuovaSessione,
-#badgeDifficolta,
-#contatoreRare,
-#btnistruzioni {
-    position: fixed;
-    z-index: 20;
-    border-radius: 6px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.82rem;
-    font-weight: 700;
-    letter-spacing:  0.4px;
-    border: 1px solid rgba(44, 24, 16, 0.35);
-    box-shadow: 2px 3px 0 rgba(0,0,0,0.28);
-    transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
 .story-input {
     flex: 1;   
     width: 50%;
@@ -456,17 +439,6 @@ body.state-generating #indicatorePagina {
 }
 
 
-/* ho spostato il pulsatne sotto,ora si starta!*/
-
-#coloreTema {
-    top: 20px;
-    left: 50px;
-    padding: 8px 14px;
-    background: #2c1810;
-    color: #f8f3eb;
-}
-
-
 body.tema-scuro .intestazione {
     background: linear-gradient(to bottom, rgba(20, 20, 40, 0.9), rgba(20,20,40,0));
 }
@@ -484,12 +456,6 @@ body.tema-scuro .intestazione kbd {
     color: #0a0e0a;
 }
 
-body.tema-scuro #coloreTema {
-    background: #5fff87;
-    color: #0a0e0a;
-}
-
-
 
 /* facciamo l'easter egg per il bro,dato che è uno smanettone facciamo a mo di glitch*/
 
@@ -503,16 +469,6 @@ body.tema-scuro #coloreTema {
 /*  uso animation (che ho scoperto sia una proprietà shortand,ovvero abbreviata) e posso scrivere più robe nella stessa riga*/
 .glitch-attivo {
     animation: glitch 0.3s steps(5) 6;
-}
-
-
-
-#btNuovaSessione {
-    top: 20px;
-    left: 195px;
-    padding: 8px 14px;
-    background: #111;
-    color: #fff;
 }
 
 
@@ -541,14 +497,6 @@ body.tema-scuro #coloreTema {
     transform: translateX(-50%) translateY(10px);
 }
 
-#contatoreRare {
-    top: 20px;
-    right: 25;
-    padding: 8px 14px;
-    background : #3a2518;
-    color: #f2c94c;
-    border-color: rgba(242, 201, 76, 0.65);
-}
 
 .parola-rara {
     color: #ffd700;
@@ -635,24 +583,6 @@ body.tema-scuro #coloreTema {
         transform: translateY(110vh) scale(0.3);
         opacity: 0;
     }
-}
-
-#btnIstruzioni {
-    top: 20px;
-    right: 130px;
-    width: 34px;
-    height: 34px;
-    padding: 0;
-    background: #2c1810;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-body.tema-scuro #btnIstruzioni {
-    background:  #5fff87;
-    color: #0a0e0a;
 }
 
 #overlayIstruzioni {
@@ -830,11 +760,6 @@ body.tema-scuro .firma-istruzioni {
     opacity: 0.7;
 }
 
-body.tema-scuro #btNuovaSessione {
-    background: #5fff87;
-    color:#000000;
-}
-
 #messaggioPC::after {
     content: "▮"; /* voglio essere onesto,questo simbolo l'ho chiesto all'ia*/
     color: inherit;
@@ -866,22 +791,6 @@ body.tema-scuro #btNuovaSessione {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
-}
-#coloreTema:hover,
-#btNuovaSessione:hover,
-#badgeDifficolta:hover,
-#contatoreRare:hover,
-#btnIstruzioni:hover {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 2px 0 rgba(0,0,0,0.35);
-}
-
-#coloreTema:active,
-#btNuovaSessione:active,
-#badgeDifficolta:active,
-#btnIstruzioni:active {
-    transform: translate(2px, 3px);
-    box-shadow: none;
 }
 #modalConferma {
     position: fixed;
@@ -1161,21 +1070,9 @@ body.state-generating #barraStatistiche {
     letter-spacing: 0.4px;
 }
 
-.meta-diffcolta {
+.meta-difficolta {
     font-size: 0.88rem;
-    line-height: 1,5;    position: fixed;
-    top: 15px;
-    right: 20px;
-    z-index: 20;
-    padding: 8px 16px;
-    background: linear-gradient(135deg, #2c1810, #4a2f1f);
-    color: #ffd700;
-    border: 1px solid #ffd700;
-    border-radius: 20px;
-    font-family: 'Courier New', monospace;
-    font-size:0.9rem;
-    font-weight: 700;
-    box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+    line-height: 1.5;
     color: #5a4030;
     font-family: 'Courier New', monospace;
 }
@@ -1251,46 +1148,8 @@ body.tema-scuro .label-riprendi {
 body.tema-scuro #btnRiprendiSessione {
     background: linear-gradient(135deg, #5fff87, #3fbf63);
     color: #0a0e0a;
-}
 
-#badgeDifficolta {
-    top: 20px;
-    left: 345px;
-    padding: 8px 14px;
-    background: #3a2518;
-    color: #f2c94c;
-    border-color: rgba(242, 201, 76, 0.55);
 }
-
-body.tema-scuro #badgeDifficolta:hover {
-    border-color: rgba(95,255,135, 0.7);
-}
-
-body.tema-scuro #badgeDifficolta {
-    background: linear-gradient(135deg, #0a1f0a, #1a3a1a);
-    color: #5fff87;
-    border-color: rgba(95,255,135,0.4);
-}
-
-#timerInferno {
-    position: fixed;
-    top: 60px;
-    right: 20px;
-    z-index: 20;
-    padding: 8px 16px;
-    background: linear-gradient(135deg, #2c1810, #4a2f1f);
-    color: #ff8855;
-    border: 1px solid #ff8855;
-    border-radius: 20px;
-    font-family: 'Courier New', monospace;
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    box-shadow: 0 0 12px rgba(255, 100,50,0.3);
-    display: none;
-    user-select: none;
-}
-
 #timerInferno.visibile {
     display: block;
 }
@@ -1405,8 +1264,6 @@ body.game-over .storyInput {
 .testo-rosso {
     color: #c10000;
 }
-
-colore
 #overlayVittoria {
     position: fixed;
     inset: 0;
@@ -1534,4 +1391,115 @@ titoloVittoria.scrivendo::after {
     color: #000;
     box-shadow: 0 0 20px rgba(95, 255, 135,0.7);
     transform: translateY(-2px);
+}
+
+#topBar {
+    position: fixed;
+    top: 18px;
+    left: 42px;
+    right: 42px;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.topBar-left,
+.topBar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    pointer-events: auto;
+}
+
+#topBar #coloreTema,
+#topBar #btNuovaSessione,
+#topBar #badgeDifficolta,
+#topBar #contatoreRare,
+#topBar #btnIstruzioni,
+#topBar #timerInferno {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+
+    border-radius: 5px;
+    border: 1px solid rgba(44,24,16,0.45);
+    box-shadow: 2px 3px 0 rgba(0,0,0,0.28);
+
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+#topBar #coloreTema,
+#topBar #btNuovaSessione,
+#topBar #badgeDifficolta,
+#topBar #contatoreRare,
+#topBar #timerInferno {
+    padding: 8px 13px;
+}
+
+#topBar #coloreTema {
+    background: #2c1810;
+    color: #f8f3eb;
+}
+
+#topBar #btNuovaSessione {
+    background: #111;
+    color: #fff;
+}
+
+#topBar #badgeDifficolta {
+    background: #2a2518;
+    color: #f2c94c;
+    border-color: rgba(242, 201, 76, 0.55);
+    cursor: pointer;
+}
+
+#topBar #btnIstruzioni {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    background: #c21810;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#topBar #contatoreRare {
+    background: #1b120d;
+    color: #2fc942;
+    border-color: rgba(242, 201, 76, 0.65);
+}
+
+#topBar #timerInferno {
+    background: #1b120d;
+    color: #ff8855;
+    border-color: rgba(255, 136, 85, 0.7);
+    display: none;
+}
+
+#topBar #timerInferno.visibile {
+    display: block;
+}
+
+#topBar #coloreTema:hover,
+#topBar #btNuovaSessione:hover,
+#topBar #badgeDifficolta:hover,
+#topBar #btnIstruzioni:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 2px 0 rgba(0,0,0,0.35);
+}
+
+#topBar #coloreTema:active,
+#topBar #btNuovaSessione:active,
+#topBar #badgeDifficolta:active,
+#topBar #btnIstruzioni:active {
+    transform: translate(2px, 3px);
+    box-shadow: none;
 }
