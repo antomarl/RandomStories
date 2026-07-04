@@ -1253,132 +1253,175 @@ body.game-over .storyInput {
 #overlayVittoria {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle, rgba(0,40,10,0.92) 0%, rgba(0,0,0,0.97) 100%);
     z-index: 2000;
     display: none;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    animation: apparizzioneVittoria 0.6s ease-out;
+    background: rgba(18,12,8,0.62);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 #overlayVittoria.visibile {
     display: flex;
 }
 
-@keyframes apparizioneVittoria {
-    0% {opacity: 0;}
-    100% { opacity: 1;}
+#contenutoVittoria {
+    position: relative;
+    width: min(620px, 90vw);
+    padding: 34px 38px 30px;
+    background: #f3ead8;
+    color: #2c1810;
+
+    border: 1px solid rgba(44, 24, 16, 0.35);
+    border-radius: 4px;
+
+    box-shadow: 8px 10px 0 rgba(0,0,0,0.28), 0 18px 45px rgba(0,0,0,0.35);
+    font-family: 'Courier New', monospace;
+    transform: rotate(-0.6deg);
+    animation: entraRapportoVittoria 0.25s ease-out;
 }
 
-#contenutoVittoria {
-    text-align: center;
-    color: #5fff87;
-    padding: 40px 50px;
-    border: 1px solid rgba(95,255, 135, 0.4);
-    border-radius: 8px;
-    background: rgba(10,20,10,0.6);
-    box-shadow: 0 0 40px rgba(95, 255, 135, 0.3);
-    max-width: 540px;
-    font-family: 'Courier New', monospace;
+@keyframes entraRapportoVittoria {
+    from {opacity: 0; transform: translateY(18px) rotate(-0.6deg)};
+    to { opacity: 1; transform: translateY(0) rotate(-0.6deg)};
+}
+
+.report-header {
+    border-bottom: 1px dashed rgba(44,24, 16, 0.35);
+    padding-bottom: 16px;
+    margin-bottom: 22px;
+}
+
+.report-kicker {
+    margin: 0 0 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #7a4a2a;
+    text-transform: uppercase;
 }
 
 #titoloVittoria {
-    font-size: 2.4rem;
-    color: #5fff87;
-    margin: 0 0 12px;
-    letter-spacing: 6px;
-    text-shadow: 0 0 20px rgba(95, 255, 135, 0.8);
-    min-height: 2.4rem;
+    margin: 0 0 10px;
+    min-height: 2.2rem;
+    color: #2c1810;
+    font-size: 2.1rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-titoloVittoria.scrivendo::after {
+#titoloVittoria.scrivendo::after {
     content: "_";
-    animation: lampeggiCursuoreVittoria 0.5s steps(1) infinite;
+    margin-left: 4px;
+    animation: cursoreRapporto 0.7s steps(1) infinite;
 }
-
-@keyframes lampeggiaCursoreVittoria {
+@keyframes cursoreRapporto {
     0%, 50% { opacity: 1;}
     51%, 100% {opacity: 0;}
 }
-
 #sottotitoloVittoria {
-    font-size: 0.95rem;
-    color: #a0ffb0;
-    margin: 0 0 28px;
-    letter-spacing: 2px;
-    opacity: 0;
-    animation: apparizioneRitardata 0.5s ease-out 2.5s forwards;
+    margin: 0;
+    max-width: 480px;
+    color: #5a4030;
+    font-size: 0.92rem;
+    line-height: 1.5;
 }
 
-@keyframes apparizioneRitardata {
-    to { opacity: 1;}
+.timbro-vittoria {
+    position: absolute;
+    top: 34px;
+    right: 34px;
+    padding: 6px 10px;
+    border: 2px solid #a93422;
+    color: #a93422;
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    transform: rotate(8deg);
+    opacity: 0.85;
 }
 
 #statisticheVittoria {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin: 0 0 28px;
-    opacity: 0;
-    animation: apparizioneRitardata 0.5s ease-out 2.8s forwards;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
 }
-
 .stat-vittoria {
     padding: 12px 14px;
-    background: rgba(95, 255, 135, 0.05);
-    border: 1px solid rgba(95, 255, 135, 0.25);
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 3px;
     text-align: left;
 }
-
+.stat-vittoria.stat-larga {
+    grid-column: 1 / -1;
+}
 .stat-label {
-    font-size: 0.7rem;
-    color: #a0ffb0;
-    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 6px;
+    color:#7a4a2a;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .stat-valore {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #5fff87;
-    text-shadow: 0 0 8px rgba(95, 255, 135, 0.5);
+    display: block;
+    color: #2c1810;
+    font-size: 1.35rem;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+}
+
+.nota-vittoria {
+    margin: 0 0 22px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(44,24,16, 0.25);
+    color: #6b4a2f;
+    font-size: 0.82rem;
+    line-height: 1.5;
 }
 
 .bottoni-vittoria {
     display: flex;
-    gap: 12px;
-    justify-content: center;
+    justify-content: flex-end;
+    gap: 10px;
     flex-wrap: wrap;
-    opacity: 0;
-    animation: apparizioneRitardata 0.5s ease-out 3.1s forwards;
 }
 
 .bottoni-vittoria button {
-    padding: 14px 24px;
-    background: transparent;
-    color: #5fff87;
-    border: 2px solid #5fff87;
-    border-radius: 4px;
+    padding: 10px 14px;
+    background: #2c1810;
+    color: #f3ead8;
+    border: 1px solid rgba(44, 24, 16, 0.6);
+    border-radius: 3px;
     font-family: 'Courier New', monospace;
-    font-size: 0.9rem;
-    font-weight: 700;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.6px;
     cursor: pointer;
-    letter-spacing: 2px; 
-    transition: all 0.2s ease;
-    text-transform: uppercase;
-}
-.bottoni-vittoria button:hover {
-    background: #5fff87;
-    color: #000;
-    box-shadow: 0 0 20px rgba(95, 255, 135,0.7);
-    transform: translateY(-2px);
+    box-shadow: 2px 3px 0 rgba(0,0,0,0.28);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
 }
 
+.bottoni-vittoria button:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 2px 0 rgba(0,0,0,0.35);
+}
+
+.bottoni-vittoria button:active {
+    transform: translate(2px, 3px);
+    box-shadow: none;
+}
+
+#btnVittoriaModalita {
+    background: transparent;
+    color: #2c1810;
+}
 #topBar {
     position: fixed;
     top: 18px;

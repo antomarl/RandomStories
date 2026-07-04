@@ -170,7 +170,7 @@ export function scatenaVittoria(statistiche) {
         overlay.classList.add("visibile");
         
         // metto typewriter per il titolo
-        const testoTitolo = "MISSION COMPLETED";
+        const testoTitolo = "Inferno superato";
         titolo.textContent = "";
         titolo.classList.add("scrivendo");
 
