@@ -967,13 +967,16 @@ body.state-generating #barraStatistiche {
 #overlaySchermataDifficolta {
     position: fixed;
     inset:0;
-    background: rgba(10, 14, 10, 0.58);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    z-index: 1200;
+    background: rgba(18, 12, 8, 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.18s ease;
 }
 
 #overlaySchermataDifficolta.visibile {
@@ -982,97 +985,99 @@ body.state-generating #barraStatistiche {
 }
 
 #cardSchermataDifficolta {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.96);
-    width: min(760px,92vw);
-    padding: 32px 28px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #fdf6e3 0%, #efe2c8 100%);
+    width: min(760px, 90vw);
+    padding: 34px 30px 30px;
+    background: #f3ead8;
     color: #2c1810;
-    box-shadow: 0 24px 70px rgba(0,0,0,0.45);
-    border: 1px solid rgba(44, 24, 16, 0.12);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    text-align: center;
+    border: 1px solid rgba(44,24,16,0.28);
+    border-radius: 4px;
+    box-shadow: 8px 10px 0 rgba(0,0,0,0.22), 0 16px 40px rgba(0,0,0,0.25);
+    font-family: 'Courier New', monospace; 
 }
 
 #overlaySchermataDifficolta.visibile #cardSchermataDifficolta {
-    transform: translate(-50%, -50%) scale(1);
+    transform: translateY(0);
 }
 
 .eyebrow-difficolta {
     margin: 0 0 10px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.82rem;
-    letter-spacing: 2px;
-    color: #5b7f77;
+    text-align: center;
+    font-size: 0.78rem;
+    letter-spacing: 3px;
+    color: #6f867f;
     text-transform: uppercase;
+    font-weight: 700;
 }
 #cardSchermataDifficolta h2 {
-    margin: 0 0 12px;
-    font-size: 2rem;
+    margin: 0 0 14px;
+    font-size: 2.2rem;
     color: #2c1810;
+    font-weight: 800;
+    font-family: Georgia, 'Times New Roman', serif;
+    text-align: center;
 }
 
 .testo-difficolta {
-    margin: 0 auto 24px;
-    max-width: 620px;
-    font-size: 0.98rem;
-    line-height: 1.6;
-    color: #5a4030;
+    margin: 0 0 26px;
+    text-align: center;
+    font-family: Georgia, 'Times New Roman',serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #5a4637;
 }
 
 .griglia-difficolta {
     display: grid;
-    grid-template-columns: repeat(2,minmax(0,1fr));
+    grid-template-columns: repeat(2,1fr);
     gap: 14px;
-    margin-bottom: 24px;
 }
 
 .btn-difficolta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
     padding: 18px 18px 16px;
-    border: 1px solid rgba(44, 24, 16, 0.18);
-    border-radius: 14px;
-    background: rgba(255,255,255, 0.55);
-    color: #2c1810;
-    cursor: pointer;
     text-align: left;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
+    background: rgba(255,255,255, 0.42);
+    color: #2c1810;
+    border: 1px solid rgba(44,24,16,0.18);
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 2px 3px 0 rgba(0,0,0,0.10);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
 
 }
 
 .btn-difficolta:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 24px rgba(0,0,0,0.16);
-    border-color: rgba(95,255,135,0.55);
-    background: rgba(255,255,255,0.85);
+    transform: translate(1px, 1px);
+    box-shadow: 1px 2px 0 rgba(0,0,0,0.16);
+    background: rgba(255,255,255,0.62);
 }
 
 .nome-difficolta {
-    font-size: 1.05rem;
-    font-weight: 800;
-    letter-spacing: 0.4px;
+    font-size: 0.98rem;
+    font-weight: 900;
+    letter-spacing: 0.6px;
+    display: block;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    color: #2c1810;
+}
+
+.btn-difficolta:active {
+    transform: translate(2px,3px);
+    box-shadow: none;
 }
 
 .meta-difficolta {
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     line-height: 1.5;
-    color: #5a4030;
-    font-family: 'Courier New', monospace;
+    color: #6b4a2f;
+    letter-spacing: 0.3px;
+    display: block;
 }
 #bloccoRiprendiSessione {
     display: none;
-    margin-top: 4px;
-    padding-top: 20px;
-    border-top: 1px dashed rgba(44, 24, 16, 0.18);
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px dashed rgba(44, 24, 16, 0.22);
 }
 
 #bloccoRiprendiSessione.visibile {
@@ -1080,27 +1085,35 @@ body.state-generating #barraStatistiche {
 }
 
 .label-riprendi {
-    margin: 0 0 10px;
-    font-size: 0.9rem;
-    color: #6b4a2f;
+    margin: 0 0 12px;
+    text-align:center;
+    font-size: 0.95rem;
+    color: #7a5c46;
+    font-family: Georgia, 'Times New Roman',serif;
 }
-
 #btnRiprendiSessione {
     width: 100%;
     padding: 14px 18px;
     border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #2c1810, #4a2f1f);
+    border-radius: 4px;
+    background: linear-gradient(90deg, #401b0f, #6a3820);
     color: #fff;
-    font-size: 0.98rem;
-    font-weight: 700;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
     cursor: pointer;
+    box-shadow: 2px 3px rgba(0,0,0,0.16);
     transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 #btnRiprendiSessione:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+    transform: translate(1px, 1px);
+    box-shadow: 1px 2px 0 rgba(0,0,0,0.2);
+}
+
+#btnRiprendiSessione:active {
+    transform: translate(2px, 3px);
+    box-shadow: none;
 }
 
 body.tema-scuro #cardSchermataDifficolta {
