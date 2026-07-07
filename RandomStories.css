@@ -239,7 +239,7 @@ body.state-writing .pc-wrapper {
     color: #bff04c;
     border: 1px solid rgba(191, 240, 196, 0.65);
     padding: 7px 12px;
-    font-family: 'Couriuer New', monospace;
+    font-family: 'Courier New', monospace;
     font-size: 0.76rem;
     font-weight:700;
     border-radius:2px;
@@ -248,7 +248,6 @@ body.state-writing .pc-wrapper {
     text-transform: uppercase;
     letter-spacing: 0.7px;
     box-shadow: 2px 2px 0 rgba(191, 240, 196, 0.14);
-    text-transform: uppercase;
 }
 /* io sono così felice che è venuto cosi bene,glielo mando a dani e l'unica cosa che fa e mettere pollice in su :| */
 #sectionGeneraParole .bottoni button:hover {
@@ -316,7 +315,7 @@ body.tema-scuro #SectionStoria h2 {
     overflow: hidden;
 }
 
-.storyInput::placeholder {
+.story-input::placeholder {
     color: rgba(44, 24, 16, 0.45);
     font-size: 1.50rem;
     font-family:'Caveat','Brush Script MT', cursive;
@@ -772,6 +771,7 @@ body.tema-scuro .firma-istruzioni {
 
 #overlayConferma {
     position: fixed;
+    inset: 0;
     background: rgba(18, 12, 8, 0.4);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
@@ -816,7 +816,7 @@ body.tema-scuro .btn-annulla {
     background: rgba(245, 240, 232, 0.15);
     color: #f5f0e8;
 }
-body.tema-scuro .btn-annlla:hover {
+body.tema-scuro .btn-annulla:hover {
     background: rgba(245, 240, 232, 0.25);
 }
 
@@ -874,10 +874,10 @@ body.tema-scuro .btn-annlla:hover {
 }
 
 .btn-difficolta:active {
-    transform: translate(1px, 1px);
+    transform: translate(2px, 3px);
     box-shadow: none;
 }
-body.tema-scuro .btn-annlla {
+body.tema-scuro .btn-annulla {
     background: rgba(245, 240, 232, 0.15);
     color: #f5f0e8;
 }
@@ -895,13 +895,12 @@ body.tema-scuro .btn-annlla {
     box-shadow: 2px 3px 0 rgba(120, 35, 25, 0.28);
     transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
-
 .btn-ok:hover {
-    transform: translateY(1px , 1px);
+    transform: translate(1px , 1px);
     box-shadow: 1px 2px 0 rgba(120, 35, 25, 0.34);
 }
 
-.btn-active:active {
+.btn-ok:active {
     transform: translate(2px, 3px);
     box-shadow: none;
 }
@@ -1180,7 +1179,7 @@ body.tema-scuro .btn-difficolta:hover {
     border-color: rgba(95, 255, 135, 0.45);
 }
 
-body.tema-scuro .meta-diffcolta,
+body.tema-scuro .meta-difficolta,
 body.tema-scuro .label-riprendi {
     color: #cfc8bc;
 }
@@ -1215,14 +1214,14 @@ body.tema-scuro #btnRiprendiSessione {
 #overlayGameOver {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle, rgba(80, 0,0,0.85) 0%, rgba(0,0,0,0.95) 100%);
+    background: rgba(18,8,6,0.72);
     z-index: 2000;
     display: none;
     align-items: center;
     justify-content: center;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    animation: apparizioneGameOver 0.6s ease-out;
+    animation: apparizioneGameOver 0.22s ease-out;
 }
 
 #overlayGameOver.visibile {
@@ -1235,10 +1234,16 @@ body.tema-scuro #btnRiprendiSessione {
 }
 
 #contenutoGameOver {
-    text-align: center;
-    color: #fff;
-    padding: 40px;
-    animation: gameOverShake 0.4s ease-in-out;
+    width: min(560px, 88vw);
+    padding: 34px 38px 30px;
+    background: #1b0f0b;
+    color: #f3ead8;
+    border: 1px solid rgba(255,48,48,0.35);
+    border-radius: 4px;
+    box-shadow: 8px 10px 0 rgba(0,0,0,0.35), 0 18px 45px rgba(0,0,0,0.45);
+    text-align: left;
+    font-family: 'Courier New', monospace;
+    animation: gameOverShake 0.28s ease-in-out;
 }
 @keyframes gameOverShake {
     0%, 100% {transform: translateX(0);}
@@ -1249,13 +1254,14 @@ body.tema-scuro #btnRiprendiSessione {
 }
 
 #contenutoGameOver h1 {
+    margin: 0 0 16px;
     font-family: 'Courier New', monospace;
-    font-size: 4rem;
-    color: #ff3030;
-    margin: 0 0 20px;
-    letter-spacing: 8px;
-    text-shadow: 0 0 20px rgba(255, 0,0,0.8), 0 0 40px rgba(255, 0,0, 0.5), 2px 0 0 rgba(0,255,255,0.5), -2px 0 0 rgba(255, 0, 255, 0.5);
-    animation: glitchTesto 0.3s steps(2) infinite;
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    color: #ff4a3d;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-shadow: 2px 0 0 rgba(255,255,255, 0.12), 0 0 14px rgba(255, 48, 48, 0.35);
+    animation: glitchTesto 0.45s steps(2) 2;
 }
 
 @keyframes glitchTesto {
@@ -1264,11 +1270,11 @@ body.tema-scuro #btnRiprendiSessione {
     40% { transform: translate(2px, -2px);}
     60% { transform: translate(-1px, -1px);}
     80% { transform: translate(1px, 1px); }
-    100% { translate: translate(0);}
+    100% { transform : translate(0); }
 }
 
 #contenutoGameOver p {
-    font-family: 'Couruier New', monospace;
+    font-family: 'Courier New', monospace;
     font-size: 1.1rem;
     color: #ffaaaa;
     margin: 0 0 30px;
@@ -1276,27 +1282,34 @@ body.tema-scuro #btnRiprendiSessione {
 }
 
 #btnGameOverRicomincia {
-    padding: 14px 32px;
+    padding: 11px 16px;
     background: transparent;
-    color: #ff3030;
-    border: 2px solid #ff3030;
-    border-radius: 8px;
+    color: #f3ead8;
+    border: 1px solid rgba(255,74,61,0.65);
+    border-radius: 3px;
     font-family: 'Courier New', monospace;
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 0.82rem;
+    font-weight: 800;
     cursor: pointer;
-    letter-spacing: 2px;
-    transition: all 0.2s ease;
+    letter-spacing: 0.8px;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
     text-transform:uppercase;
+    box-shadow: 2px 3px 0 rgba(0,0,0,0.32);
 }
 
-#btnGAmeHoverRicomincia:hover {
-    background: #ff3030;
-    color: #000;
-    box-shadow: 0 0 20px rgba(255, 48, 48, 0.8);
+#btnGameHoverRicomincia:hover {
+    background: #ff4a3d;
+    color: #1b0f0b;
+    transform: translate(1px, 1px);
+    box-shadow: 1px 2px 0 rgba(0,0,0, 0.38);
 }
 
-body.game-over .storyInput {
+#btnGameOverRicomincia:active {
+    transform: translate(2px, 3px);
+    box-shadow: none;
+} 
+
+body.game-over .story-input {
     opacity: 0.6;
     pointer-events: none;
 }
@@ -1548,8 +1561,8 @@ body.game-over .storyInput {
     width: 34px;
     height: 34px;
     padding: 0;
-    background: #c21810;
-    color: #fff;
+    background: #2c1810;
+    color: #f3ead8;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1557,7 +1570,7 @@ body.game-over .storyInput {
 
 #topBar #contatoreRare {
     background: #1b120d;
-    color: #2fc942;
+    color: #f2c94c;
     border-color: rgba(242, 201, 76, 0.65);
 }
 

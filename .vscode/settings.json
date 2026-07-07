@@ -1,0 +1,6 @@
+{
+  "editor.renderWhitespace": "none",
+  "editor.renderControlCharacters": false,
+  "editor.unicodeHighlight.invisibleCharacters": false,
+  "editor.unicodeHighlight.ambiguousCharacters": false
+}
