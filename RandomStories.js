@@ -40,6 +40,7 @@ let paginaCorrente = 0; // indice della pagina che si sta vedendo;
 let secondiTimerRipristinati = null;
 let timerInfernoRipristinato = false; // questi servono quando riprendo una sessione inferno salvata,così il timer non riparte da capo 
 let intervalloAutosave = null; // e per sicurezza,per non creare 300 autosave insieme
+let timerLiberaPersonalizzato = null;
 // devo modificare un po' di cose nella funzione generaparole
 document.body.classList.add('state-generating');
 
@@ -67,6 +68,8 @@ const btnGeneraParola = document.getElementById("btnGeneraParola");
 const btnResetParole = document.getElementById("btnResetParole");
 const btnSalva = document.getElementById("btnSalva");
 const btNuovaSessione = document.getElementById("btNuovaSessione");
+
+const inputTimerLibera = document.getElementById("inputTimerLibera");
 
 inizializzaTextarea({
     textareaSx,
@@ -190,6 +193,23 @@ inizializzaScorciatoie({
     cambiaPagina, gestisciValidazioneStoria,
     chiudiIstruzioni, toggleIstruzioni
 });
+function leggiTimerLibera() {
+    //se l'input non esiste non faccio nulla
+    if(!inputTimerLibera) {
+        return null;
+    }
+
+    const minuti = Number(inputTimerLibera.value);
+
+    // se è vuoto o non valido,la modalità libera resta senza timer
+    if(!minuti || minuti <= 0) {
+        return  null;
+    }
+
+    //il limite massimo per adesso lo faccio di 60 minuti,per evitare che diventi infinito
+    const minutiLimitati = Math.min(minuti,60);
+    return minutiLimitati * 60;
+}
 // questa funzionje viene chiamata dopo che l'utente ha scelto cosa fare nella schermata difficolta
 // si occupa di accendere autosave,aggiornare il contatore e nascondere la schermata
 function iniziaGioco() {
@@ -203,36 +223,51 @@ function iniziaGioco() {
     // accendo l'autosave ,e poi da qua in poi salva ogni 2 secondi
     avviaAutoSalvataggio();
 
-    // ora,se la modalità è inferno,parte il timer con i secondi della config
-    //altrimenti verifico che il timer sia spento
-    const difficoltaCorrente = getDifficoltaAttiva();
-    if(difficoltaCorrente.timer) {
-        // normalmente parto dal tempo completo della difficolta
-        let secondiDiPartenza = difficoltaCorrente.timer;
-        //se sto riprentendo una funzione infernio, parto dai secondi rimasti veri
-        if (timerInfernoRipristinato && secondiTimerRipristinati !== null) {
-            secondiDiPartenza = secondiTimerRipristinati;
+const difficoltaCorrente = getDifficoltaAttiva();
 
-            // e poi resetto subito,così non influenzo le prossime partite
-            timerInfernoRipristinato = false;
-            secondiTimerRipristinati = null;
-        }
+// di base non c'è nessun timer
+let secondiTimerTotali = null;
 
-        avviaTimerInferno(
-            difficoltaCorrente.timer, function () {
-                document.getElementById("btnSalva").disabled = true;
-            },
-            function () {
-
-            },
-
-            secondiDiPartenza
-        );
-    } else {
-        fermaTimerInferno();
-    }
+// se la difficoltà ha già un timer suo, tipo Inferno, uso quello
+if (difficoltaCorrente.timer) {
+    secondiTimerTotali = difficoltaCorrente.timer;
 }
 
+// se invece sono in Libera e l'utente ha scritto un timer, uso quello
+if (!difficoltaCorrente.timer && timerLiberaPersonalizzato !== null) {
+    secondiTimerTotali = timerLiberaPersonalizzato;
+}
+
+// se ho un timer valido, lo avvio
+if (secondiTimerTotali !== null) {
+
+    // normalmente parto dal tempo totale
+    let secondiDiPartenza = secondiTimerTotali;
+
+    // se sto riprendendo una sessione Inferno, parto dai secondi rimasti veri
+    if (timerInfernoRipristinato && secondiTimerRipristinati !== null) {
+        secondiDiPartenza = secondiTimerRipristinati;
+
+        // resetto subito, così non influenza le prossime partite
+        timerInfernoRipristinato = false;
+        secondiTimerRipristinati = null;
+    }
+
+    avviaTimerInferno(
+        secondiTimerTotali,
+        function () {
+            document.getElementById("btnSalva").disabled = true;
+        },
+        function () {
+
+        },
+        secondiDiPartenza
+    );
+
+    } else {
+    fermaTimerInferno();
+    }
+}
 // helper che calcola le statistiche della partita corrente
 function calcolaStatistichePartita() {
     // unisco tutto il testo di tutte le pagine
@@ -314,7 +349,14 @@ function onSelezionaDifficolta(nomeDifficolta) {
 
     //salvo la difficolt6a scelta in localStorage,così resta tra le sessione 
     setDifficoltaAttiva(nomeDifficolta)
-    //questa è una scelta " nuova partita", quindi cancello la sessione vecchia(se rimaneva,al prossimo refresh riprendi motrerebbe ancora la modalità sbaglia6a
+    // se sto scegliendo la modalità libera, leggo il timer scritto dall'utente
+    if (nomeDifficolta === "libera") {
+        timerLiberaPersonalizzato = leggiTimerLibera();
+    } else {
+        timerLiberaPersonalizzato = null;
+    }
+
+    //questa è una nuova partita, quindi cancello la sessione vecchia
     localStorage.removeItem("randomStories_sessione");
 
     iniziaGioco();

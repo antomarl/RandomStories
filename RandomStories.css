@@ -1600,3 +1600,45 @@ body.game-over .story-input {
     transform: translate(2px, 3px);
     box-shadow: none;
 }
+
+#bloccoTimerLibera {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(44, 24, 16, 0.22);
+    text-align: center;
+}
+
+#bloccoTimerLibera label {
+    display: block;
+    margin-bottom: 8px;
+    font-family:'Courier New', monospace;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #6b4a2f;
+}
+
+#inputTimerLibera {
+    width: 130px;
+    padding: 9px 10px;
+    background: rgba(255,255,255,0.45);
+    color: #2c1810;
+    border: 1px solid rgba(44,24,16,0.25);
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    text-align: center;
+    outline: none;
+}
+
+#inputTimerLibera:focus {
+    border-color: rgba(44,24,16,0.55);
+}
+
+#bloccoTimerLibera p {
+    margin: 8px 0 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 0.85rem;
+    color: #7a5c46;
+}
