@@ -197,26 +197,17 @@ function leggiTimerLibera() {
     //se l'input non esiste non faccio nulla
     // c'èra qualche errore,quindi facciamo una modifica,ora lo cerco solo nel  mome ento esatto in cui si cliccha il tasto libera
     const input = document.getElementById("inputTimerLibera");
-
-    console.log("debug inpuit trovato al click:",input);
     if(!input) {
-        console.warn("timer libera NON trovato nel dom,probabilmente l'html non salvato o pagina non ricaricata");
         return null;
     }
 
-    console.log("debug valore input timer libera:",input.value);
-
     const minuti = Number(input.value);
-
     if (!minuti || minuti <= 0) {
-        console.log("timer libera vuoto/non valido, quindi niente timer");
         return null;
     }
 
     const minutiLimitati = Math.min(minuti, 60);
     const secondi = minutiLimitati * 60;
-
-    console.log("timer libera scelto:", minutiLimitati, "minuti =", secondi, "secondi");
 
     return secondi;
 }
@@ -234,9 +225,6 @@ function iniziaGioco() {
     avviaAutoSalvataggio();
 
 const difficoltaCorrente = getDifficoltaAttiva();
-console.log("DEBUG difficoltaCorrente:" , difficoltaCorrente);
-console.log("DEBUG timerLiberaPersonalizzato dentro iniziaGioco:", timerLiberaPersonalizzato);
-
 // di base non c'è nessun timer
 let secondiTimerTotali = null;
 
@@ -249,7 +237,6 @@ if (difficoltaCorrente.timer) {
 if (!difficoltaCorrente.timer && timerLiberaPersonalizzato !== null) {
     secondiTimerTotali = timerLiberaPersonalizzato;
 }
-console.log("DEBUG secodniTimerTotali:", secondiTimerTotali);
 // se ho un timer valido, lo avvio
 if (secondiTimerTotali !== null) {
 
@@ -358,20 +345,17 @@ function resetTotaleEApriSchermata() {
 }
 //ora serve una chiamata per quando l'utente clicca su una difficolta
 function onSelezionaDifficolta(nomeDifficolta) {
-    console.log("debug difficolta cliccata: ", nomeDifficolta);
     //salvo la difficolt6a scelta in localStorage,così resta tra le sessione 
     setDifficoltaAttiva(nomeDifficolta)
 
     const numePulito = String(nomeDifficolta).toLowerCase().trim();
 
-    console.log("debug nome difficolta pulito:", numePulito);
     // se sto scegliendo la modalità libera, leggo il timer scritto dall'utente
     if (nomeDifficolta === "libera") {
         timerLiberaPersonalizzato = leggiTimerLibera();
     } else {
         timerLiberaPersonalizzato = null;
     }
-    console.log("debug timerLiberaPersonalizzato:", timerLiberaPersonalizzato);
     //questa è una nuova partita, quindi cancello la sessione vecchia
     localStorage.removeItem("randomStories_sessione");
 

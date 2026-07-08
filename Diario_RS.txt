@@ -64,3 +64,6 @@ poi voglio inserire nella modalità libera la possibilità di inerire un timer p
 PS: se nella riga di prima non ci sono i punti interrogativi nelle accentate e perchè ora sto scrivendo da vscode mentre prima usavo notepad di wine e non so perchè non si vedono gli accenti
 poi voglio aggiungere in futuro anche gli acheviments tipo steam,cioè tipo "si inizia..(e poi scritto sotto: genera la tua rpiam parola)", oppure " e vissero tutti...(e sempre sotto: salva la tua prima storia)",cioè secondo me se c'è la faccio può venire carini 
 
+diario 8/07/2026:
+non ci vediamo da un po', purtoppo mi dimentico di scrivere in questo diario,non lo uso spesso, btw ho migliorato il game design.ora è molto più bello secondo me,ed ho aggiunto tante belle cose che secondo me ci stanno un borderllo,come la schermata vittoria, ed il timer personalizzzabile sulla modalità libera, ora devo andare
+ciaoo!.

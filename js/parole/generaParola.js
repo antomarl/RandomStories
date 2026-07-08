@@ -44,7 +44,7 @@ export function generaParola(paroleGenerate, numeroParole, parolerareTrovate,con
 
     // se la parola è gia stata generata in questa sessione,eseguo una chiamata ricorsiva(la funzione richiama se stessa)
     if (paroleGenerate.includes(parolaGenerata)) {
-        return generaParola(paroleGenerate, numeroParole, parolerareTrovate, contatoreRareTotale, gestisciValidazioneStoria);
+        return generaParola(paroleGenerate, numeroParole, parolerareTrovate, contatoreRareTotale, validaStoriaCallback);
     }
 
     // ora aggiungo la parola alla lista( modifico array per riferimento,così il main lo vede)
@@ -84,7 +84,9 @@ export function generaParola(paroleGenerate, numeroParole, parolerareTrovate,con
     }
 
     // dopo aver aggiunto la parola,ovviamente bisogna essere di nuovo validata
-    validaStoriaCallback();
+    if (typeof validaStoriaCallback === "function") {
+        validaStoriaCallback();
+    }
 
     //restituisco i valori aggiornati(l'array no perchè si aggiorna da solo per riferimento)
     return { numeroParole, contatoreRareTotale};
