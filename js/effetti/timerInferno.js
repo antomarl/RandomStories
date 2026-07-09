@@ -1,4 +1,4 @@
-//modulo  del timer per la modalità inferno, gestisce countdown.colori di pericolo timer e game over
+//modulo  del timer per la modalità Inferno, gestisce countdown.colori di pericolo timer e game over
 
 import { scatenaEffettiRari } from "./flashRaro.js";
 
@@ -133,15 +133,20 @@ function scatenaGameOver() {
     }
 }
 
-// questa funzione serve per la mia nuova idea,ovvero creare una vittoria per quando salvi la stporia in modalità inferno
+// questa funzione serve per la mia nuova idea,ovvero creare una vittoria per quando salvi la stporia in modalità Inferno
 //quesat funzione fermna il timer è mostra le statistiche
-export function scatenaVittoria(statistiche) {
+export function scatenaVittoria(statistiche, titoloOverlay = "Inferno superato") {
     //per sicurezza: se sei già in game over, per la legge dei grandi numeri non puoi vincere
     if (gameOverAttivo) return;
 
     //calcolo il tempo impiegato è quello avanzato
-    const tempoImpiegato = secondiTotaliPartita - secondiRimanenti;
-    const tempoAvanzato = secondiRimanenti;
+    let tempoImpiegato = 0;
+    let tempoAvanzato = 0;
+
+    if (secondiTotaliPartita > 0) {
+        tempoImpiegato = secondiTotaliPartita - secondiRimanenti;
+        tempoAvanzato = secondiRimanenti;
+    }
 
     //fermo subito il countdown, perchè la partita è finita bene
     if (intervalloTimer !== null) {
@@ -157,7 +162,7 @@ export function scatenaVittoria(statistiche) {
 
     //ora riempio le statisctiche nell'overlay
     document.getElementById("statTempoImpiegato").textContent = formattaTempo(tempoImpiegato);
-    document.getElementById("statTempoAvanzato").textContent = formattaTempo(tempoAvanzato);
+    document.getElementById("statTempoAvanzato").textContent = secondiTotaliPartita > 0 ? formattaTempo(tempoAvanzato) : "--";
     document.getElementById("statParoleUsate").textContent = statistiche.paroleUsate;
     document.getElementById("statRareTrovate").textContent = statistiche.rareTrovate;
     document.getElementById("statCaratteri").textContent = statistiche.caratteri;
@@ -165,12 +170,20 @@ export function scatenaVittoria(statistiche) {
     //mostro l'overlay
     const overlay = document.getElementById("overlayVittoria");
     const titolo = document.getElementById("titoloVittoria");
+    const sottotitolo = document.getElementById("sottotitoloVittoria");
+    const btnRicomincia = document.getElementById("btnVittoriaRicomincia");
+
+    if (sottotitolo) {
+        sottotitolo.textContent = titoloOverlay === "Inferno superato" ? "hai completato la storia prima dello scadere del tempo" : "hai completato e salvato la tua storia";
+    }
+
+    if (btnRicomincia) {
+        btnRicomincia.textContent = titoloOverlay === "Inferno superato" ? "rigioca Inferno" : "rigioca stessa modalità";
+    }
 
     if (overlay && titolo) {
         overlay.classList.add("visibile");
-        
-        // metto typewriter per il titolo
-        const testoTitolo = "Inferno superato";
+        const testoTitolo = titoloOverlay;
         titolo.textContent = "";
         titolo.classList.add("scrivendo");
 
@@ -178,7 +191,7 @@ export function scatenaVittoria(statistiche) {
         const intervalloScrittura = setInterval(function () {
             titolo.textContent += testoTitolo.charAt(i);
             i++;
-            if (i >= testoTitolo.length) {
+            if (i >= titoloOverlay.length) {
                 clearInterval(intervalloScrittura);
                 setTimeout(function() {
                     titolo.classList.remove("scrivendo");
@@ -198,7 +211,7 @@ export function isGameOver() {
     return gameOverAttivo;
 }
 
-//ho notato una cosa, se l'utente mette la modalita inferno,il tempo scorre e lui riaggiorna la pagina e rimette la sessione corrente,ha sia le parole generate che il testo però il timer ricomincia da capo,e non è giusto,dovrebbe ricominciare dal punto che era prima che aggiornasse
+//ho notato una cosa, se l'utente mette la modalita Inferno,il tempo scorre e lui riaggiorna la pagina e rimette la sessione corrente,ha sia le parole generate che il testo però il timer ricomincia da capo,e non è giusto,dovrebbe ricominciare dal punto che era prima che aggiornasse
 export function getSecondiRimanentiInferno() {
     return secondiRimanenti;
 }

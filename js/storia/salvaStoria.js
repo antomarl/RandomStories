@@ -5,7 +5,7 @@ export function salvaStoria( pagine,paginaCorrente, ValidaStoria , mostraMessagg
     //intanto controlliamo se la storia è valida
 
     if(!ValidaStoria()) {
-        return;
+        return false;
     }
 
     //salva il testo della pagina attuale
@@ -26,11 +26,11 @@ export function salvaStoria( pagine,paginaCorrente, ValidaStoria , mostraMessagg
     if (storiaCompleta.trim() === "") {
         mostraMessaggioPc("> Errore: la storia è vuota!", "errore");
 
-        return;
+        return false;
     }
 
     //ora creiamo il file .txt (il blobazzo)
-    const blob = new Blob([storiaCompleta], { type : "text/plain:charset=utf-8" });
+    const blob = new Blob([storiaCompleta], { type : "text/plain;charset=utf-8" });
 
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
@@ -41,6 +41,8 @@ export function salvaStoria( pagine,paginaCorrente, ValidaStoria , mostraMessagg
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(link.href);
+
+    return true;
 }
 
 // MA CHE PALLE,se io aggiorno in teoria non dovrei vedere tesgto,perchè ho tolto 

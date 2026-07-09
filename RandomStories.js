@@ -121,11 +121,14 @@ function avviaAutoSalvataggio() {
         // di default non salvo dati timer
         let datiTimerInferno = null;
 
+        const timerAttivo = difficoltaCorrente.timer || timerLiberaPersonalizzato !== null;
+
         // se la modalità ha il timer, salvo anche secondi rimasti e orario reale
-        if (difficoltaCorrente.timer) {
+        if (timerAttivo) {
             datiTimerInferno = {
                 secondiRimanenti: getSecondiRimanentiInferno(),
-                salvatoAlle: Date.now()
+                salvatoAlle: Date.now(),
+                timerLiberaPersonalizzato: timerLiberaPersonalizzato
             };
         }
 
@@ -154,11 +157,16 @@ function ripristinaSessione() {
 
     secondiTimerRipristinati = null;
     timerInfernoRipristinato = false;
+    timerLiberaPersonalizzato = null;
 
     //se nella sessione salvata c'erano i dati del timer inferno,li recupero
     if (datiSessione.timerInferno) {
         const secondiSalvati = datiSessione.timerInferno.secondiRimanenti;
         const salvatoAlle = datiSessione.timerInferno.salvatoAlle;
+
+        if(typeof datiSessione.timerInferno.timerLiberaPersonalizzato === "number") {
+            timerLiberaPersonalizzato = datiSessione.timerInferno.timerLiberaPersonalizzato;
+        }
 
         //questpo è un conrollo per verificare che i dati siano numeri veri,non roba rotta
         if (typeof secondiSalvati === "number" && typeof salvatoAlle === "number") {
@@ -264,7 +272,7 @@ if (secondiTimerTotali !== null) {
     );
 
     } else {
-    fermaTimerInferno();
+        fermaTimerInferno();
     }
 }
 // helper che calcola le statistiche della partita corrente
@@ -395,3 +403,4 @@ inizializzaBottoniUI({
     btnVittoriaModalita,btnVittoriaRicomincia,overlayVittoria,toggleIstruzioni,
     chiudiIstruzioni,cambiaTema,cambiaModalita,resetTotaleEApriSchermata,resetSessione,iniziaGioco
 });
+

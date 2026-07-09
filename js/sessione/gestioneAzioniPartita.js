@@ -2,7 +2,7 @@
 // quindi considero genera parola, reset parole , salva storia e nuova sessione
 
 import { setAppState } from "../stato/statoApp.js";
-import { getDifficoltaAttiva } from "../stato/difficoltaAttiva.js";
+import { getDifficoltaAttiva, getNomeDifficoltaAttiva } from "../stato/difficoltaAttiva.js";
 
 export function inizializzaAzioniPartita(config) {
     // utilizzo sempre config 
@@ -70,26 +70,26 @@ export function inizializzaAzioniPartita(config) {
 
     //ora il bottone per salvare la storia
     btnSalva.addEventListener("click", function() {
-        //calcolo le statistiche prima del salvataggio
-        const stats = calcolaStatistichePartita();
-
-        //controllo se la storia era valida al momento del click
-        const eraValida = gestisciValidazioneStoria();
-
-        //salvo la storia
-        salvaStoria(
+        const salvata = salvaStoria(
             getPagine(),
             getPaginaCorrente(),
             gestisciValidazioneStoria,
             mostraMessaggioPc
         );
 
-        //se sono in modalità col timer e la storia è valida,devo far partire la vittoria
-        const difficoltaCorrente = getDifficoltaAttiva();
-
-        if(difficoltaCorrente.timer && eraValida) {
-            scatenaVittoria(stats);
+        if (!salvata) {
+            return;
         }
+
+        const statistiche = calcolaStatistichePartita();
+
+        if (getNomeDifficoltaAttiva() === "inferno") {
+            scatenaVittoria(statistiche, "inferno superato")
+        } else {
+            scatenaVittoria(statistiche, "storia completata");
+        }
+
+        localStorage.removeItem("randomStories_sessione");
     });
         //bottone nuova sessione, anche se non so se tenerlo,perchè è molto simile a modlità,quindi vediamo,non so
     btNuovaSessione.addEventListener("click", async function () {
