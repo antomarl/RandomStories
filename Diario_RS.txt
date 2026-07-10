@@ -67,3 +67,6 @@ poi voglio aggiungere in futuro anche gli acheviments tipo steam,cioè tipo "si 
 diario 8/07/2026:
 non ci vediamo da un po', purtoppo mi dimentico di scrivere in questo diario,non lo uso spesso, btw ho migliorato il game design.ora è molto più bello secondo me,ed ho aggiunto tante belle cose che secondo me ci stanno un borderllo,come la schermata vittoria, ed il timer personalizzzabile sulla modalità libera, ora devo andare
 ciaoo!.
+
+diario 10/07/2026:
+oggi giornata abbastanza produttiva, ho sistemato tutto il discorso della generazione di parole,così ho rimosso la ricorsione,e stato un po' complicato,però c'è l'ho fatta,ho incontarto parecchi bug per sono riuscito a sistemarli,i bug sono stati sia durante la generazione delle parole che durante il pulsante delle parole rare,perchè era da un po' che non funzionava e l'ho sistemato,e questo qua,nientaltro da aggiungere,adios.
