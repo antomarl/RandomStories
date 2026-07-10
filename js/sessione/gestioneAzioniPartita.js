@@ -48,7 +48,7 @@ export function inizializzaAzioniPartita(config) {
         // se il modulo generaParola mi restituisce dei dati nuovi,aggirono il main
         if (risultato) {
             setNumeroParole(risultato.numeroParole);
-            setContatoreRareTotale(risultato.getContatoreRareTotale);
+            setContatoreRareTotale(risultato.contatoreRareTotale);
         }
     });
 

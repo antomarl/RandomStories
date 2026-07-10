@@ -11,42 +11,70 @@ import { attivaGlitchPC } from "../effetti/glitch.js";
 import { aggiornaListaParole } from "./listaParole.js";
 import { aggiornaContatoreRare } from "./contatoreParole.js";
 
+//ora devo fare una cosa,voglio ottimizzare meglio la questione relativa alla generazione delle parole
+//perchè,soprattuto nella modalità libera, c'è il rischio che si possa creare qualche bug,perchè
+//ora come ora, pesca a caso,e se becca un doppione ritorna indietro(la funzione ricorsiva), e quindi può diventatre pesante poi se uno ne genera 100
+
+function pescaParolaCasuale(lista) {
+    const indice = Math.floor(Math.random() * lista.length);
+    return lista[indice];
+}
+
+function filtraParoleNonGenerate(listaParole, paroleGenerate) {
+    const paroleGiaGenerate = new Set(paroleGenerate);
+    return listaParole.filter(function (parola) {
+        return !paroleGiaGenerate.has(parola);
+    });
+}
+
 export function generaParola(paroleGenerate, numeroParole, parolerareTrovate,contatoreRareTotale, validaStoriaCallback) {
     // leggo la difficoltà messa ad ogni chiamata
     // in questo modo,se l'utente cambia modalità a metà partita,cambia instant(big brain)
     const { paroleMassime, probabilitaRara } = getDifficoltaAttiva();
+
+    contatoreRareTotale = Number(contatoreRareTotale);
+
+    if (Number.isNaN(contatoreRareTotale)) {
+        contatoreRareTotale = 0;
+    }
+
     // intanto dobbiamo bloccare la generazione delle parole se si raggiunge il limite massimo(per ora 190)
     if (numeroParole >= paroleMassime) {
         mostraMessaggioPc("> Limite raggiunto: " + paroleMassime + "/" + paroleMassime + " parole generate,ora premi F3 per iniziare a scrivere!","avviso");
         return {numeroParole, contatoreRareTotale};
     }
+    //preparo solo le parole che non sono anjcora uscite
+    const paroleNormaliDisponibili = filtraParoleNonGenerate(paroleDisponibili, paroleGenerate);
+    const paroleRareDisponibili = filtraParoleNonGenerate(paroleRare, paroleGenerate);
 
-    //ora si deve decidere se la parola che uscirà sarà rara o meno
-    //tiro un numero da 0 a (probabilitaRara - 1)
-    //ora se esce 0 sarà rara,in questo modo c'è una possibbilità su 20,
+    //se non ci sono più pasrole disponibili mi fermo
+    if (paroleNormaliDisponibili.length === 0 && paroleRareDisponibili.length === 0) {
+        mostraMessaggioPc("> Non ci sono più parole disponibili da generare.","avviso");
+        return {numeroParole,contatoreRareTotale};
+    }
 
-    const tiroRaro = Math.floor(Math.random()* probabilitaRara);
-    const esceRara = (tiroRaro === 0);
+    // qua decido se provasre a fare uscire una rara
+    const tiroRaro = Math.floor(Math.random() * probabilitaRara);
+    const dovrebbeUscireRara = tiroRaro === 0;
 
     let parolaGenerata;
     let rara = false;
 
-    if (esceRara) {
-        //pesco una parola rara dalla lista speciale
-        const indiceRaro = Math.floor(Math.random()* paroleRare.length);
-        parolaGenerata = paroleRare[indiceRaro];
+    //ora, se dovesse uscire rara E ci sono rare disponibili,ne pesca una rara
+    if (dovrebbeUscireRara && paroleRareDisponibili.length > 0) {
+        parolaGenerata = pescaParolaCasuale(paroleRareDisponibili);
         rara = true;
+        // metre se dovessero essere finite la parole normali ma ne rimangoino rare,faccio uscire per forza una rara
+    } else if (paroleNormaliDisponibili.length === 0 && paroleRareDisponibili.length > 0) {
+        parolaGenerata = pescaParolaCasuale(paroleRareDisponibili);
+        rara = true;
+
+        //altrimenti,pesco una carta normale nel chill
     } else {
-        // pesco una parola normale
-        const indiceRandom = Math.floor(Math.random()*paroleDisponibili.length);
-        parolaGenerata = paroleDisponibili[indiceRandom];
+        parolaGenerata = pescaParolaCasuale(paroleNormaliDisponibili);
     }
 
-    // se la parola è gia stata generata in questa sessione,eseguo una chiamata ricorsiva(la funzione richiama se stessa)
-    if (paroleGenerate.includes(parolaGenerata)) {
-        return generaParola(paroleGenerate, numeroParole, parolerareTrovate, contatoreRareTotale, validaStoriaCallback);
-    }
-
+    //cosi ora invece di prima le parole già usate vengono tolte,senza ricorsioni
     // ora aggiungo la parola alla lista( modifico array per riferimento,così il main lo vede)
     paroleGenerate.push(parolaGenerata);
     numeroParole++;
