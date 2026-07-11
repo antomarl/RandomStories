@@ -34,6 +34,25 @@ export function inizializzaSchermataDifficolta(onSelezionaDifficolta, onRiprendi
     //prendo tutti i bottoni con classe btn.difficolta e il bottone riprendi
     const bottoniDifficolta = document.querySelectorAll(".btn-difficolta");
     const btnRiprendiSessione = document.getElementById("btnRiprendiSessione");
+    const bloccoTimerLibera = document.getElementById("bloccoTimerLibera");
+    const inputTimerLibera = document.getElementById("inputTimerLibera");
+
+    function mostraTimerLibera() {
+        if (!bloccoTimerLibera) return;
+
+        bloccoTimerLibera.classList.add("visibile");
+    }
+
+    function nascondiTimerLiberaSeVuoto() {
+        if (!bloccoTimerLibera || !inputTimerLibera) return;
+
+        //se l'utente ha scritto un timer,non lo nascondo
+        if (inputTimerLibera.value.trim() !== "") {
+            return;
+        }
+
+        bloccoTimerLibera.classList.remove("visibile");
+    }
 
     // per ogni bottone leggo il nome dak data-difficolta e riempio il contenuto
     bottoniDifficolta.forEach(function(bottone) {
@@ -53,11 +72,30 @@ export function inizializzaSchermataDifficolta(onSelezionaDifficolta, onRiprendi
         if(metaElemento) {
             metaElemento.textContent = getMetaDifficolta(config);
         }
+        //se passo sopra sulla modalità libera, mostro il timer personalizzato
+        if (nome === "libera") {
+            bottone.addEventListener("mouseenter", mostraTimerLibera);
+            bottone.addEventListener("focus", mostraTimerLibera);
+        } else {
+            bottone.addEventListener("mouseenter", nascondiTimerLiberaSeVuoto);
+            bottone.addEventListener("focus", nascondiTimerLiberaSeVuoto);
+        }
         //al click callo la callback del main passandogli il nome,poi il main fa il lavoro sporco tipo salvare , nascondere la schermata,ste robe così
         bottone.addEventListener("click", function() {
             onSelezionaDifficolta(nome);
         });
-    }); // il bottone riprendi lo aggancio solo se esiste
+    });
+
+    if (inputTimerLibera)  {
+        inputTimerLibera.addEventListener("focus", mostraTimerLibera);
+
+        inputTimerLibera.addEventListener.addEventListener("input", function () {
+            if (inputTimerLibera.value.trim() !== "") {
+                mostraTimerLibera();
+            }
+        });
+    }
+    // il bottone riprendi lo aggancio solo se esiste
     if (btnRiprendiSessione) {
         btnRiprendiSessione.addEventListener("click",function() {
             onRiprendiSessione();

@@ -1602,10 +1602,15 @@ body.game-over .story-input {
 }
 
 #bloccoTimerLibera {
+    display: none;
     margin-top: 20px;
     padding-top: 16px;
     border-top: 1px dashed rgba(44, 24, 16, 0.22);
     text-align: center;
+}
+
+#bloccoTimerLibera.visibile {
+    display: block;
 }
 
 #bloccoTimerLibera label {
