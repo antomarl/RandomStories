@@ -38,7 +38,7 @@ let pagine = [{sx: "", dx: ""}] // array delle pagine,inizia con 1 vuot
 
 let paginaCorrente = 0; // indice della pagina che si sta vedendo;
 let secondiTimerRipristinati = null;
-let timerInfernoRipristinato = false; // questi servono quando riprendo una sessione inferno salvata,così il timer non riparte da capo 
+let timerInfernoRipristinato = false; // questi servono quando riprendo una sessione Inferno salvata,così il timer non riparte da capo 
 let intervalloAutosave = null; // e per sicurezza,per non creare 300 autosave insieme
 let timerLiberaPersonalizzato = null;
 // devo modificare un po' di cose nella funzione generaparole
@@ -84,7 +84,7 @@ inizializzaTextarea({
     aggiornaIndicatorePagina,
     gestisciValidazioneStoria
 });
-// funzione di reset che non apre la schermata di difficolta,per quando si clicca il bottone ricomincia inferno
+// funzione di reset che non apre la schermata di difficolta,per quando si clicca il bottone ricomincia Inferno
 function resetSessione() {
     fermaTimerInferno();
 
@@ -159,7 +159,7 @@ function ripristinaSessione() {
     timerInfernoRipristinato = false;
     timerLiberaPersonalizzato = null;
 
-    //se nella sessione salvata c'erano i dati del timer inferno,li recupero
+    //se nella sessione salvata c'erano i dati del timer Inferno,li recupero
     if (datiSessione.timerInferno) {
         const secondiSalvati = datiSessione.timerInferno.secondiRimanenti;
         const salvatoAlle = datiSessione.timerInferno.salvatoAlle;
