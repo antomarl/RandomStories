@@ -1,19 +1,51 @@
- Random Stories
+# Random Stories
 
-A web app where you generate up to 10 random Italian words and then write a story that contains all of them.
-Built entirely by hand as a personal learning project — no frameworks, no libraries, just plain HTML, CSS and JavaScript.
+Random Sories è un progetto web che ho creato per imparare ad usare html,javascript e css
 
-How to use
+quando ho pensato a cosa creare volevo fare un qualcosa che fosse sia divertente ma anche costruttivo,
+cioè che servisse anche come strumento per migliorare la capacità di fare un determinato compito con dei parametri imposti da qualcun'altro,
+ed è così che è nato questo progetto
 
-1. Click "Genera una parola casuale" to generate a random word (up to 10)
-2. Write a story in the text area that includes all the generated words
-3. The app validates your story in real time — it checks for conjugated verb forms too, not just exact matches
-4. Once all words are included, click "Salva Storia" to download your story as a `.txt` file
-5. Click "Reset parole" to start over
+L'idea di base è la seguente:
+l'utente ,attraverso un pc presente nello schermo genera delle parole casuali del dizionario italiano(per adesso sono 100),
+e poi scrive una storia che contenga anche quelle parole,sennò risulterà impossibile salvarla.
 
-Notes
+## Demo
 
-- The interface and words are in Italian by design
-- Verb validation supports irregular Italian verbs (essere, avere, andare, fare, and more)
-- Built for [Hack Club Horizons Europa](https://hackclub.com/)
+puoi trovarla qui:
 
+https://antomarl.github.io/RandomStories/
+
+## Come funziona
+
+all'inizio ,dopo il boot del pc, il sito ti chiederà di scegliere tra 4 modalità diverse:
+- **Facile**: modalità con meno parole massime da poter generare 
+- **Normale**: modalità con cui è nato il progetto
+- **Inferno**: la particolarità di questa modalità e la presenza di un timer di 5 minuti per completare la storia
+- **Libera**:  poi generare un numero "infinito" di parole e, se vuoi, puoi aggiungere un timer personalizzato(di massimo 60 minuti) in questa modalità
+
+dopo aver scelto con quale modalià proseguire, puoi generare parole casuali da pc presente nella schermata, e poi,quando hai finito, passi al quaderno
+e scrivi una storia di fantasia,che contenga alemno una volta tutte le parole generate casualmente
+
+una volta che avrai scritto la storia ed inserito le parole,sarà possibile salvare in file .txt nel proprio computer/telefono
+
+## Funzionalità
+
+- Generazione di parole casuali
+- Possibilita di trovare parole rare con effetti speciali
+- Easter egg
+- 4 modalità diverse
+- Timer per modalità Inferno
+- Timer per modalità libera
+- Autosalvataggio della sessione
+- Possibilità di riprendere l'ultima sessione salvata
+- Esportazione della storia in formato '.txt'
+- Schermata finale con statistiche
+- Statistiche in tempo reale nel quaderno
+- Tema chiaro/scuro salvabile
+- Scorciatoie da tastiera
+- Interfaccia pc/quaderno
+
+## Autore
+
+Progetto realizzato da Antonino Marletta.
