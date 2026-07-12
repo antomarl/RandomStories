@@ -74,7 +74,9 @@ export function inizializzaAzioniPartita(config) {
             getPagine(),
             getPaginaCorrente(),
             gestisciValidazioneStoria,
-            mostraMessaggioPc
+            mostraMessaggioPc,
+            getParoleGenerate(),
+            getNomeDifficoltaAttiva()
         );
 
         if (!salvata) {

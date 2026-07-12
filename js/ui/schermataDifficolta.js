@@ -89,7 +89,7 @@ export function inizializzaSchermataDifficolta(onSelezionaDifficolta, onRiprendi
     if (inputTimerLibera)  {
         inputTimerLibera.addEventListener("focus", mostraTimerLibera);
 
-        inputTimerLibera.addEventListener.addEventListener("input", function () {
+        inputTimerLibera.addEventListener("input", function () {
             if (inputTimerLibera.value.trim() !== "") {
                 mostraTimerLibera();
             }
