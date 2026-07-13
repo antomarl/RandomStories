@@ -28,12 +28,12 @@ function scriviTestoEvidenziato(doc, testo, paroleGenerate, x, y, larghezzaMassi
     const altezzaRiga = 7;
     const paragrafi = testo.split(/\n+/);
 
-    doc.seFontSize(12);
+    doc.setFontSize(12);
 
     paragrafi.forEach(function (paragrafo) {
         let xCorrente = x;
 
-        const tokens = parafrago
+        const tokens = paragrafo
             .split(/(\s+)/)
             .filter(function (token) {
                 return token.length > 0;
@@ -84,12 +84,12 @@ function scriviTestoEvidenziato(doc, testo, paroleGenerate, x, y, larghezzaMassi
 function aggiungiNumeriPagina(doc) {
     const totalePagine = doc.getNumberOfPages();
     const larghezzaPagine = doc.internal.pageSize.getWidth();
-    const altezzaPagina = doc.internal.pageSize.GetHeight();
+    const altezzaPagina = doc.internal.pageSize.getHeight();
 
-    for (let i = 1; 1 <= totalePagine; 1++) {
+    for (let i = 1; i <= totalePagine; i++) {
         doc.setPage(1);
-        doc.SetFont("helvetica", "normale");
-        doc.setfontSize(9);
+        doc.setFont("helvetica", "normale");
+        doc.setFontSize(9);
         doc.setTextColor(120, 100, 85);
 
         doc.text(
@@ -120,7 +120,7 @@ export function salvaStoria(
     let storiaCompleta = "";
 
     for (let i = 0; i < pagine.length; i++) {
-        storiaCompleta += (pagine[i].sx || "") + " " + (pagine[1].dx || "") + "\n\n";
+        storiaCompleta += (pagine[i].sx || "") + " " + (pagine[i].dx || "") + "\n\n";
     }
 
     if (storiaCompleta.trim() === "") {
@@ -140,5 +140,115 @@ export function salvaStoria(
         unit: "mm",
         format: "a4"
     });
+
+    const larghezzaPagina = doc.internal.pageSize.getWidth();
+    const altezzaPagina = doc.internal.pageSize.getHeight();
+
+    const margineX = 18;
+    const margineBasso = 18;
+    const larghezzaTesto = larghezzaPagina - margineX * 2;
+
+    let y = 22;
+
+    // titolo
+    doc.setFont("times","bold");
+    doc.setFontSize(24);
+    doc.setTextColor(44, 14, 16);
+    doc.text("Random Stories", margineX, y);
+
+    y += 10;
+    
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    doc.setTextColor(95,75,60);
+
+    const data = new Date().toLocaleDateString("it-IT");
+
+    doc.text("Modalità: " + nomeDifficolta.toUpperCase(), margineX, y);
+    y += 6;
+    doc.text("Data: " + data, margineX, y);
+
+    y += 12;
+
+    doc.setFont("times", "bold");
+    doc.setFontSize(14);
+    doc.setTextColor(44,24,16);
+    doc.text("Parole generate", margineX, y);
+
+    y += 7;
+
+    doc.setFont("helvetica","normal");
+    doc.setFontSize(10);
+    doc.setTextColor(95,75,60);
+
+    const testoParoleGenerate = paroleGenerate.length > 0
+        ? paroleGenerate.join(", ")
+        : "Nessuna parola generata";
+    const righeParole = doc.splitTextToSize(testoParoleGenerate, larghezzaTesto);
+
+    righeParole.forEach(function (riga) {
+        y = aggiungiNuovaPaginaSeServe(doc, y, altezzaPagina, margineBasso);
+        doc.text(riga, margineX, y);
+        y += 5;
+    });
+
+    y += 8;
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.setTextColor(44,24,16)
+    doc.text("Storia", margineX, y);
+
+    y += 10;
+
+    for (let i = 0; i < pagine.length; i++) {
+        y = aggiungiNuovaPaginaSeServe(doc, y, altezzaPagina, margineBasso);
+
+        doc.setFont("helvetica","bold");
+        doc.setFontSize(11);
+        doc.setTextColor(120,80,55);
+        doc.text("Pagin " + (i + 1),margineX, y);
+        y += 7;
+
+        const testoPagina = ((pagine[i].sx || "") + " " + (pagine[i].dx || "")).trim();
+
+        if (testoPagina !== "") {
+            y = scriviTestoEvidenziato(doc,testoPagina,paroleGenerate,margineX,y,larghezzaTesto,altezzaPagina,margineBasso);
+
+        } else {
+            doc.setFont("times", "italic");
+            doc.setFontSize(12);
+            doc.setTextColor(140,120,100);
+            doc.text("Pagina vouta", margineX , y);
+
+            y += 8;
+        }
+    }
+
+    // statistiche finali 
+    y = aggiungiNuovaPaginaSeServe(doc, y + 6, altezzaPagina, margineBasso);
+
+    doc.setFont("times","bold");
+    doc.setFontSize(14);
+    doc.setTextColor(44,24,16);
+    doc.text("riepilogo",margineX, y);
+    
+    y += 8;
+
+    doc.setFont("helvetica","normal");
+    doc.setFontSize(10);
+    doc.setTextColor(95,75,60);
+    doc.text("Pagine: " + paginaCorrente.length, margineX, y);
+    y += 5;
+    doc.text("Parole generate: " + paroleGenerate.length, margineX, y);
+
+    aggiungiNumeriPagina(doc);
+
+    const dataFile = new Date().toISOString().slice(0,10);
+    doc.save("storia-random-stories-" + dataFile + ".pdf");
+
+    return true;
+
+
 
 }
