@@ -4,23 +4,28 @@ export function inizializzaStatisticheLive(config) {
     const {
         textareaSx,
         textareaDx,
-        pagine,
+        getPagine,
+        getPaginaCorrente,
         avviaTimerStats,
         aggiornaStatistiche
     } = config;
 
-    //quando scivo nella pagina sinistra,aggiorno il timer e le statistiche
-    textareaDx.addEventListener("input", function () {
+    function aggiornaLive() {
+        const pagine = getPagine();
+        const paginaCorrente = getPaginaCorrente();
+
+        // ora salvo quello che l'utente sta scrivendo nella pagina corrente
+        if (pagine[paginaCorrente]) {
+            pagine[paginaCorrente].sx = textareaSx.value;
+            pagine[paginaCorrente].dx = textareaDx.value;
+        }
+
         avviaTimerStats(pagine);
         aggiornaStatistiche(pagine);
-    });
+    }
 
-    //same a destra
-    textareaDx.addEventListener("input", function () {
-        avviaTimerStats(pagine);
-        aggiornaStatistiche(pagine);
-    });
+    textareaSx.addEventListener("input", aggiornaLive);
+    textareaDx.addEventListener("input", aggiornaLive);
 
-    //aggiorno subito le statisctiche all'avvio,così non ne rimangono vecchuie o vuote
-    aggiornaStatistiche(pagine);
+    aggiornaLive();
 }

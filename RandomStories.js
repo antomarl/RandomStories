@@ -73,7 +73,8 @@ const inputTimerLibera = document.getElementById("inputTimerLibera");
 
 inizializzaTextarea({
     textareaSx,
-    textareaDx,pagine,
+    textareaDx,
+    getPagine: () => pagine,
     indicatorePagina,
     getPaginaCorrente : () => paginaCorrente,
     setPaginaCorrente: (nuovaPagina) => { // questa è un arrow function,più pulito
@@ -90,6 +91,7 @@ function resetSessione() {
 
     paroleGenerate = [];
     numeroParole = 0;
+    pagine.length = 0;
     pagine = [{ sx: "", dx: ""}];
     paginaCorrente = 0;
 
@@ -150,7 +152,13 @@ function ripristinaSessione() {
     if(datiSessione.difficolta) {
         setDifficoltaAttiva(datiSessione.difficolta)
     }
-    pagine = datiSessione.pagine;
+    pagine.length = 0;
+    (datiSessione.pagine || [{ sx: "", dx: ""}]).forEach(function (pagina){
+        pagine.push({
+            sx: pagina.sx || "",
+            dx: pagina.dx || ""
+        });
+    });
     paroleGenerate = datiSessione.paroleGenerate || [];
     numeroParole = datiSessione.numeroParole || 0;
     paginaCorrente = datiSessione.paginaCorrente || 0;
@@ -393,7 +401,8 @@ avviaBootScreen(function() {
 inizializzaStatisticheLive({
     textareaSx,
     textareaDx,
-    pagine,
+    getPagine: () => pagine,
+    getPaginaCorrente: () => paginaCorrente,
     avviaTimerStats,
     aggiornaStatistiche
 });

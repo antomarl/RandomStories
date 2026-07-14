@@ -41,7 +41,7 @@ function scriviTestoEvidenziato(doc, testo, paroleGenerate, x, y, larghezzaMassi
 
         tokens.forEach(function (token) {
             //se è solo spazio,avanzo un po'
-            if (/^\sa+$/.test(token)) {
+            if (/^\s+$/.test(token)) {
                 xCorrente += doc.getTextWidth(" ");
                 return;
             }
@@ -88,12 +88,12 @@ function aggiungiNumeriPagina(doc) {
 
     for (let i = 1; i <= totalePagine; i++) {
         doc.setPage(1);
-        doc.setFont("helvetica", "normale");
+        doc.setFont("helvetica", "normal");
         doc.setFontSize(9);
         doc.setTextColor(120, 100, 85);
 
         doc.text(
-            "Random Stories · Pagina " + 1 + " / "  + totalePagine,
+            "Random Stories · Pagina " + i + " / "  + totalePagine,
             larghezzaPagine - 18,
             altezzaPagina - 10,
             { align: "right" }
@@ -207,7 +207,7 @@ export function salvaStoria(
         doc.setFont("helvetica","bold");
         doc.setFontSize(11);
         doc.setTextColor(120,80,55);
-        doc.text("Pagin " + (i + 1),margineX, y);
+        doc.text("Pagina " + (i + 1),margineX, y);
         y += 7;
 
         const testoPagina = ((pagine[i].sx || "") + " " + (pagine[i].dx || "")).trim();
@@ -219,7 +219,7 @@ export function salvaStoria(
             doc.setFont("times", "italic");
             doc.setFontSize(12);
             doc.setTextColor(140,120,100);
-            doc.text("Pagina vouta", margineX , y);
+            doc.text("Pagina vuota", margineX , y);
 
             y += 8;
         }
@@ -231,14 +231,14 @@ export function salvaStoria(
     doc.setFont("times","bold");
     doc.setFontSize(14);
     doc.setTextColor(44,24,16);
-    doc.text("riepilogo",margineX, y);
+    doc.text("Riepilogo",margineX, y);
     
     y += 8;
 
     doc.setFont("helvetica","normal");
     doc.setFontSize(10);
     doc.setTextColor(95,75,60);
-    doc.text("Pagine: " + paginaCorrente.length, margineX, y);
+    doc.text("Pagine: " + pagine.length, margineX, y);
     y += 5;
     doc.text("Parole generate: " + paroleGenerate.length, margineX, y);
 
