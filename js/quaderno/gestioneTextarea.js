@@ -14,8 +14,11 @@ export function inizializzaTextarea(config) {
     } = config;
 
     function aggiornaPaginaCorrente() {
-        const pagine = getPagine;
+        const pagine = getPagine();
         const paginaCorrente = getPaginaCorrente();
+        if (pagine.length === 0) {
+            pagine.push({ sx: "", dx: ""});
+        }
 
         if (!pagine[paginaCorrente]) {
             pagine[paginaCorrente] = { sx: "", dx: ""};
@@ -72,6 +75,20 @@ export function inizializzaTextarea(config) {
     });
 
     textareaDx.addEventListener("keydown", function (event) {
-        if (event.key === "Backspace")
-    })
+        if (event.key === "Backspace" && this.selectionStar === 0 && this.selectionEnd === 0) {
+            event.preventDefault();
+
+            if(this.value.length > 0) {
+                textareaSx.value = textareaSx.value + this.value;
+                this.value = "";
+
+                aggiornaPaginaCorrente();
+            }
+
+            textareaSx.focus();
+
+            const lunghezza = textareaSx.value.length;
+            textareaSx.setSelectionRange(lunghezza, lunghezza);
+        }
+    });
 }

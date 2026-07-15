@@ -77,11 +77,6 @@ inizializzaTextarea({
     getPagine: () => pagine,
     indicatorePagina,
     getPaginaCorrente : () => paginaCorrente,
-    setPaginaCorrente: (nuovaPagina) => { // questa è un arrow function,più pulito
-        paginaCorrente = nuovaPagina;
-    },
-
-    salvaPaginaCorrente,
     aggiornaIndicatorePagina,
     gestisciValidazioneStoria
 });
@@ -92,17 +87,20 @@ function resetSessione() {
     paroleGenerate = [];
     numeroParole = 0;
     pagine.length = 0;
-    pagine = [{ sx: "", dx: ""}];
+    pagine.push({ sx: "", dx: ""});
     paginaCorrente = 0;
 
     document.getElementById("storyInputSx").value = "";
     document.getElementById("storyInputDx").value = "";
     document.getElementById("listaParole").innerHTML = "";
-    document.getElementById("indicatorePagina").textContent = "Pagina 1";
-
+    document.getElementById("indicatorePagina").textContent = "Pagina 1 di 1";
+    document.getElementById("indicatorePagina").style.color = "";
+    document.getElementById("contatoreParole").textContent = "Parole generate: 0/" + getDifficoltaAttiva().paroleMassime;
+    document.getElementById("btnSalva").disabled = true;
+    resetStatistiche(pagine);
     localStorage.removeItem("randomStories_sessione");
+    gestisciValidazioneStoria();
 }
-gestisciValidazioneStoria();
 
 document.getElementById("btnSalva").disabled = true; // disabilità il pulsante per salvare la storia finchè non viene genrata una nuova storia valida
 inizializzaTema();
@@ -202,7 +200,8 @@ function ripristinaSessione() {
 }
 
 inizializzaScorciatoie({
-    pagine, getPaginaCorrente : () => paginaCorrente,
+    getPagine: () => pagine,
+    getPaginaCorrente : () => paginaCorrente,
     setPaginaCorrente: (nuovaPagina) => {
         paginaCorrente = nuovaPagina;
     },

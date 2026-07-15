@@ -1,12 +1,14 @@
 // cambio tutto,ora la storia viene salvata come pdf e le parole generate saranno in grassetto
+import { contieneParola } from "../parole/contieneParola.js";
 
-function normalizzaParola(parola) {
-    return parola
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[.,!?;:()"«»'’]/g, "")
-        .trim();
+function normalizzaParola(parola) { // questa funzione serve a pulire praticamente una parola ,renderla più facile da vedere alla validazione
+    return String(parola)
+        .toLowerCase() // tutto minuscolo
+        .normalize("NFD") // separa le lettere e gli accenti
+        .replace(/[\u0300-\u036f]/g, "") // rimuove gli accenti
+        .replace(/[^a-z0-9\s]/g, " ") // toglie punteggiatura e simboli
+        .replace(/\s+/g, " ") //se ci sono parole con più spazi di uno,ne lasci solo uno
+        .trim(); //toglie gli spazi sia all'inizio che alla fine
 }
 
 function aggiungiNuovaPaginaSeServe(doc, y, altezzaPagina, margineBasso) {
@@ -17,14 +19,105 @@ function aggiungiNuovaPaginaSeServe(doc, y, altezzaPagina, margineBasso) {
 
     return y;
 }
+//questa funzione serve per decidere quali pezzi del testo vanno evidenziati
+//poichè il pdf viene scritto pèarola per parola,prima creo un set con gli indici dei token da colorare in grassetto
 
-function scriviTestoEvidenziato(doc, testo, paroleGenerate, x, y, larghezzaMassima, altezzaPagina, margineBasso) {
-    const paroleDaEvidenziare = new Set(
-        paroleGenerate.map(function (parola) {
-            return normalizzaParola(parola);
+//inoltre ho importato pure contiene parola per riconoscere i verbi coniugati,ed ora devo fare in modo di fare evidenziare pure punto zero per esempio,che poichè sono due parole non lo colorava
+
+function creaSetTokenEvidenziati(tokens, paroleGenerate) {
+    const evidenziati = new Set();
+
+    //qui salvo solo i token che sono paerole vere,ignorando gli spazi,però conservo puee lìindice originale, perchè poi devo evidenzire il token giusto quando stampo il pdf.
+    const tokenParole = [];
+
+    tokens.forEach(function (token,indiceToken) {
+        //se il token è solo spazio,lo ignoro
+        if (/^\s+$/.test(token)) {
+            return;
+        }
+
+        const tokenPulito = normalizzaParola(token);
+
+        //se dopo la pulizia non resta nulla,lo ignoro again
+        if(tokenPulito === "") {
+            return;
+        }
+
+        tokenParole.push({
+            indiceToken: indiceToken,
+            testoOriginale: token,
+            testoPulito: tokenPulito
+        });
+    });
+
+    //pulisco anche le le parole generate,così confronto roba puliziata con roba puliziata
+    const parolePulite = paroleGenerate
+        .map(function (parola) {
+            return {
+                originale: parola,
+                pulita: normalizzaParola(parola) 
+            };
         })
-    );
 
+        .filter(function (parola) {
+            return parola.pulita !== "";
+        });
+    
+    //il primo caso sono le parole singole,quondi casa,albero,subwoofer ecc ecc
+    //ora per qusto controllero ogni token del testo per vedere se corrisponde ad una parola generate
+    //uso anche contieneParola() per i verbi coniugati,come ho detto prima
+    tokenParole.forEach(function (tokenInfo) {
+        for (const parola of parolePulite) {
+            const pezziParola = parola.pulita.split(" ");
+
+            // se la parola generata e composta,come punto zero,la salto e ci penso dopo
+            if (pezziParola.length !== 1) {
+                continue;
+            }
+
+            const matchEsatto = tokenInfo.testoPulito === parola.pulita;
+
+            //questo serve per i verbi coniugati
+            const matchConiugato = contieneParola(tokenInfo.testoPulito, parola.originale);
+            if (matchEsatto || matchConiugato) {
+                evidenziati.add(tokenInfo.indiceToken);
+                break;
+            }
+        }
+    });
+
+    //il secondo caso e per le parole composte
+    parolePulite.forEach(function (parola) {
+        const pezziParola = parola.pulita.split(" ");
+
+        //se non è composta,allora,l'ho gia sistemata soipra
+        if (pezziParola.length <= 1) {
+            return;
+        }
+
+        //scorro tutte le parole del testo e cerco una sequenza uguale
+        for (let i = 0; i <= tokenParole.length -pezziParola.length; i ++) {
+            let tuttiUguali = true;
+
+            for (let j = 0; j < pezziParola.length;j++) {
+                if (tokenParole[i + j].testoPulito !== pezziParola[j]) {
+                    tuttiUguali = false;
+                    break;
+                }
+            }
+            //se ho trovato la rfrase completqa,evidenzio tutti i pezzi
+            if(tuttiUguali) {
+                for (let j = 0; j < pezziParola.length; j++) {
+                    evidenziati.add(tokenParole[i + j].indiceToken);
+                }
+            }
+        }
+    });
+
+    return evidenziati;
+}
+// questa funzione scrive la storia nel pdf, divide il testo in token,controlla quali deve evidenziare e scrive o le parole normalmente o le evidenzia
+function scriviTestoEvidenziato(doc, testo, paroleGenerate, x, y, larghezzaMassima, altezzaPagina, margineBasso) {
     const altezzaRiga = 7;
     const paragrafi = testo.split(/\n+/);
 
@@ -38,16 +131,17 @@ function scriviTestoEvidenziato(doc, testo, paroleGenerate, x, y, larghezzaMassi
             .filter(function (token) {
                 return token.length > 0;
             });
+        
+        const tokenEvidenziati = creaSetTokenEvidenziati(tokens, paroleGenerate);
 
-        tokens.forEach(function (token) {
+        tokens.forEach(function (token, indiceToken) {
             //se è solo spazio,avanzo un po'
             if (/^\s+$/.test(token)) {
                 xCorrente += doc.getTextWidth(" ");
                 return;
             }
-
-            const parolaPulita = normalizzaParola(token);
-            const evidenziata = paroleDaEvidenziare.has(parolaPulita);
+            
+            const evidenziata = tokenEvidenziati.has(indiceToken);
 
             if ( evidenziata ) {
                 doc.setFont("times", "bold");
@@ -87,7 +181,7 @@ function aggiungiNumeriPagina(doc) {
     const altezzaPagina = doc.internal.pageSize.getHeight();
 
     for (let i = 1; i <= totalePagine; i++) {
-        doc.setPage(1);
+        doc.setPage(i);
         doc.setFont("helvetica", "normal");
         doc.setFontSize(9);
         doc.setTextColor(120, 100, 85);

@@ -8,6 +8,12 @@ let tempoInizio = null;
 let timerStats = null;
 
 function calcolaStatistiche(pagine) {
+    // se per errore non arrivano pagine valide,
+    // creo almeno una pagina vuota così non esplode tutto
+    if (!Array.isArray(pagine) || pagine.length === 0) {
+        pagine = [{ sx: "", dx: "" }];
+    }
+    
     let testoCompleto = ""; // unisco il testo di entrambe le peganie in una stringa unica
     for(let p of pagine) {
         testoCompleto += (p.sx || "") + "" + (p.dx || "") + " ";
@@ -68,7 +74,7 @@ export function avviaTimerStats(pagine) {
 
 //questa per resettare tutte le statistiche(che sia per reset o per nuovaSessione)
 
-export function resetStatistiche(pagine) {
+export function resetStatistiche(pagine = [{ sx: "", dx: "" }]) {
     if (timerStats !== null) {
         clearInterval(timerStats);
         timerStats = null;

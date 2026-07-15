@@ -4,7 +4,7 @@ import { setAppState } from "../stato/statoApp.js";
 export function inizializzaScorciatoie(config) {
     //prendo dal confi tutto ciò che mi serve dal main
     const {
-        pagine, getPaginaCorrente,setPaginaCorrente,
+        getPagine, getPaginaCorrente,setPaginaCorrente,
         cambiaPagina, gestisciValidazioneStoria,
         chiudiIstruzioni,toggleIstruzioni
     } = config;
@@ -28,7 +28,7 @@ export function inizializzaScorciatoie(config) {
                 event.preventDefault();
 
                 //cambiaPagina restituisce il nuovo numero della pagina corrente
-                const nuovaPagina = cambiaPagina("avanti",pagine, getPaginaCorrente());
+                const nuovaPagina = cambiaPagina("avanti",getPagine(), getPaginaCorrente());
 
                 //aggiorno la pagina corrente
                 setPaginaCorrente(nuovaPagina);
@@ -42,7 +42,7 @@ export function inizializzaScorciatoie(config) {
                 event.preventDefault();
                 
                 //stessa cosa di prima,ma andando indetreo
-                const nuovaPagina = cambiaPagina("indietro", pagine,getPaginaCorrente());
+                const nuovaPagina = cambiaPagina("indietro", getPagine(),getPaginaCorrente());
 
                 setPaginaCorrente(nuovaPagina);
                 gestisciValidazioneStoria();
